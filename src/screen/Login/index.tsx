@@ -5,13 +5,14 @@ import {Formik} from 'formik';
 import {Container} from '@components';
 import {Button, TextInput} from 'react-native-paper';
 import {aspectRatio} from '@utils';
-import {NavigationProps} from '@interfaces';
+import {useAppDispatch} from '@hooks';
+import {action} from '@store';
 
-type LoginScreenProps = NavigationProps<any> & {};
+const LoginScreen = () => {
+  const setLogin = useAppDispatch(action.AuthAction.setLoginAction);
 
-const LoginScreen = ({navigation}: LoginScreenProps) => {
   const onSubmit = () => {
-    navigation.replace('Main');
+    setLogin();
   };
 
   return (

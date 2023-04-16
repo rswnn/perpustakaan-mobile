@@ -1,21 +1,26 @@
+import {AuthResponseType, UserType} from '@interfaces';
 import {createSlice} from '@reduxjs/toolkit';
 
-const initialState = {
-  auth: {},
+const initialState: AuthResponseType = {
+  jwt: '',
+  user: {} as UserType,
+  isLoggedIn: false,
 };
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setInitialStateAction: () => {
-      // todo
+    setLoginAction: state => {
+      state.isLoggedIn = true;
+    },
+    setLogoutAction: state => {
+      state.isLoggedIn = false;
     },
   },
-  extraReducers: {},
 });
 
-export const {setInitialStateAction} = authSlice.actions;
+export const {setLoginAction, setLogoutAction} = authSlice.actions;
 
 // import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 // import {

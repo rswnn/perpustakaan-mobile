@@ -1,6 +1,6 @@
 import {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
-import {AppDispatch} from 'store';
+import {AppDispatch} from '@store';
 
 // need default type response
 import {
@@ -19,7 +19,9 @@ export const useUnwrapAsyncThunk = () => {
   );
 };
 
-const useAppDispatch = <T>(action: ActionCreatorWithPayload<any, any>) => {
+const useAppDispatch = <T, K = any>(
+  action: ActionCreatorWithPayload<K, any>,
+) => {
   const dispatch = useDispatch<AppDispatch>();
 
   return useCallback(

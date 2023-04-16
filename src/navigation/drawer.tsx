@@ -10,10 +10,13 @@ import {
 import {DashboardScreen, BookScreen} from '@screen';
 import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
+import {useAppDispatch} from '@hooks';
+import {action} from '@store';
 
 const Drawer = createDrawerNavigator();
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+  const setLogout = useAppDispatch(action.AuthAction.setLogoutAction);
   return (
     <DrawerContentScrollView {...props} contentContainerStyle={styles.flex}>
       <View style={[styles.header, styles.border]}>
@@ -21,7 +24,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
       </View>
       <DrawerItemList {...props} />
       <View style={[styles.flex, styles.border]} />
-      <DrawerItem label="Keluar" onPress={() => console.log('custom')} />
+      <DrawerItem label="Keluar" onPress={() => setLogout()} />
     </DrawerContentScrollView>
   );
 };

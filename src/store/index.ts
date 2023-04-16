@@ -10,11 +10,13 @@ import {
 } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {configureStore} from '@reduxjs/toolkit';
-import errorHandlerMiddleware from 'middlewares/errorHandlerMiddleware';
+import errorHandlerMiddleware from '../middlewares/errorHandlerMiddleware';
 import reducers from './root';
+import action from './action';
 
 const persistConfig = {
   key: 'root',
+  version: 1,
   storage: AsyncStorage,
 };
 
@@ -34,10 +36,8 @@ const store = configureStore({
 
 const persistor = persistStore(store);
 
-export const persistStorage = AsyncStorage;
-
 export type AppDispatch = typeof store.dispatch;
 
 export type RootState = ReturnType<typeof store.getState>;
 
-export {store, persistor};
+export {store, persistor, action};

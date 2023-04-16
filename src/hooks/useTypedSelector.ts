@@ -1,6 +1,6 @@
 import {createSelector} from '@reduxjs/toolkit';
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
-import {RootState} from 'store';
+import {RootState} from '@store';
 
 const selectState = (state: RootState, key: keyof RootState) => state[key];
 const selectStore = createSelector([selectState], state => state);
