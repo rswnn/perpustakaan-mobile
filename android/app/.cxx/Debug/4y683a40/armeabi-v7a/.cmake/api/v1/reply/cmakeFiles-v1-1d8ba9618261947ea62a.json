@@ -5,9 +5,8 @@
 			"path" : "CMakeLists.txt"
 		},
 		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeDetermineSystem.cmake"
+			"isGenerated" : true,
+			"path" : "/Users/riswanardiansah/learning/perpustakaan/perpustakaan/android/app/.cxx/Debug/4y683a40/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeSystem.cmake"
 		},
 		{
 			"isExternal" : true,
@@ -28,24 +27,6 @@
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/Platform/Android-Determine.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeSystem.cmake.in"
-		},
-		{
-			"isGenerated" : true,
-			"path" : "/Users/riswanardiansah/learning/perpustakaan/perpustakaan/android/app/.cxx/Debug/4y683a40/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeSystem.cmake"
-		},
-		{
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
 			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeSystemSpecificInitialize.cmake"
 		},
 		{
@@ -54,78 +35,8 @@
 			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/Platform/Android-Initialize.cmake"
 		},
 		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeDetermineCCompiler.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeDetermineCompiler.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/Platform/Android-Determine-C.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/Platform/Android/Determine-Compiler.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeFindBinUtils.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/Compiler/Clang-FindBinUtils.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeCCompiler.cmake.in"
-		},
-		{
 			"isGenerated" : true,
 			"path" : "/Users/riswanardiansah/learning/perpustakaan/perpustakaan/android/app/.cxx/Debug/4y683a40/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeCCompiler.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeDetermineCXXCompiler.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeDetermineCompiler.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/Platform/Android-Determine-CXX.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/Platform/Android/Determine-Compiler.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeFindBinUtils.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/Compiler/Clang-FindBinUtils.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeCXXCompiler.cmake.in"
 		},
 		{
 			"isGenerated" : true,
@@ -224,60 +135,6 @@
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeTestCCompiler.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeTestCompilerCommon.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeDetermineCompilerABI.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeParseImplicitIncludeInfo.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeParseImplicitLinkInfo.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeTestCompilerCommon.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeCCompilerABI.c"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeDetermineCompileFeatures.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/Internal/FeatureTesting.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeCCompiler.cmake.in"
-		},
-		{
-			"isGenerated" : true,
-			"path" : "/Users/riswanardiansah/learning/perpustakaan/perpustakaan/android/app/.cxx/Debug/4y683a40/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeCCompiler.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
 			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeCXXInformation.cmake"
 		},
 		{
@@ -309,60 +166,6 @@
 			"isCMake" : true,
 			"isExternal" : true,
 			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeCommonLanguageInclude.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeTestCXXCompiler.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeTestCompilerCommon.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeDetermineCompilerABI.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeParseImplicitIncludeInfo.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeParseImplicitLinkInfo.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeTestCompilerCommon.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeCXXCompilerABI.cpp"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeDetermineCompileFeatures.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/Internal/FeatureTesting.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/Users/riswanardiansah/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CMakeCXXCompiler.cmake.in"
-		},
-		{
-			"isGenerated" : true,
-			"path" : "/Users/riswanardiansah/learning/perpustakaan/perpustakaan/android/app/.cxx/Debug/4y683a40/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeCXXCompiler.cmake"
 		},
 		{
 			"isExternal" : true,
