@@ -1,8 +1,12 @@
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {LoginScreen} from '@screen';
+import {useFlipper} from '@react-navigation/devtools';
 
+import {LoginScreen} from '@screen';
 import DrawerNavigation from './drawer';
 import {useTypedSelector} from '@hooks';
 import {AuthResponseType} from '@interfaces';
@@ -19,8 +23,11 @@ const RootNavigation = () => {
     return <Stack.Screen name="Login" component={LoginScreen} />;
   }, [isLoggedIn]);
 
+  const navigationRef = useNavigationContainerRef();
+  useFlipper(navigationRef);
+
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
