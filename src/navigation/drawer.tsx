@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -6,12 +6,22 @@ import {
   DrawerItem,
   DrawerContentComponentProps,
 } from '@react-navigation/drawer';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
-import {DashboardScreen, BookScreen} from '@screen';
+import {
+  DashboardScreen,
+  BookScreen,
+  MemberScreen,
+  BorrowScreen,
+  ReportScreen,
+  ReturnScreen,
+} from '@screen';
 import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
 import {useAppDispatch} from '@hooks';
 import {action} from '@store';
+import {lightTheme} from '@constants';
+import {aspectRatio} from '@utils';
 
 const Drawer = createDrawerNavigator();
 
@@ -30,10 +40,44 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 };
 
 const DrawerNavigation = () => {
+  const renderHeaderTitle = useCallback((route: any) => {
+    switch (route.name) {
+      case 'Member':
+        return 'Data Anggota';
+      case 'Book':
+        return 'Data Buku';
+      default:
+        return 'Perpustakaan Digital';
+    }
+  }, []);
+
+  const renderMenuIcon = useCallback((navigation: any) => {
+    return (
+      <AwesomeIcon
+        style={styles.menuIcon}
+        color={lightTheme.white}
+        name="bars"
+        size={aspectRatio(15)}
+        onPress={navigation.toggleDrawer}
+      />
+    );
+  }, []);
+
   return (
     <Drawer.Navigator
       initialRouteName="Dashboard"
-      drawerContent={props => <CustomDrawerContent {...props} />}>
+      drawerContent={props => <CustomDrawerContent {...props} />}
+      screenOptions={({navigation, route}) => ({
+        headerTintColor: lightTheme.white,
+        headerStyle: {
+          backgroundColor: lightTheme.primary,
+          borderColor: 'transparent',
+        },
+        drawerInactiveTintColor: lightTheme.black,
+        headerShadowVisible: false,
+        headerTitle: renderHeaderTitle(route),
+        headerLeft: () => renderMenuIcon(navigation),
+      })}>
       <Drawer.Screen
         name="Dashboard"
         component={DashboardScreen}
@@ -41,7 +85,41 @@ const DrawerNavigation = () => {
           drawerLabel: 'Dashboard',
         }}
       />
-      <Drawer.Screen name="Book" component={BookScreen} />
+      <Drawer.Screen
+        name="Member"
+        component={MemberScreen}
+        options={{
+          drawerLabel: 'Anggota',
+        }}
+      />
+      <Drawer.Screen
+        name="Book"
+        component={BookScreen}
+        options={{
+          drawerLabel: 'Buku',
+        }}
+      />
+      <Drawer.Screen
+        name="Borrow"
+        component={BorrowScreen}
+        options={{
+          drawerLabel: 'Peminjaman',
+        }}
+      />
+      <Drawer.Screen
+        name="Return"
+        component={ReturnScreen}
+        options={{
+          drawerLabel: 'Pengembalian',
+        }}
+      />
+      <Drawer.Screen
+        name="Report"
+        component={ReportScreen}
+        options={{
+          drawerLabel: 'Laporan',
+        }}
+      />
     </Drawer.Navigator>
   );
 };
@@ -60,6 +138,9 @@ const styles = StyleSheet.create({
   },
   flex: {
     flex: 1,
+  },
+  menuIcon: {
+    paddingLeft: aspectRatio(10),
   },
 });
 

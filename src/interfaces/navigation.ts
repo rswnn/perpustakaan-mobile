@@ -7,4 +7,8 @@ export type RootStackParamList = {
   Main: undefined;
   Dashboard: undefined;
   Book: undefined;
+  Member: undefined;
+  Borrow: undefined;
+  Return: undefined;
+  Report: undefined;
 };

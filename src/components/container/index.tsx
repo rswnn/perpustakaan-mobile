@@ -4,21 +4,24 @@ import {
   StyleSheet,
   useColorScheme,
   KeyboardAvoidingView,
+  StyleProp,
+  ViewStyle,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 type ContainerType = {
   children: React.ReactNode;
+  style?: StyleProp<ViewStyle>;
 };
 
-const Container = ({children}: ContainerType) => {
+const Container = ({style, children}: ContainerType) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
   return (
-    <SafeAreaView style={[backgroundStyle, styles.background]}>
+    <SafeAreaView style={[backgroundStyle, styles.background, style]}>
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         {children}
       </KeyboardAvoidingView>
@@ -33,7 +36,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 20,
     width: '100%',
     backgroundColor: '#ffffff',
   },

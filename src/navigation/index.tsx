@@ -10,6 +10,16 @@ import {LoginScreen} from '@screen';
 import DrawerNavigation from './drawer';
 import {useTypedSelector} from '@hooks';
 import {AuthResponseType} from '@interfaces';
+import {DefaultTheme} from 'react-native-paper';
+import {lightTheme} from '@constants';
+
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: lightTheme.primary,
+  },
+} as any;
 
 const Stack = createNativeStackNavigator();
 
@@ -27,7 +37,7 @@ const RootNavigation = () => {
   useFlipper(navigationRef);
 
   return (
-    <NavigationContainer ref={navigationRef}>
+    <NavigationContainer ref={navigationRef} theme={MyTheme}>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
