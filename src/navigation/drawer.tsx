@@ -77,6 +77,9 @@ const DrawerNavigation = () => {
         headerShadowVisible: false,
         headerTitle: renderHeaderTitle(route),
         headerLeft: () => renderMenuIcon(navigation),
+        drawerStyle: {
+          backgroundColor: lightTheme.white,
+        },
       })}>
       <Drawer.Screen
         name="Dashboard"

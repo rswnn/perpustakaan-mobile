@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     width: '100%',
+    padding: aspectRatio(20),
   },
 });
 

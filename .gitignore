@@ -65,3 +65,4 @@ buck-out/
 /android/app/my-upload-key.keystore
 /android/app/src/main/assets/
 /android/gradle.properties/
+**/.cxx
