@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {View, Text} from 'react-native';
 import {Container, BottomSheet} from '@components';
-import {Row,Rows,Table} from 'react-native-table-component'
+// import {Row,Rows,Table} from 'react-native-table-component'
 import {
   List,
   Menu,
@@ -90,15 +90,11 @@ const BorrowScreen = () => {
         </Button>
       </View>
       <View style={styles.bottomBody}>
-        <Table borderStyle={{borderWidth:1, borderColor:'#c8e1ff'}}>
-          <Row data={tableHead} style={styles.head} textStyle={styles.textHead}/>
-          <Rows data={tableData} textStyle={styles.text}/>
-        </Table>
-        {/* <FlatList
+        <FlatList
           data={listMember}
           renderItem={renderItem}
           keyExtractor={item => item.nim}
-        /> */}
+        />
       </View>
       <BottomSheet
         ref={bottomSheetRef}
