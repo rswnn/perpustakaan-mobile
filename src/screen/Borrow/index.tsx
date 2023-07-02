@@ -62,13 +62,12 @@ const BorrowScreen = () => {
   const renderItem = useCallback(
     ({item, index}: any) => {
       return (
-        <List.Accordion
-          title={`Buku ${index}`}
+        <List.Item
+          title={item.book}
+          description={item.name}
           left={props => renderLeftListItem(props)}
-          right={() => renderRightListItem(item, index)}>
-          <List.Item title="First item" />
-          <List.Item title="Second item" />
-        </List.Accordion>
+          right={() => renderRightListItem(item, index)}
+          />
       );
     },
     [renderLeftListItem, renderRightListItem],
@@ -106,10 +105,11 @@ const BorrowScreen = () => {
           <Formik
             initialValues={{
               nis: '',
-              judulBuku: '',
+              kodeBuku: '',
               tglPinjam: '',
               tglJatuhTempo: '',
-              kodeBuku: '',
+              status: '',
+              judulBuku: '',
             }}
             onSubmit={onSubmit}>
             {({handleChange, handleBlur, handleSubmit, values}) => (
@@ -121,16 +121,17 @@ const BorrowScreen = () => {
                   value={values.nis}
                   mode="outlined"
                   label="NIS"
-                  returnKeyType="done"
+                  keyboardType="number-pad"
+                  returnKeyType="next"
                 />
                 <TextInput
-                  onChangeText={handleChange('judulBuku')}
-                  onBlur={handleBlur('judulBuku')}
-                  value={values.judulBuku}
+                  onChangeText={handleChange('kodeBuku')}
+                  onBlur={handleBlur('kodeBuku')}
+                  value={values.kodeBuku}
                   mode="outlined"
-                  label="Judul Buku"
+                  label="Kode Buku"
+                  keyboardType="number-pad"
                   returnKeyType="next"
-                  autoCapitalize="none"
                 />
                 <TextInput
                   style={styles.space}
@@ -157,8 +158,18 @@ const BorrowScreen = () => {
                   onBlur={handleBlur('kodeBuku')}
                   value={values.kodeBuku}
                   mode="outlined"
-                  label="Kode Buku"
+                  label="Status"
                   returnKeyType="next"
+                />
+                <TextInput
+                  style={styles.space}
+                  onChangeText={handleChange('judulBuku')}
+                  onBlur={handleBlur('judulBuku')}
+                  value={values.judulBuku}
+                  mode="outlined"
+                  label="Judul Buku"
+                  autoCapitalize="none"
+                  returnKeyType="done"
                 />
                 <Button
                   mode="contained"

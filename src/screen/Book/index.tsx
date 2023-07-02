@@ -55,9 +55,11 @@ const BookScreen = () => {
     ({item, index}: any) => {
       return (
         <List.Accordion
-          title={`Buku ${index}`}
+          title={`Buku ${item.book}`}
+          description={item.name}
           left={props => renderLeftListItem(props)}
-          right={() => renderRightListItem(item, index)}>
+          right={() => renderRightListItem(item, index)}
+          >
           <List.Item title="First item" />
           <List.Item title="Second item" />
         </List.Accordion>
@@ -97,62 +99,72 @@ const BookScreen = () => {
           <Text style={styles.bottomSheetTitle}>Tambah Buku</Text>
           <Formik
             initialValues={{
-              name: '',
-              nis: '',
-              dob: '',
-              email: '',
-              address: '',
+              kodeBuku: '',
+              judulBuku: '',
+              kategoriBuku: '',
+              namaPenulis: '',
+              namaPenerbit: '',
+              tahunPenerbit:'',
             }}
             onSubmit={onSubmit}>
             {({handleChange, handleBlur, handleSubmit, values}) => (
               <View style={styles.formWrapper}>
                 <TextInput
-                  onChangeText={handleChange('nama')}
-                  onBlur={handleBlur('nama')}
-                  value={values.name}
+                  onChangeText={handleChange('kodeBuku')}
+                  onBlur={handleBlur('kodeBuku')}
+                  value={values.kodeBuku}
                   mode="outlined"
-                  label="Nama"
+                  label="Kode Buku"
+                  returnKeyType="next"
+                  autoCapitalize="none"
+                  keyboardType="number-pad"
+                />
+                <TextInput
+                  style={styles.space}
+                  onChangeText={handleChange('judulBuku')}
+                  onBlur={handleBlur('judulBuku')}
+                  value={values.judulBuku}
+                  mode="outlined"
+                  label="Judul Buku"
+                  returnKeyType="next"
+                />
+                <TextInput
+                  style={styles.space}
+                  onChangeText={handleChange('kategoriBuku')}
+                  onBlur={handleBlur('kategoriBuku')}
+                  value={values.kategoriBuku}
+                  mode="outlined"
+                  label="Kategori Buku"
                   returnKeyType="next"
                   autoCapitalize="none"
                 />
                 <TextInput
                   style={styles.space}
-                  onChangeText={handleChange('nis')}
-                  onBlur={handleBlur('nis')}
-                  value={values.nis}
+                  onChangeText={handleChange('namaPenulis')}
+                  onBlur={handleBlur('namaPenulis')}
+                  value={values.namaPenulis}
                   mode="outlined"
-                  label="NIS"
-                  returnKeyType="done"
-                />
-                <TextInput
-                  style={styles.space}
-                  onChangeText={handleChange('dob')}
-                  onBlur={handleBlur('don')}
-                  value={values.dob}
-                  mode="outlined"
-                  label="Tanggal Lahir"
-                  returnKeyType="next"
-                />
-                <TextInput
-                  style={styles.space}
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  value={values.email}
-                  mode="outlined"
-                  label="Email"
+                  label="Nama Penulis"
                   returnKeyType="next"
                   autoCapitalize="none"
-                  textContentType="emailAddress"
-                  keyboardType="email-address"
                 />
                 <TextInput
                   style={styles.space}
-                  onChangeText={handleChange('address')}
-                  onBlur={handleBlur('address')}
-                  value={values.address}
+                  onChangeText={handleChange('namaPenerbit')}
+                  onBlur={handleBlur('namaPenerbit')}
+                  value={values.namaPenerbit}
                   mode="outlined"
-                  label="Alamat"
-                  returnKeyType="done"
+                  label="Nama Penerbit"
+                  returnKeyType="next"
+                />
+                <TextInput
+                  onChangeText={handleChange('thPenerbit')}
+                  onBlur={handleBlur('thPenerbit')}
+                  value={values.tahunPenerbit}
+                  mode="outlined"
+                  label="Tahun Penerbit"
+                  returnKeyType="next"
+                  keyboardType="number-pad"
                 />
                 <Button
                   mode="contained"

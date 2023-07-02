@@ -55,7 +55,8 @@ const ReturnScreen = () => {
     ({item, index}: any) => {
       return (
         <List.Accordion
-          title={`Buku ${index}`}
+          title={item.name}
+          description={item.book}
           left={props => renderLeftListItem(props)}
           right={() => renderRightListItem(item, index)}>
           <List.Item title="First item" />
@@ -65,13 +66,6 @@ const ReturnScreen = () => {
     },
     [renderLeftListItem, renderRightListItem],
   );
-
-const tableHead=['No','NIS','Nama Siswa','Tgl Pinjam','Tgl Kembali']
-const tableData=[
-  ['1','123123','Rizki','17-17-99','18-18-20'],
-  ['2','123123','Rizki','17-17-99','18-18-20'],
-  ['3','123123','Rizki','17-17-99','18-18-20'],
-]
 
   return (
     <Container style={styles.container}>
