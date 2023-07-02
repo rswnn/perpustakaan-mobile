@@ -6,13 +6,29 @@ const styles = StyleSheet.create({
   container: {
     // padding: aspectRatio(20),
   },
+  pagerView: {
+    flex: 1,
+    margin:5,
+    // backgroundColor:lightTheme.primary,
+    borderRadius:20
+  },
+  tabView:{
+    margin:10,
+    borderRadius:20,
+    backgroundColor:lightTheme.primary
+  },
+  textTabView:{
+    margin:10,
+    borderRadius:20,
+    fontSize:20
+  },
   topBody: {
     flex: 1,
     paddingHorizontal: 10,
     paddingTop: 10,
   },
   bottomBody: {
-    flex: 4,
+    flex: 6,
     margin:20
   },
   buttonAdd: {
@@ -20,7 +36,20 @@ const styles = StyleSheet.create({
     width: aspectRatio(100),
     backgroundColor: lightTheme.primary,
     borderRadius: 10,
-    alignSelf: 'flex-end',
+  },
+  buttonCetak: {
+    marginTop: aspectRatio(10),
+    marginBottom: aspectRatio(20),
+    width: aspectRatio(150),
+    backgroundColor: lightTheme.primary,
+    borderRadius: 10,
+    alignSelf:'center'
+  },
+  buttonTgl: {
+    marginTop: aspectRatio(10),
+    width: aspectRatio(300),
+    backgroundColor: lightTheme.primary,
+    borderRadius: 10,
   },
   contentContainer: {
     flex: 1,

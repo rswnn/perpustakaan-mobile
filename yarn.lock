@@ -6179,6 +6179,13 @@ react-native-codegen@^0.71.5:
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
 
+react-native-date-picker@^4.2.13:
+  version "4.2.13"
+  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-4.2.13.tgz#b5b894ee6c5a154a752f9094342170515e169ea6"
+  integrity sha512-cQ3k+ExXggAnytomeNGNrtV/l2a7WzVUeWKo7Gs2pv/z3TCjjlmKn0ZBMPgcThrFAgFMxgYI0XzKVKT7TPsOmw==
+  dependencies:
+    prop-types "^15.8.1"
+
 react-native-flipper@^0.189.0:
   version "0.189.0"
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.189.0.tgz#b052832cc89694e828d43b3a09d6f59a57544eac"
@@ -6199,6 +6206,11 @@ react-native-gradle-plugin@^0.71.17:
   version "0.71.17"
   resolved "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.17.tgz"
   integrity sha512-OXXYgpISEqERwjSlaCiaQY6cTY5CH6j73gdkWpK0hedxtiWMWgH+i5TOi4hIGYitm9kQBeyDu+wim9fA8ROFJA==
+
+react-native-pager-view@^6.1.0-rc.2:
+  version "6.1.0-rc.2"
+  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-6.1.0-rc.2.tgz#aabd9c165d6f21e88677e2a9310f956d9e14c3e6"
+  integrity sha512-hP/AJxwPf3jUNrXoAyVk7ZdknXtSoadRthH/duSgWdjokkaHgtqyp3hPG6pJ40Q/gPuN5Kkca6SJTzY81WYEKA==
 
 react-native-paper@^5.6.0:
   version "5.6.0"

@@ -30,7 +30,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   return (
     <DrawerContentScrollView {...props} contentContainerStyle={styles.flex}>
       <View style={[styles.header, styles.border]}>
-        <Text>SMK CISEENG</Text>
+        <Text style={{fontSize:20, textAlign:'right',marginHorizontal:15}}>SMK YPUI</Text>
       </View>
       <DrawerItemList {...props} />
       <View style={[styles.flex, styles.border]} />
@@ -46,6 +46,12 @@ const DrawerNavigation = () => {
         return 'Data Anggota';
       case 'Book':
         return 'Data Buku';
+      case 'Borrow':
+        return 'Data Peminjaman';
+      case 'Return':
+        return 'Data Pengembalian';
+      case 'Report':
+        return 'Data Laporan';
       default:
         return 'Perpustakaan Digital';
     }
