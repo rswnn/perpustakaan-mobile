@@ -58,8 +58,7 @@ const BookScreen = () => {
           title={`Buku ${item.book}`}
           description={item.name}
           left={props => renderLeftListItem(props)}
-          right={() => renderRightListItem(item, index)}
-          >
+          right={() => renderRightListItem(item, index)}>
           <List.Item title="First item" />
           <List.Item title="Second item" />
         </List.Accordion>
@@ -104,7 +103,7 @@ const BookScreen = () => {
               kategoriBuku: '',
               namaPenulis: '',
               namaPenerbit: '',
-              tahunPenerbit:'',
+              tahunPenerbit: '',
             }}
             onSubmit={onSubmit}>
             {({handleChange, handleBlur, handleSubmit, values}) => (
