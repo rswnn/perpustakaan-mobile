@@ -62,12 +62,14 @@ const BorrowScreen = () => {
   const renderItem = useCallback(
     ({item, index}: any) => {
       return (
-        <List.Item
-          title={item.book}
-          description={item.name}
-          left={props => renderLeftListItem(props)}
-          right={() => renderRightListItem(item, index)}
-          />
+        <List.Accordion
+        title={item.nim}
+        description={item.name}
+        left={props => renderLeftListItem(props)}
+        right={() => renderRightListItem(item, index)}>
+        <List.Item title={`Pengarang : ${item.pengarang}`}/>
+        <List.Item title={`Keterangan : ${item.keterangan}`}/>
+      </List.Accordion>
       );
     },
     [renderLeftListItem, renderRightListItem],
@@ -85,7 +87,7 @@ const BorrowScreen = () => {
           style={styles.buttonAdd}
           mode="contained"
           onPress={handlePresentModalPress}>
-          Tambah
+          Peminjaman
         </Button>
       </View>
       <View style={styles.bottomBody}>
@@ -101,7 +103,7 @@ const BorrowScreen = () => {
         handleSheetChanges={handleSheetChanges}
         style={styles.bottomSheetStyle}>
         <View style={styles.contentContainer}>
-          <Text style={styles.bottomSheetTitle}>Peminjaman Buku</Text>
+          <Text style={styles.bottomSheetTitle}>Informasi Peminjaman Buku</Text>
           <Formik
             initialValues={{
               nis: '',

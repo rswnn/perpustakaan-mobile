@@ -77,7 +77,7 @@ const MemberScreen = () => {
           style={styles.buttonAdd}
           mode="contained"
           onPress={handlePresentModalPress}>
-          Tambah
+          Tambah Anggota
         </Button>
       </View>
       <View style={styles.bottomBody}>

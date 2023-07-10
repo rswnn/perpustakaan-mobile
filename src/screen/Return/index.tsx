@@ -55,13 +55,13 @@ const ReturnScreen = () => {
     ({item, index}: any) => {
       return (
         <List.Accordion
-          title={item.name}
-          description={item.book}
-          left={props => renderLeftListItem(props)}
-          right={() => renderRightListItem(item, index)}>
-          <List.Item title="First item" />
-          <List.Item title="Second item" />
-        </List.Accordion>
+        title={item.name}
+        description={item.nim}
+        left={props => renderLeftListItem(props)}
+        right={() => renderRightListItem(item, index)}>
+        <List.Item title={`Pengarang : ${item.pengarang}`}/>
+        <List.Item title={`Keterangan : ${item.keterangan}`}/>
+      </List.Accordion>
       );
     },
     [renderLeftListItem, renderRightListItem],
@@ -79,7 +79,7 @@ const ReturnScreen = () => {
           style={styles.buttonAdd}
           mode="contained"
           onPress={handlePresentModalPress}>
-          Tambah
+          Pengembalian
         </Button>
       </View>
       <View style={styles.bottomBody}>
@@ -95,7 +95,7 @@ const ReturnScreen = () => {
         handleSheetChanges={handleSheetChanges}
         style={styles.bottomSheetStyle}>
         <View style={styles.contentContainer}>
-          <Text style={styles.bottomSheetTitle}>Tambah Buku</Text>
+          <Text style={styles.bottomSheetTitle}>Informasi Pengembalian Buku</Text>
           <Formik
             initialValues={{
               nis: '',

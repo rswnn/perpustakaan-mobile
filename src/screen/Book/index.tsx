@@ -60,7 +60,7 @@ const BookScreen = () => {
           left={props => renderLeftListItem(props)}
           right={() => renderRightListItem(item, index)}
           >
-          <List.Item title={`Pengarang : ${item.pengarang}`} />
+          <List.Item title={`Book : ${item.book}`} />
           <List.Item title={item.tahun} />
         </List.Accordion>
       );
@@ -80,7 +80,7 @@ const BookScreen = () => {
           style={styles.buttonAdd}
           mode="contained"
           onPress={handlePresentModalPress}>
-          Tambah
+          Tambah Buku
         </Button>
       </View>
       <View style={styles.bottomBody}>

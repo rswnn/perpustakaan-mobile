@@ -60,11 +60,12 @@ const ReportScreen = () => {
     ({item, index}: any) => {
       return (
         <List.Accordion
-          title={`Buku ${item.book}`}
+          title={item.name}
+          description={item.nim}
           left={props => renderLeftListItem(props)}
           right={() => renderRightListItem(item, index)}>
-          <List.Item title="First item" />
-          <List.Item title="Second item" />
+        <List.Item title={`Book : ${item.book}`}/>
+          {/* <List.Item title="Second item" /> */}
         </List.Accordion>
       );
     },
