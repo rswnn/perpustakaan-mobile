@@ -55,13 +55,13 @@ const BookScreen = () => {
     ({item, index}: any) => {
       return (
         <List.Accordion
-          title={`Buku ${item.book}`}
-          description={item.name}
+          title={`Buku : ${item.book}`}
+          description={`Penerbit : ${item.name}`}
           left={props => renderLeftListItem(props)}
           right={() => renderRightListItem(item, index)}
           >
-          <List.Item title="First item" />
-          <List.Item title="Second item" />
+          <List.Item title={`Pengarang : ${item.pengarang}`} />
+          <List.Item title={item.tahun} />
         </List.Accordion>
       );
     },
