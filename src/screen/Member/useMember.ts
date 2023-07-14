@@ -1,26 +1,15 @@
-import {useState, useCallback, useMemo, useRef} from 'react';
+import {useState, useCallback, useMemo, useRef, useEffect} from 'react';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
-const listMember = [
-  {name: 'Riski Mardianto', nim: '171011401469', show: false},
-  {name: 'Riski Ganteng', nim: '171011401499', show: false},
-  {name: 'Riski Pinjol', nim: '171011401489', show: false},
-  {name: 'Riski Boots', nim: '171011401439', show: false},
-  {name: 'Riski Unpam', nim: '171011401419', show: false},
-  {name: 'Riski Pirang', nim: '171011401449', show: false},
-  {name: 'Riski Trifting', nim: '171011401269', show: false},
-  {name: 'Riski Bengkel', nim: '171011401409', show: false},
-  {name: 'Riski Taylor', nim: '171011401479', show: false},
-  {name: 'Riski Kalung Emas', nim: '171011101469', show: false},
-  {name: 'Riski Kancil', nim: '171011412469', show: false},
-  {name: 'Riski Dapur Coklat', nim: '171041401469', show: false},
-  {name: 'Riski Beat Speed', nim: '171011408869', show: false},
-];
+import {useTypedSelector, useAppAsyncDispatch} from '@hooks';
+import {action} from '@store';
+import {MemberState} from '@interfaces';
 
 const useMember = () => {
+  const getMember = useAppAsyncDispatch(action.MemberAction.getMember);
   const bottomSheetRef = useRef<BottomSheetModal>(null);
-
   const [searchQuery, setSearchQuery] = useState('');
   const [visible, setVisible] = useState<number | null>();
+  const {member} = useTypedSelector<MemberState>('anggotas');
 
   const snapPoints = useMemo(() => ['25%', '50%'], []);
 
@@ -43,8 +32,12 @@ const useMember = () => {
     bottomSheetRef.current?.close();
   };
 
+  useEffect(() => {
+    getMember();
+  }, []);
+
   return {
-    listMember,
+    member,
     searchQuery,
     visible,
     snapPoints,

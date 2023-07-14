@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     width: '100%',
-    marginBottom:aspectRatio(20)
+    marginBottom: aspectRatio(20),
   },
   space: {
     marginTop: aspectRatio(10),

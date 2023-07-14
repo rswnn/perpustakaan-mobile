@@ -9,6 +9,10 @@ import {
   Button,
   TextInput,
 } from 'react-native-paper';
+
+// import {useTypedSelector} from '@hooks';
+// import {BookResponseType} from '@interfaces';
+
 import {FlatList} from 'react-native-gesture-handler';
 import useBook from './useBook';
 import {Formik} from 'formik';
@@ -16,7 +20,7 @@ import styles from './styles';
 
 const BookScreen = () => {
   const {
-    listMember,
+    books,
     searchQuery,
     visible,
     snapPoints,
@@ -29,6 +33,7 @@ const BookScreen = () => {
     onSubmit,
   } = useBook();
 
+  // const {loading} = useTypedSelector<BookResponseType>('books');
   const renderLeftListItem = useCallback((props: any) => {
     return <List.Icon {...props} icon="book" />;
   }, []);
@@ -55,7 +60,7 @@ const BookScreen = () => {
     ({item, index}: any) => {
       return (
         <List.Accordion
-          title={`Buku ${item.book}`}
+          title={`Buku ${item.attributes.judul_buku}`}
           description={item.name}
           left={props => renderLeftListItem(props)}
           right={() => renderRightListItem(item, index)}>
@@ -84,9 +89,9 @@ const BookScreen = () => {
       </View>
       <View style={styles.bottomBody}>
         <FlatList
-          data={listMember}
+          data={books}
           renderItem={renderItem}
-          keyExtractor={item => item.nim}
+          keyExtractor={item => item.kode_buku}
         />
       </View>
       <BottomSheet

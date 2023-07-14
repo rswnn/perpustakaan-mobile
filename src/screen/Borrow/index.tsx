@@ -15,16 +15,9 @@ import useBorrow from './useBorrow';
 import {Formik} from 'formik';
 import styles from './styles';
 
-const tableHead=['No','Nama Siswa','Judul Buku']
-const tableData=[
-  ['1','Rizki','Test'],
-  ['2','Rizki','Tist'],
-  ['3','Rizki','Tust'],
-]
-
 const BorrowScreen = () => {
   const {
-    listMember,
+    borrows,
     searchQuery,
     visible,
     snapPoints,
@@ -61,13 +54,14 @@ const BorrowScreen = () => {
 
   const renderItem = useCallback(
     ({item, index}: any) => {
+      // console.log(item.id, 'ITEM');
       return (
         <List.Item
-          title={item.book}
+          title={item.attributes.lama_pinjam}
           description={item.name}
           left={props => renderLeftListItem(props)}
           right={() => renderRightListItem(item, index)}
-          />
+        />
       );
     },
     [renderLeftListItem, renderRightListItem],
@@ -90,9 +84,9 @@ const BorrowScreen = () => {
       </View>
       <View style={styles.bottomBody}>
         <FlatList
-          data={listMember}
+          data={borrows}
           renderItem={renderItem}
-          keyExtractor={item => item.nim}
+          keyExtractor={item => item.status}
         />
       </View>
       <BottomSheet

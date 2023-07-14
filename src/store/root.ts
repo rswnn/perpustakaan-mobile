@@ -1,7 +1,13 @@
 import {AnyAction, combineReducers, Reducer} from 'redux';
 import {authSlice} from './auth';
+import {bookSlice} from './book';
+import {memberSlice} from './member';
+import {borrowSlice} from './borrow';
 const reducers = combineReducers({
   [authSlice.name]: authSlice.reducer,
+  [bookSlice.name]: bookSlice.reducer,
+  [memberSlice.name]: memberSlice.reducer,
+  [borrowSlice.name]: borrowSlice.reducer,
 });
 
 const rootReducer: Reducer = (state, action: AnyAction) => {

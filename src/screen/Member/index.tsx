@@ -16,7 +16,7 @@ import styles from './styles';
 
 const MemberScreen = () => {
   const {
-    listMember,
+    member,
     searchQuery,
     visible,
     snapPoints,
@@ -55,8 +55,8 @@ const MemberScreen = () => {
     ({item, index}: any) => {
       return (
         <List.Item
-          title={item.name}
-          description={item.nim}
+          title={item.attributes.nama_siswa}
+          description={item.attributes.nis}
           left={props => renderLeftListItem(props)}
           right={() => renderRightListItem(item, index)}
         />
@@ -82,9 +82,9 @@ const MemberScreen = () => {
       </View>
       <View style={styles.bottomBody}>
         <FlatList
-          data={listMember}
+          data={member}
           renderItem={renderItem}
-          keyExtractor={item => item.nim}
+          keyExtractor={item => item.nis}
         />
       </View>
       <BottomSheet

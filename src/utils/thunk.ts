@@ -1,5 +1,6 @@
 import {createAsyncThunk, ThunkDispatch} from '@reduxjs/toolkit';
 import {apiCall} from './api';
+import _ from 'lodash';
 
 type ThunkUtilsType = {
   type: string;
@@ -37,9 +38,10 @@ export const thunkUtils = ({
           dispatch: thunkAPI.dispatch,
         });
       }
+      const payloadResponse = _.isEmpty(payload) ? {} : payload;
       return {
         ...response,
-        ...payload,
+        ...payloadResponse,
       };
     } catch (error) {
       if (onFailed) {
