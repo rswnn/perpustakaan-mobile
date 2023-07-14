@@ -1,3 +1,3 @@
-const baseUrl = 'http://192.168.1.4:1337';
+const baseUrl = 'https://d76d-158-140-182-89.ngrok-free.app';
 
 export {baseUrl};

@@ -34,7 +34,7 @@ const useMember = () => {
 
   useEffect(() => {
     getMember();
-  }, []);
+  }, [getMember]);
 
   return {
     member,

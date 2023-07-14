@@ -55,6 +55,7 @@ const MemberScreen = () => {
     ({item, index}: any) => {
       return (
         <List.Item
+          key={item.attributes.nis}
           title={item.attributes.nama_siswa}
           description={item.attributes.nis}
           left={props => renderLeftListItem(props)}
@@ -84,7 +85,7 @@ const MemberScreen = () => {
         <FlatList
           data={member}
           renderItem={renderItem}
-          keyExtractor={item => item.nis}
+          keyExtractor={item => item.attributes.nis}
         />
       </View>
       <BottomSheet

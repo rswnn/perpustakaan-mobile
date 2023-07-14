@@ -1,15 +1,15 @@
 import {LoadingType, ResponseStatus} from './network';
 
-export interface Member {
-  id: number;
-  attributes: MemberDetail;
-}
-
 export interface MemberState {
-  member: MemberDetail[];
+  member: Member[];
   loadingMember: LoadingType;
   error: ResponseStatus;
   searchByNis?: string | null;
+}
+
+export interface Member {
+  id: number;
+  attributes: MemberDetail;
 }
 
 export interface MemberDetail {
