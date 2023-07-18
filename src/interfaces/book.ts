@@ -1,16 +1,17 @@
 import {LoadingType, ResponseStatus} from './network';
 
-export interface BookResponseType {
-  id: number;
-  attributes: BookDetail;
-}
-
 export interface BookState {
-  books: BookDetail[];
+  books: BookResponseType[];
   loadingBook: LoadingType;
   error: ResponseStatus;
   searchByKode?: string | null;
 }
+export interface BookResponseType {
+  id: number;
+  attributes: BookDetail;
+  loading: boolean;
+}
+
 export interface BookDetail {
   kode_buku: string;
   judul_buku: string;

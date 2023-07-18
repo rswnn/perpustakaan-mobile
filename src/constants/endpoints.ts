@@ -3,6 +3,6 @@ export const endpoints = {
   anggota: '/api/anggotas/',
   buku: '/api/bukus/',
   peminjam: '/api/peminjamen/',
-  peminjamDetail: '/api/peminjaman_details/',
+  peminjamDetail: '/api/peminjaman-details/',
   category: '/api/kategoris/',
 };

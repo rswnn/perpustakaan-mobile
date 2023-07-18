@@ -51,15 +51,15 @@ export const bookSlice = createSlice({
     //     state.books = state.books as BookDetail[];
     //   }
     // });
-    // builder.addCase(addBooks.fulfilled, state => {
-    //   state.loadingBook.add = false;
-    // });
+    builder.addCase(addBooks.fulfilled, state => {
+      state.loadingBook.add = false;
+    });
     // builder.addCase(updateBooks.fulfilled, state => {
     //   state.loadingBook.edit = false;
     // });
-    // builder.addCase(deleteBooks.fulfilled, state => {
-    //   state.loadingBook.delete = false;
-    // });
+    builder.addCase(deleteBooks.fulfilled, state => {
+      state.loadingBook.delete = false;
+    });
     builder.addMatcher(
       isAnyOf(
         updateBooks.rejected,

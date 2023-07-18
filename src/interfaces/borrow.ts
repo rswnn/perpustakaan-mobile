@@ -1,16 +1,18 @@
 import {LoadingType, ResponseStatus} from './network';
 
-export interface Borrow {
-  id: number;
-  attributes: BorrowDetail;
-}
-
 export interface BorrowState {
-  borrows: BorrowDetail[];
+  borrows: Borrow[];
   loadingBorrow: LoadingType;
   error: ResponseStatus;
   searchByNis?: string | null;
 }
+
+export interface Borrow {
+  id: number;
+  attributes: BorrowDetail;
+  loading: boolean;
+}
+
 export interface BorrowDetail {
   tgl_pinjam: string;
   tgl_kembali: string;

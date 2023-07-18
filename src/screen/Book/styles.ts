@@ -21,6 +21,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: 'flex-end',
   },
+
+  buttonDelete: {
+    marginTop: aspectRatio(10),
+    width: aspectRatio(100),
+    backgroundColor: lightTheme.red,
+    borderRadius: 10,
+    alignSelf: 'flex-end',
+  },
+
   contentContainer: {
     flex: 1,
   },

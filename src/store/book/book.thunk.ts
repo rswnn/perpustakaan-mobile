@@ -4,13 +4,13 @@ import {thunkUtils} from '@utils';
 
 export const addBooks = thunkUtils({
   type: 'books/add',
-  endpoint: endpoints.auth,
+  endpoint: endpoints.buku,
   method: 'POST',
 });
 
 export const getBooks = thunkUtils({
   type: 'books/list',
-  endpoint: endpoints.buku,
+  endpoint: `${endpoints.buku}?populate=*`,
   method: 'GET',
   onFailed: ({error}) => {
     if (error) {
@@ -44,7 +44,7 @@ export const searchByKode = thunkUtils({
 export const deleteBooks = thunkUtils({
   type: 'books/delete',
   endpoint: endpoints.buku,
-  method: 'GET',
+  method: 'DELETE',
   onFailed: ({error}) => {
     if (error) {
       console.log(error, 'aaa');

@@ -1,11 +1,17 @@
-export interface DetailBorrowRespponse {
-  data?: DetailBorrow[] | null;
+import {LoadingType, ResponseStatus} from './network';
+
+export interface DetailBorrowState {
+  detailBorrows: DetailBorrowRes[];
+  loadingBorrow: LoadingType;
+  error: ResponseStatus;
+  searchByNis?: string | null;
+}
+export interface DetailBorrowRes {
+  id: number;
+  attributes: DetailBorrow;
+  loading: boolean;
 }
 export interface DetailBorrow {
-  id: number;
-  attributes: DetailBorrowAttributes;
-}
-export interface DetailBorrowAttributes {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;

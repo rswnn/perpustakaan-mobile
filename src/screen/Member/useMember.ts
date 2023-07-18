@@ -10,8 +10,9 @@ const useMember = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [visible, setVisible] = useState<number | null>();
   const {member} = useTypedSelector<MemberState>('anggotas');
+  const setMember = useAppAsyncDispatch(action.MemberAction.addMember);
 
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
+  const snapPoints = useMemo(() => ['25%', '90%'], []);
 
   const openMenu = useCallback((index: number) => setVisible(index), []);
   const closeMenu = useCallback(() => setVisible(null), []);
@@ -28,13 +29,30 @@ const useMember = () => {
     [],
   );
 
-  const onSubmit = () => {
-    bottomSheetRef.current?.close();
+  const onSubmit = async (param?: any) => {
+    try {
+      await setMember({
+        payload: {data: {...param}},
+      });
+      await fetchData();
+
+      bottomSheetRef.current?.close();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  useEffect(() => {
-    getMember();
+  const fetchData = useCallback(async () => {
+    try {
+      await getMember();
+    } catch (error) {
+      console.log(error);
+    }
   }, [getMember]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return {
     member,

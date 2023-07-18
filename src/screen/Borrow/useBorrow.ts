@@ -6,12 +6,13 @@ import {BorrowState} from '@interfaces';
 
 const useBorrow = () => {
   const getBorrow = useAppAsyncDispatch(action.BorrowAction.getPeminjam);
+  const setBorrow = useAppAsyncDispatch(action.BorrowAction.addPeminjam);
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [visible, setVisible] = useState<number | null>();
   const {borrows} = useTypedSelector<BorrowState>('peminjamen');
 
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
+  const snapPoints = useMemo(() => ['25%', '90%'], []);
 
   const openMenu = useCallback((index: number) => setVisible(index), []);
   const closeMenu = useCallback(() => setVisible(null), []);
@@ -28,13 +29,31 @@ const useBorrow = () => {
     [],
   );
 
-  const onSubmit = () => {
-    bottomSheetRef.current?.close();
+  const onSubmit = async (param?: any) => {
+    try {
+      setBorrow({
+        payload: {data: {...param}},
+      });
+      fetchData();
+
+      bottomSheetRef.current?.close();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  const fetchData = useCallback(async () => {
+    try {
+      await getBorrow();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [getBorrow]);
+
   useEffect(() => {
-    getBorrow();
-  }, []);
+    fetchData();
+  }, [fetchData]);
+  // console.log(borrows, 'BBB');
 
   return {
     borrows,

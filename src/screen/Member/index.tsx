@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, ActivityIndicator} from 'react-native';
 import {Container, BottomSheet} from '@components';
 import {
   List,
@@ -13,6 +13,8 @@ import {FlatList} from 'react-native-gesture-handler';
 import useMember from './useMember';
 import {Formik} from 'formik';
 import styles from './styles';
+import {Member} from '@interfaces';
+import {useTypedSelector} from '@hooks';
 
 const MemberScreen = () => {
   const {
@@ -28,6 +30,8 @@ const MemberScreen = () => {
     bottomSheetRef,
     onSubmit,
   } = useMember();
+
+  const {loading} = useTypedSelector<Member>('anggotas');
 
   const renderLeftListItem = useCallback((props: any) => {
     return <List.Icon {...props} icon="account" />;
@@ -53,119 +57,154 @@ const MemberScreen = () => {
 
   const renderItem = useCallback(
     ({item, index}: any) => {
+      // console.log(item, 'ITEM');
       return (
-        <List.Item
+        <List.Accordion
           key={item.attributes.nis}
           title={item.attributes.nama_siswa}
           description={item.attributes.nis}
           left={props => renderLeftListItem(props)}
-          right={() => renderRightListItem(item, index)}
-        />
+          right={() => renderRightListItem(item, index)}>
+          <List.Item
+            title={`Jenis Kelamin : ${item.attributes.jenis_kelamin}`}
+          />
+          <List.Item title={`Alamat : ${item.attributes.alamat}`} />
+          <List.Item title={`No Hp : ${item.attributes.no_hp}`} />
+        </List.Accordion>
       );
     },
     [renderRightListItem, renderLeftListItem],
   );
 
   return (
-    <Container style={styles.container}>
-      <View style={styles.topBody}>
-        <Searchbar
-          placeholder="Search"
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-        />
-        <Button
-          style={styles.buttonAdd}
-          mode="contained"
-          onPress={handlePresentModalPress}>
-          Tambah
-        </Button>
-      </View>
-      <View style={styles.bottomBody}>
-        <FlatList
-          data={member}
-          renderItem={renderItem}
-          keyExtractor={item => item.attributes.nis}
-        />
-      </View>
-      <BottomSheet
-        ref={bottomSheetRef}
-        snapPoints={snapPoints}
-        handleSheetChanges={handleSheetChanges}
-        style={styles.bottomSheetStyle}>
-        <View style={styles.contentContainer}>
-          <Text style={styles.bottomSheetTitle}>Tambah Anggota</Text>
-          <Formik
-            initialValues={{
-              name: '',
-              nis: '',
-              dob: '',
-              email: '',
-              address: '',
-            }}
-            onSubmit={onSubmit}>
-            {({handleChange, handleBlur, handleSubmit, values}) => (
-              <View style={styles.formWrapper}>
-                <TextInput
-                  onChangeText={handleChange('nama')}
-                  onBlur={handleBlur('nama')}
-                  value={values.name}
-                  mode="outlined"
-                  label="Nama"
-                  returnKeyType="next"
-                  autoCapitalize="none"
-                />
-                <TextInput
-                  style={styles.space}
-                  onChangeText={handleChange('nis')}
-                  onBlur={handleBlur('nis')}
-                  value={values.nis}
-                  mode="outlined"
-                  label="NIS"
-                  returnKeyType="done"
-                />
-                <TextInput
-                  style={styles.space}
-                  onChangeText={handleChange('dob')}
-                  onBlur={handleBlur('don')}
-                  value={values.dob}
-                  mode="outlined"
-                  label="Tanggal Lahir"
-                  returnKeyType="next"
-                />
-                <TextInput
-                  style={styles.space}
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  value={values.email}
-                  mode="outlined"
-                  label="Email"
-                  returnKeyType="next"
-                  autoCapitalize="none"
-                  textContentType="emailAddress"
-                  keyboardType="email-address"
-                />
-                <TextInput
-                  style={styles.space}
-                  onChangeText={handleChange('address')}
-                  onBlur={handleBlur('address')}
-                  value={values.address}
-                  mode="outlined"
-                  label="Alamat"
-                  returnKeyType="done"
-                />
-                <Button
-                  mode="contained"
-                  style={[styles.space, styles.btnSave]}
-                  onPress={handleSubmit}>
-                  Simpan
-                </Button>
-              </View>
-            )}
-          </Formik>
+    <React.Fragment>
+      <Container style={styles.container}>
+        <View style={styles.topBody}>
+          <Searchbar
+            placeholder="Search"
+            onChangeText={onChangeSearch}
+            value={searchQuery}
+          />
+          <Button
+            style={styles.buttonAdd}
+            mode="contained"
+            onPress={handlePresentModalPress}>
+            Tambah
+          </Button>
         </View>
-      </BottomSheet>
-    </Container>
+        <View style={styles.bottomBody}>
+          <FlatList
+            data={member}
+            renderItem={renderItem}
+            keyExtractor={item => item.attributes.nis}
+          />
+        </View>
+        <BottomSheet
+          ref={bottomSheetRef}
+          snapPoints={snapPoints}
+          handleSheetChanges={handleSheetChanges}
+          style={styles.bottomSheetStyle}>
+          <View style={styles.contentContainer}>
+            <Text style={styles.bottomSheetTitle}>Tambah Anggota</Text>
+            <Formik
+              initialValues={{
+                nama_siswa: '',
+                nis: '',
+                tgl_lahir: '',
+                tempat_lahir: '',
+                no_hp: '',
+                jenis_kelamin: '',
+                alamat: '',
+              }}
+              onSubmit={onSubmit}>
+              {({handleChange, handleBlur, handleSubmit, values}) => (
+                <View style={styles.formWrapper}>
+                  <TextInput
+                    style={styles.space}
+                    onChangeText={handleChange('nama_siswa')}
+                    onBlur={handleBlur('nama_siswa')}
+                    value={values.nama_siswa}
+                    mode="outlined"
+                    label="Nama"
+                    returnKeyType="next"
+                    autoCapitalize="none"
+                  />
+                  <TextInput
+                    style={styles.space}
+                    onChangeText={handleChange('nis')}
+                    onBlur={handleBlur('nis')}
+                    value={values.nis}
+                    mode="outlined"
+                    label="NIS"
+                    returnKeyType="done"
+                  />
+                  <TextInput
+                    style={styles.space}
+                    onChangeText={handleChange('tgl_lahir')}
+                    onBlur={handleBlur('tgl_lahir')}
+                    value={values.tgl_lahir}
+                    mode="outlined"
+                    label="Tanggal Lahir"
+                    returnKeyType="next"
+                  />
+                  <TextInput
+                    style={styles.space}
+                    onChangeText={handleChange('tempat_lahir')}
+                    onBlur={handleBlur('tempat_lahir')}
+                    value={values.tempat_lahir}
+                    mode="outlined"
+                    label="Tempat Lahir"
+                    returnKeyType="next"
+                    autoCapitalize="none"
+                  />
+                  <TextInput
+                    style={styles.space}
+                    onChangeText={handleChange('no_hp')}
+                    onBlur={handleBlur('no_hp')}
+                    value={values.no_hp}
+                    mode="outlined"
+                    label="No Hp"
+                    returnKeyType="next"
+                    autoCapitalize="none"
+                  />
+                  <TextInput
+                    style={styles.space}
+                    onChangeText={handleChange('jenis_kelamin')}
+                    onBlur={handleBlur('jenis_kelamin')}
+                    value={values.jenis_kelamin}
+                    mode="outlined"
+                    label="Jenis Kelamin"
+                    returnKeyType="next"
+                    autoCapitalize="none"
+                  />
+                  <TextInput
+                    style={styles.space}
+                    onChangeText={handleChange('alamat')}
+                    onBlur={handleBlur('alamat')}
+                    value={values.alamat}
+                    mode="outlined"
+                    label="Alamat"
+                    returnKeyType="done"
+                  />
+                  <Button
+                    mode="contained"
+                    style={[styles.space, styles.btnSave]}
+                    onPress={handleSubmit}>
+                    Simpan
+                  </Button>
+                </View>
+              )}
+            </Formik>
+          </View>
+        </BottomSheet>
+      </Container>
+
+      {loading && (
+        <View style={styles.container}>
+          <ActivityIndicator color="blue" size="large" />
+        </View>
+      )}
+    </React.Fragment>
   );
 };
 

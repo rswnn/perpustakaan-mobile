@@ -27,8 +27,10 @@ export const thunkUtils = ({
 }: ThunkUtilsType) => {
   return createAsyncThunk(type, async (payload: any, thunkAPI) => {
     try {
+      let param = _.get(payload, 'param', '');
+
       const response = await apiCall({
-        endpoint,
+        endpoint: `${endpoint}${param}`,
         method,
         payload: payload?.payload,
       });

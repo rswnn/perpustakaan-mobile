@@ -10,6 +10,7 @@ export interface MemberState {
 export interface Member {
   id: number;
   attributes: MemberDetail;
+  loading: boolean;
 }
 
 export interface MemberDetail {

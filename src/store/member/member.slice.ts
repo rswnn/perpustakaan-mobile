@@ -48,9 +48,9 @@ export const memberSlice = createSlice({
     //     state.member = state.member as MemberDetail[];
     //   }
     // });
-    // builder.addCase(addMember.fulfilled, state => {
-    //   state.loadingMember.add = false;
-    // });
+    builder.addCase(addMember.fulfilled, state => {
+      state.loadingMember.add = false;
+    });
     // builder.addCase(updateMember.fulfilled, state => {
     //   state.loadingMember.edit = false;
     // });

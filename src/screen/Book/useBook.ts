@@ -11,8 +11,9 @@ const useBook = () => {
   const [visible, setVisible] = useState<number | null>();
   const {books} = useTypedSelector<BookState>('books');
   const setBook = useAppAsyncDispatch(action.BookAction.addBooks);
+  const deleteBook = useAppAsyncDispatch(action.BookAction.deleteBooks);
 
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
+  const snapPoints = useMemo(() => ['25%', '90%'], []);
 
   const openMenu = useCallback((index: number) => setVisible(index), []);
   const closeMenu = useCallback(() => setVisible(null), []);
@@ -20,6 +21,7 @@ const useBook = () => {
   const handlePresentModalPress = useCallback(() => {
     bottomSheetRef.current?.present();
   }, []);
+
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
   }, []);
@@ -29,17 +31,42 @@ const useBook = () => {
     [],
   );
 
-  const onSubmit = (param?: any) => {
-    console.log(param, '???????');
-    bottomSheetRef.current?.close();
-    setBook({
-      payload: {...param},
-    });
+  const handleDeleteBook = useCallback(
+    (id: any) => {
+      deleteBook({
+        payload: {
+          param: id,
+        },
+      });
+    },
+    [deleteBook],
+  );
+
+  const onSubmit = async (param?: any) => {
+    try {
+      await setBook({
+        payload: {data: {...param}},
+      });
+
+      await fetchData();
+
+      bottomSheetRef.current?.close();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
+  const fetchData = useCallback(async () => {
+    try {
+      await getBook();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [getBook]);
+
   useEffect(() => {
-    // getBook();
-  }, []);
+    fetchData();
+  }, [fetchData]);
 
   return {
     books,
@@ -53,6 +80,7 @@ const useBook = () => {
     closeMenu,
     bottomSheetRef,
     onSubmit,
+    handleDeleteBook,
   };
 };
 
