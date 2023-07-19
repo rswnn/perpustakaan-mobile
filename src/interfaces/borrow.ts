@@ -10,7 +10,6 @@ export interface BorrowState {
 export interface Borrow {
   id: number;
   attributes: BorrowDetail;
-  loading: boolean;
 }
 
 export interface BorrowDetail {

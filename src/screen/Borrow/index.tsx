@@ -14,7 +14,8 @@ import useBorrow from './useBorrow';
 import {Formik} from 'formik';
 import styles from './styles';
 import {useTypedSelector} from '@hooks';
-import {Borrow} from '@interfaces';
+import {BorrowState} from '@interfaces';
+import {Picker} from '@react-native-picker/picker';
 
 const BorrowScreen = () => {
   const {
@@ -30,9 +31,10 @@ const BorrowScreen = () => {
     bottomSheetRef,
     onSubmit,
     handleDeleteBorrow,
+    books,
   } = useBorrow();
 
-  const {loading} = useTypedSelector<Borrow>('peminjamen');
+  const {loadingBorrow} = useTypedSelector<BorrowState>('peminjamen');
 
   const renderLeftListItem = useCallback((props: any) => {
     return <List.Icon {...props} icon="book" />;
@@ -59,36 +61,14 @@ const BorrowScreen = () => {
   const renderItem = useCallback(
     ({item, index}: any) => {
       // console.log(item, 'ITEM');
-      const nis = item.attributes.nis;
-      const splitStudent = {
-        ...nis,
-      };
-      const bookId = item.attributes.buku_id;
-      const splitBooks = {
-        ...bookId,
-      };
-      const a = splitStudent.data.map((items: any) => {
-        console.log(items.attributes, 'NISSS NIH');
-      });
-      const b = splitBooks.data.map((items: any) => {
-        console.log(items.attributes, 'BOOK');
-      });
-
-      console.log(b, 'BBBBB');
-      console.log(a, 'AAAAA');
+      const student = item.attributes.nis.data[0]?.attributes;
       return (
         <List.Accordion
-          title={`Nama Siswa : ${splitStudent.data.map(
-            (items: any) => items.attributes.nama_siswa,
-          )}`}
+          title={`Nama Siswa : ${student?.nama_siswa}`}
           description={`Tgl Kembali : ${item.attributes.tgl_kembali}`}
           left={props => renderLeftListItem(props)}
           right={() => renderRightListItem(item, index)}>
-          <List.Item
-            title={`Nis : ${splitStudent.data.map(
-              (items: any) => items.attributes.nis,
-            )}`}
-          />
+          <List.Item title={`Nis : ${student?.nis}`} />
           <List.Item title={`Tgl Pinjam : ${item.attributes.tgl_pinjam}`} />
           <Pressable onPress={() => handleDeleteBorrow(item.id)}>
             <List.Icon
@@ -122,7 +102,7 @@ const BorrowScreen = () => {
           <FlatList
             data={borrows}
             renderItem={renderItem}
-            keyExtractor={item => item.attributes.lama_pinjam}
+            keyExtractor={item => item.id.toString()}
           />
         </View>
         <BottomSheet
@@ -140,7 +120,6 @@ const BorrowScreen = () => {
                 tgl_kembali: '',
                 lama_pinjam: '',
                 status: '',
-                // judul_buku: '',
               }}
               onSubmit={onSubmit}>
               {({handleChange, handleBlur, handleSubmit, values}) => (
@@ -149,21 +128,27 @@ const BorrowScreen = () => {
                     style={styles.space}
                     onChangeText={handleChange('nis')}
                     onBlur={handleBlur('nis')}
-                    value={values.nis}
+                    value={values.nis.toString()}
                     mode="outlined"
                     label="NIS"
                     keyboardType="number-pad"
                     returnKeyType="next"
                   />
-                  <TextInput
-                    onChangeText={handleChange('kode_buku')}
-                    onBlur={handleBlur('kode_buku')}
-                    value={values.kode_buku}
-                    mode="outlined"
-                    label="Kode Buku"
-                    keyboardType="number-pad"
-                    returnKeyType="next"
-                  />
+                  <View style={[styles.pickerStyle, styles.space]}>
+                    <Picker
+                      selectedValue={values.kode_buku}
+                      onValueChange={handleChange('kode_buku')}>
+                      {books.map(item => {
+                        return (
+                          <Picker.Item
+                            label={item.attributes.judul_buku}
+                            value={item.id}
+                            key={item.id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
                   <TextInput
                     style={styles.space}
                     onChangeText={handleChange('tgl_pinjam')}
@@ -225,7 +210,7 @@ const BorrowScreen = () => {
         </BottomSheet>
       </Container>
 
-      {loading && (
+      {loadingBorrow.get && (
         <View style={styles.container}>
           <ActivityIndicator color="blue" size="large" />
         </View>

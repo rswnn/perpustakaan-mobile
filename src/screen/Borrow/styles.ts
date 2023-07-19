@@ -1,6 +1,7 @@
 import {lightTheme} from '@constants';
 import {aspectRatio} from '@utils';
 import {StyleSheet} from 'react-native';
+import {DefaultTheme} from 'react-native-paper';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
   },
   bottomBody: {
     flex: 4,
-    margin:20
+    margin: 20,
   },
   buttonAdd: {
     marginTop: aspectRatio(10),
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     width: '100%',
-    marginBottom:aspectRatio(20)
+    marginBottom: aspectRatio(20),
   },
   space: {
     marginTop: aspectRatio(10),
@@ -49,18 +50,24 @@ const styles = StyleSheet.create({
     color: lightTheme.black,
     marginBottom: aspectRatio(10),
   },
-  textHead:{
-    margin:6,
-    fontSize:18,
-    fontWeight:'bold'
+  textHead: {
+    margin: 6,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
-  text:{
-    margin:6
+  text: {
+    margin: 6,
   },
-  head:{
-    height:40,
-    backgroundColor:'#f1f8ff'
-  }
+  head: {
+    height: 40,
+    backgroundColor: '#f1f8ff',
+  },
+  pickerStyle: {
+    borderColor: '#000',
+    borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: DefaultTheme.colors.background,
+  },
 });
 
 export default styles;

@@ -9,7 +9,6 @@ import {
   searchByStatusAfterReturn,
   updatePeminjam,
 } from './borrow.thunk';
-import {ResponseStatus} from 'src/interfaces/network';
 
 const initialState: BorrowState = {
   borrows: [],
@@ -66,7 +65,7 @@ export const borrowSlice = createSlice({
       ),
       (state, action) => {
         state.loadingBorrow = {...initialState.loadingBorrow};
-        state.error = action.payload as ResponseStatus;
+        state.error = action.payload as any;
       },
     );
 

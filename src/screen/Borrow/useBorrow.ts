@@ -2,15 +2,17 @@ import {useState, useCallback, useMemo, useRef, useEffect} from 'react';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {useTypedSelector, useAppAsyncDispatch} from '@hooks';
 import {action} from '@store';
-import {BorrowState} from '@interfaces';
+import {BookState, BorrowState} from '@interfaces';
 
 const useBorrow = () => {
   const getBorrow = useAppAsyncDispatch(action.BorrowAction.getPeminjam);
+  const getBook = useAppAsyncDispatch(action.BookAction.getBooks);
   const setBorrow = useAppAsyncDispatch(action.BorrowAction.addPeminjam);
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [visible, setVisible] = useState<number | null>();
   const {borrows} = useTypedSelector<BorrowState>('peminjamen');
+  const {books} = useTypedSelector<BookState>('books');
   const deleteBorrow = useAppAsyncDispatch(action.BorrowAction.deletePeminjam);
 
   const snapPoints = useMemo(() => ['25%', '90%'], []);
@@ -21,6 +23,7 @@ const useBorrow = () => {
   const handlePresentModalPress = useCallback(() => {
     bottomSheetRef.current?.present();
   }, []);
+
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
   }, []);
@@ -61,15 +64,15 @@ const useBorrow = () => {
   const fetchData = useCallback(async () => {
     try {
       await getBorrow();
+      await getBook();
     } catch (error) {
       console.log(error);
     }
-  }, [getBorrow]);
+  }, [getBorrow, getBook]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-  // console.log(borrows, 'BBB');
 
   return {
     borrows,
@@ -84,6 +87,7 @@ const useBorrow = () => {
     bottomSheetRef,
     onSubmit,
     handleDeleteBorrow,
+    books,
   };
 };
 
