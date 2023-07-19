@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
+import {View, Text, ActivityIndicator, Pressable} from 'react-native';
 import {Container, BottomSheet} from '@components';
 import {
   List,
@@ -29,6 +29,7 @@ const ReturnScreen = () => {
     closeMenu,
     bottomSheetRef,
     onSubmit,
+    handleUpdateStatus,
   } = useReturn();
   // const tes: any = [];
 
@@ -67,12 +68,12 @@ const ReturnScreen = () => {
         ...rents,
       };
 
-      // splitRents.data.map((items: any) =>
-      //   console.log(items.attributes, 'RENTSS'),
-      // );
-      // splitBooks.data.map((items: any) =>
-      //   console.log(items.attributes, 'BUKU'),
-      // );
+      splitRents.data.map((items: any) =>
+        console.log(items.attributes, 'RENTSS'),
+      );
+      splitBooks.data.map((items: any) =>
+        console.log(items.attributes, 'BUKU'),
+      );
       return (
         <List.Accordion
           title={`Buku : ${splitBooks.data.map(
@@ -98,10 +99,16 @@ const ReturnScreen = () => {
               (items: any) => items.attributes.lama_pinjam,
             )}`}
           />
+          <Pressable onPress={() => handleUpdateStatus(item.id)}>
+            <List.Icon
+              icon="lead-pencil"
+              style={{alignSelf: 'flex-end', marginRight: 30}}
+            />
+          </Pressable>
         </List.Accordion>
       );
     },
-    [renderLeftListItem, renderRightListItem],
+    [renderLeftListItem, renderRightListItem, handleUpdateStatus],
   );
 
   return (

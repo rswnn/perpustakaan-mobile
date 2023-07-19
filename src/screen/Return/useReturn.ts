@@ -19,6 +19,10 @@ const useReturn = () => {
     action.BorrowAction.updateStatusPeminjamAction,
   );
 
+  const updateStatus = useAppAsyncDispatch(
+    action.DetailBorrow.updateStatusAction,
+  );
+
   const snapPoints = useMemo(() => ['25%', '90%'], []);
 
   const openMenu = useCallback((index: number) => setVisible(index), []);
@@ -30,6 +34,21 @@ const useReturn = () => {
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
   }, []);
+
+  const handleUpdateStatus = useCallback(
+    async (id: any) => {
+      try {
+        await updateStatus({
+          payload: {
+            param: id,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [updateStatus],
+  );
 
   const onChangeSearch = useCallback(
     (query: string) => setSearchQuery(query),
@@ -73,6 +92,7 @@ const useReturn = () => {
     closeMenu,
     bottomSheetRef,
     onSubmit,
+    handleUpdateStatus,
   };
 };
 

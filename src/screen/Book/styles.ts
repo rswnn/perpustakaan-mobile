@@ -23,11 +23,13 @@ const styles = StyleSheet.create({
   },
 
   buttonDelete: {
-    marginTop: aspectRatio(10),
+    // marginTop: aspectRatio(10),
     width: aspectRatio(100),
     backgroundColor: lightTheme.red,
     borderRadius: 10,
     alignSelf: 'flex-end',
+    marginRight: 20,
+    color: 'black',
   },
 
   contentContainer: {

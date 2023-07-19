@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
+import {View, Text, ActivityIndicator, Pressable} from 'react-native';
 import {Container, BottomSheet} from '@components';
 import {
   List,
@@ -29,6 +29,7 @@ const MemberScreen = () => {
     closeMenu,
     bottomSheetRef,
     onSubmit,
+    handleDeleteMember,
   } = useMember();
 
   const {loading} = useTypedSelector<Member>('anggotas');
@@ -70,10 +71,23 @@ const MemberScreen = () => {
           />
           <List.Item title={`Alamat : ${item.attributes.alamat}`} />
           <List.Item title={`No Hp : ${item.attributes.no_hp}`} />
+          <Pressable onPress={() => handleDeleteMember(item.id)}>
+            <List.Icon
+              icon="delete"
+              style={{alignSelf: 'flex-end', marginRight: 30, marginBottom: 20}}
+            />
+          </Pressable>
+
+          {/* <Pressable onPress={() => handleDeleteMember(item.id)}>
+            <List.Icon
+              icon="delete"
+              style={{alignSelf: 'flex-start', marginRight: 30}}
+            />
+          </Pressable> */}
         </List.Accordion>
       );
     },
-    [renderRightListItem, renderLeftListItem],
+    [renderRightListItem, renderLeftListItem, handleDeleteMember],
   );
 
   return (

@@ -11,6 +11,7 @@ const useMember = () => {
   const [visible, setVisible] = useState<number | null>();
   const {member} = useTypedSelector<MemberState>('anggotas');
   const setMember = useAppAsyncDispatch(action.MemberAction.addMember);
+  const deleteMember = useAppAsyncDispatch(action.MemberAction.deleteMember);
 
   const snapPoints = useMemo(() => ['25%', '90%'], []);
 
@@ -27,6 +28,21 @@ const useMember = () => {
   const onChangeSearch = useCallback(
     (query: string) => setSearchQuery(query),
     [],
+  );
+
+  const handleDeleteMember = useCallback(
+    async (id: any) => {
+      try {
+        await deleteMember({
+          payload: {
+            param: id,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [deleteMember],
   );
 
   const onSubmit = async (param?: any) => {
@@ -66,6 +82,7 @@ const useMember = () => {
     closeMenu,
     bottomSheetRef,
     onSubmit,
+    handleDeleteMember,
   };
 };
 

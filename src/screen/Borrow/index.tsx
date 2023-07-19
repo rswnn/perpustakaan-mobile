@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
+import {View, Text, ActivityIndicator, Pressable} from 'react-native';
 import {Container, BottomSheet} from '@components';
 import {
   List,
@@ -29,6 +29,7 @@ const BorrowScreen = () => {
     closeMenu,
     bottomSheetRef,
     onSubmit,
+    handleDeleteBorrow,
   } = useBorrow();
 
   const {loading} = useTypedSelector<Borrow>('peminjamen');
@@ -59,28 +60,46 @@ const BorrowScreen = () => {
     ({item, index}: any) => {
       // console.log(item, 'ITEM');
       const nis = item.attributes.nis;
-      const test = {
+      const splitStudent = {
         ...nis,
       };
+      const bookId = item.attributes.buku_id;
+      const splitBooks = {
+        ...bookId,
+      };
+      const a = splitStudent.data.map((items: any) => {
+        console.log(items.attributes, 'NISSS NIH');
+      });
+      const b = splitBooks.data.map((items: any) => {
+        console.log(items.attributes, 'BOOK');
+      });
 
+      console.log(b, 'BBBBB');
+      console.log(a, 'AAAAA');
       return (
         <List.Accordion
-          title={`Nama Siswa : ${test.data.map(
+          title={`Nama Siswa : ${splitStudent.data.map(
             (items: any) => items.attributes.nama_siswa,
           )}`}
           description={`Tgl Kembali : ${item.attributes.tgl_kembali}`}
           left={props => renderLeftListItem(props)}
           right={() => renderRightListItem(item, index)}>
           <List.Item
-            title={`Nis : ${test.data.map(
+            title={`Nis : ${splitStudent.data.map(
               (items: any) => items.attributes.nis,
             )}`}
           />
           <List.Item title={`Tgl Pinjam : ${item.attributes.tgl_pinjam}`} />
+          <Pressable onPress={() => handleDeleteBorrow(item.id)}>
+            <List.Icon
+              icon="delete"
+              style={{alignSelf: 'flex-end', marginRight: 30, marginBottom: 20}}
+            />
+          </Pressable>
         </List.Accordion>
       );
     },
-    [renderLeftListItem, renderRightListItem],
+    [renderLeftListItem, renderRightListItem, handleDeleteBorrow],
   );
 
   return (

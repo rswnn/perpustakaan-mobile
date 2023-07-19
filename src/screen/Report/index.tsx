@@ -1,9 +1,9 @@
-import React, {useCallback,useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {View, Text} from 'react-native';
 import {Container, BottomSheet} from '@components';
 import {
   List,
-  Menu, 
+  Menu,
   IconButton,
   Searchbar,
   Button,
@@ -35,8 +35,8 @@ const ReportScreen = () => {
     return <List.Icon {...props} icon="book" />;
   }, []);
 
-  const [date, setDate] = useState(new Date())
-  const [open, setOpen] = useState(false)
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
 
   const renderRightListItem = useCallback(
     (_: any, index: number) => {
@@ -74,26 +74,23 @@ const ReportScreen = () => {
   return (
     <Container style={styles.container}>
       <View style={styles.topBody}>
-      {/* <DatePicker date={date}/> */}
-      <Button 
-      onPress={() => setOpen(true)}
-      style={styles.buttonTgl}
-      >
-        Fillter Tanggal
-      </Button>
-      <DatePicker
-      mode="date"
-        modal
-        open={open}
-        date={date}
-        onConfirm={(date) => {
-          setOpen(false)
-          setDate(date)
-        }}
-        onCancel={() => {
-          setOpen(false)
-        }}
-      />
+        {/* <DatePicker date={date}/> */}
+        <Button onPress={() => setOpen(true)} style={styles.buttonTgl}>
+          Fillter Tanggal
+        </Button>
+        <DatePicker
+          mode="date"
+          modal
+          open={open}
+          date={date}
+          onConfirm={date => {
+            setOpen(false);
+            setDate(date);
+          }}
+          onCancel={() => {
+            setOpen(false);
+          }}
+        />
         {/* <Searchbar
           placeholder="Search"
           onChangeText={onChangeSearch}
@@ -103,29 +100,29 @@ const ReportScreen = () => {
           style={styles.buttonAdd}
           mode="contained"
           // onPress={handlePresentModalPress}
-          >
+        >
           Tampilkan
         </Button>
       </View>
       <View style={styles.bottomBody}>
-      <PagerView style={styles.pagerView} initialPage={0}>
-      <View key="1" style={styles.tabView}>
-        <Text style={styles.textTabView}>Peminjaman</Text>
-        <FlatList
-          data={listMember}
-          renderItem={renderItem}
-          keyExtractor={item => item.nim}
-        />
-      </View>
-      <View key="2" style={styles.tabView}>
-        <Text style={styles.textTabView}>Pengambalian</Text>
-        <FlatList
-          data={listMember}
-          renderItem={renderItem}
-          keyExtractor={item => item.nim}
-        />
-      </View>
-    </PagerView>
+        <PagerView style={styles.pagerView} initialPage={0}>
+          <View key="1" style={styles.tabView}>
+            <Text style={styles.textTabView}>Peminjaman</Text>
+            <FlatList
+              data={listMember}
+              renderItem={renderItem}
+              keyExtractor={item => item.nim}
+            />
+          </View>
+          <View key="2" style={styles.tabView}>
+            <Text style={styles.textTabView}>Pengambalian</Text>
+            <FlatList
+              data={listMember}
+              renderItem={renderItem}
+              keyExtractor={item => item.nim}
+            />
+          </View>
+        </PagerView>
         {/* <FlatList
           data={listMember}
           renderItem={renderItem}
@@ -133,12 +130,12 @@ const ReportScreen = () => {
         /> */}
       </View>
       <Button
-          style={styles.buttonCetak}
-          mode="contained"
-          // onPress={handlePresentModalPress}
-          >
-          Cetak
-        </Button>
+        style={styles.buttonCetak}
+        mode="contained"
+        // onPress={handlePresentModalPress}
+      >
+        Cetak
+      </Button>
       <BottomSheet
         ref={bottomSheetRef}
         snapPoints={snapPoints}

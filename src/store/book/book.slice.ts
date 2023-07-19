@@ -57,8 +57,11 @@ export const bookSlice = createSlice({
     // builder.addCase(updateBooks.fulfilled, state => {
     //   state.loadingBook.edit = false;
     // });
-    builder.addCase(deleteBooks.fulfilled, state => {
+    builder.addCase(deleteBooks.fulfilled, (state, action) => {
       state.loadingBook.delete = false;
+      state.books = state.books.filter(
+        item => item.id !== action.payload.data.id,
+      );
     });
     builder.addMatcher(
       isAnyOf(

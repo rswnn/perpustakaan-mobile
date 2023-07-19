@@ -11,6 +11,7 @@ const useBorrow = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [visible, setVisible] = useState<number | null>();
   const {borrows} = useTypedSelector<BorrowState>('peminjamen');
+  const deleteBorrow = useAppAsyncDispatch(action.BorrowAction.deletePeminjam);
 
   const snapPoints = useMemo(() => ['25%', '90%'], []);
 
@@ -27,6 +28,21 @@ const useBorrow = () => {
   const onChangeSearch = useCallback(
     (query: string) => setSearchQuery(query),
     [],
+  );
+
+  const handleDeleteBorrow = useCallback(
+    async (id: any) => {
+      try {
+        await deleteBorrow({
+          payload: {
+            param: id,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [deleteBorrow],
   );
 
   const onSubmit = async (param?: any) => {
@@ -67,6 +83,7 @@ const useBorrow = () => {
     closeMenu,
     bottomSheetRef,
     onSubmit,
+    handleDeleteBorrow,
   };
 };
 

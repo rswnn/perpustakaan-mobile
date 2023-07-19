@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
+import {View, Text, ActivityIndicator, Pressable} from 'react-native';
 import {Container, BottomSheet} from '@components';
 import {
   List,
@@ -31,6 +31,7 @@ const BookScreen = () => {
     closeMenu,
     bottomSheetRef,
     onSubmit,
+    handleDeleteBook,
   } = useBook();
 
   const {loading} = useTypedSelector<BookResponseType>('books');
@@ -58,11 +59,15 @@ const BookScreen = () => {
 
   const renderItem = useCallback(
     ({item, index}: any) => {
-      // const kategoryBook = item.attributes.kategori_buku;
-      // const test = {
-      //   ...kategoryBook,
-      // };
-
+      // console.log(item, ':::::');
+      const kategoryBook = item.attributes.kategori_buku;
+      const test = {
+        ...kategoryBook,
+      };
+      // console.log(test, 'TEST');
+      // test.data.map((items: any) => {
+      //   console.log(items, 'ITEMS');
+      // });
       return (
         <Container style={styles.container}>
           <List.Accordion
@@ -71,9 +76,7 @@ const BookScreen = () => {
             description={`Penulis : ${item.attributes.nama_penulis}`}
             left={props => renderLeftListItem(props)}
             right={() => renderRightListItem(item, index)}>
-            {/* <List.Item title={'Edit'} />
-            <List.Item title={'Delete'} /> */}
-            {/* <List.Item title={`Kode : ${item.attributes.kode_buku}`} />
+            <List.Item title={`Kode : ${item.attributes.kode_buku}`} />
             <List.Item title={`Penerbit : ${item.attributes.nama_penerbit}`} />
             <List.Item
               title={`Tahun Terbit : ${item.attributes.tahun_terbit}`}
@@ -83,12 +86,22 @@ const BookScreen = () => {
                 (x: any) => x.attributes.kategori_buku,
               )}`}
             />
-             */}
+
+            <Pressable onPress={() => handleDeleteBook(item.id)}>
+              <List.Icon
+                icon="delete"
+                style={{
+                  alignSelf: 'flex-end',
+                  marginRight: 30,
+                  marginBottom: 20,
+                }}
+              />
+            </Pressable>
           </List.Accordion>
         </Container>
       );
     },
-    [renderLeftListItem, renderRightListItem],
+    [renderLeftListItem, renderRightListItem, handleDeleteBook],
   );
 
   return (
@@ -127,7 +140,7 @@ const BookScreen = () => {
                 judul_buku: '',
                 nama_penulis: '',
                 nama_penerbit: '',
-                // kategori_buku: '',
+                kategori_buku: '',
                 tahun_terbit: '',
               }}
               onSubmit={onSubmit}>
@@ -172,7 +185,7 @@ const BookScreen = () => {
                     returnKeyType="next"
                     autoCapitalize="none"
                   />
-                  {/* <TextInput
+                  <TextInput
                     style={styles.space}
                     onChangeText={handleChange('kategori_buku')}
                     onBlur={handleBlur('kategori_buku')}
@@ -180,7 +193,7 @@ const BookScreen = () => {
                     mode="outlined"
                     label="Kategori Buku"
                     returnKeyType="next"
-                  /> */}
+                  />
                   <TextInput
                     onChangeText={handleChange('tahun_terbit')}
                     onBlur={handleBlur('tahun_terbit')}

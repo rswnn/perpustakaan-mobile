@@ -32,12 +32,16 @@ const useBook = () => {
   );
 
   const handleDeleteBook = useCallback(
-    (id: any) => {
-      deleteBook({
-        payload: {
-          param: id,
-        },
-      });
+    async (id: any) => {
+      try {
+        await deleteBook({
+          payload: {
+            param: id,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
     [deleteBook],
   );
