@@ -199,7 +199,7 @@ const BookScreen = () => {
                     onBlur={handleBlur('tahun_terbit')}
                     value={values.tahun_terbit}
                     mode="outlined"
-                    label="Tahun Penerbit"
+                    label="Tahun Terbit"
                     returnKeyType="next"
                     keyboardType="number-pad"
                   />

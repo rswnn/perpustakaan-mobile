@@ -54,9 +54,12 @@ export const memberSlice = createSlice({
     // builder.addCase(updateMember.fulfilled, state => {
     //   state.loadingMember.edit = false;
     // });
-    // builder.addCase(deleteMember.fulfilled, state => {
-    //   state.loadingMember.delete = false;
-    // });
+    builder.addCase(deleteMember.fulfilled, (state, action) => {
+      state.loadingMember.delete = false;
+      state.member = state.member.filter(
+        item => item.id !== action.payload.data.id,
+      );
+    });
     builder.addMatcher(
       isAnyOf(
         updateMember.rejected,

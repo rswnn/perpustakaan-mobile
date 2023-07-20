@@ -7,8 +7,11 @@ import {
   deletePeminjam,
   getPeminjam,
   searchByStatusAfterReturn,
-  updatePeminjam,
+  // updatePeminjam,
+  getPeminjamWithStatusRent,
+  updateStatusPeminjamAction,
 } from './borrow.thunk';
+// import { getPeminjamDetailActionWithStatus } from "../borrow_detail";
 
 const initialState: BorrowState = {
   borrows: [],
@@ -38,30 +41,33 @@ export const borrowSlice = createSlice({
       state.loadingBorrow.get = false;
       state.borrows = action.payload.data;
     });
-    // builder.addCase(searchByNis.fulfilled, (state, action) => {
+    // builder.addCase(getPeminjamWithStatusRent.fulfilled, (state, action) => {
     //   state.loadingBorrow.get = false;
-    //   const query = action.payload.queryParam?.query as string;
-    //   if (!_.isEmpty(query)) {
-    //     state.borrows = action.payload.data;
-    //   } else {
-    //     state.borrows = state.borrows as BorrowDetail[];
-    //   }
+    //   state.borrows = action.payload.data;
     // });
     builder.addCase(addPeminjam.fulfilled, state => {
       state.loadingBorrow.add = false;
     });
-    // builder.addCase(updatePeminjam.fulfilled, state => {
-    //   state.loadingBorrow.edit = false;
-    // });
-    // builder.addCase(deletePeminjam.fulfilled, state => {
-    //   state.loadingBorrow.delete = false;
-    // });
+    builder.addCase(updateStatusPeminjamAction.fulfilled, state => {
+      state.loadingBorrow.edit = false;
+
+      // state.borrows = state.borrows.filter(
+      //   item => item.id !== action.payload.data.id,
+      // );
+    });
+    builder.addCase(deletePeminjam.fulfilled, (state, action) => {
+      state.loadingBorrow.delete = false;
+      state.borrows = state.borrows.filter(
+        item => item.id !== action.payload.data.id,
+      );
+    });
     builder.addMatcher(
       isAnyOf(
-        updatePeminjam.rejected,
+        updateStatusPeminjamAction.rejected,
         getPeminjam.rejected,
         deletePeminjam.rejected,
         addPeminjam.rejected,
+        getPeminjamWithStatusRent.rejected,
       ),
       (state, action) => {
         state.loadingBorrow = {...initialState.loadingBorrow};
@@ -71,10 +77,11 @@ export const borrowSlice = createSlice({
 
     builder.addMatcher(
       isAnyOf(
-        updatePeminjam.pending,
+        updateStatusPeminjamAction.pending,
         getPeminjam.pending,
         deletePeminjam.pending,
         addPeminjam.pending,
+        getPeminjamWithStatusRent.pending,
       ),
       (state, action) => {
         state.loadingBorrow = {
@@ -82,7 +89,7 @@ export const borrowSlice = createSlice({
             getPeminjam.pending.type === action.type ||
             searchByStatusAfterReturn.pending.type === action.type,
           add: addPeminjam.pending.type === action.type,
-          edit: updatePeminjam.pending.type === action.type,
+          edit: updateStatusPeminjamAction.pending.type === action.type,
           delete: deletePeminjam.pending.type === action.type,
         };
         state.error = initialState.error;

@@ -8,6 +8,7 @@ import {
   getPeminjamDetailAction,
   searchByNis,
   updateStatusAction,
+  getPeminjamDetailActionWithStatus,
 } from './borrow_detail.thunk';
 import {ResponseStatus} from 'src/interfaces/network';
 
@@ -27,7 +28,7 @@ export const borrowDetailSlice = createSlice({
   name: 'peminjaman-details',
   initialState,
   reducers: {
-    handleSearchBookAction: (state, action) => {
+    handleSearchDetailBorrowAction: (state, action) => {
       state.searchByNis = action.payload.searchByNis;
     },
     resetBookAction: state => {
@@ -35,11 +36,17 @@ export const borrowDetailSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(getPeminjamDetailAction.fulfilled, (state, action) => {
-      console.log(state.detailBorrows);
-      state.loadingBorrow.get = false;
-      state.detailBorrows = action.payload.data;
-    });
+    builder.addCase(
+      getPeminjamDetailActionWithStatus.fulfilled,
+      (state, action) => {
+        console.log(
+          action.payload.data[1].attributes.peminjaman_id.data[0].attributes,
+          'DATA 1',
+        );
+        state.loadingBorrow.get = false;
+        state.detailBorrows = action.payload.data;
+      },
+    );
     // builder.addCase(searchByNis.fulfilled, (state, action) => {
     //   state.loadingBorrow.get = false;
     //   const query = action.payload.queryParam?.query as string;
@@ -52,8 +59,9 @@ export const borrowDetailSlice = createSlice({
     // builder.addCase(addPeminjam.fulfilled, state => {
     //   state.loadingBorrow.add = false;
     // });
-    // builder.addCase(updatePeminjam.fulfilled, state => {
+    // builder.addCase(updateStatusAction.fulfilled, (state, action) => {
     //   state.loadingBorrow.edit = false;
+    //   state.
     // });
     // builder.addCase(deletePeminjam.fulfilled, state => {
     //   state.loadingBorrow.delete = false;
@@ -64,6 +72,7 @@ export const borrowDetailSlice = createSlice({
         getPeminjamDetailAction.rejected,
         deletePeminjam.rejected,
         addPeminjam.rejected,
+        getPeminjamDetailActionWithStatus.rejected,
       ),
       (state, action) => {
         state.loadingBorrow = {...initialState.loadingBorrow};
@@ -77,11 +86,12 @@ export const borrowDetailSlice = createSlice({
         getPeminjamDetailAction.pending,
         deletePeminjam.pending,
         addPeminjam.pending,
+        getPeminjamDetailActionWithStatus.pending,
       ),
       (state, action) => {
         state.loadingBorrow = {
           get:
-            getPeminjamDetailAction.pending.type === action.type ||
+            getPeminjamDetailActionWithStatus.pending.type === action.type ||
             searchByNis.pending.type === action.type,
           add: addPeminjam.pending.type === action.type,
           edit: updateStatusAction.pending.type === action.type,
@@ -93,5 +103,5 @@ export const borrowDetailSlice = createSlice({
   },
 });
 
-export const {resetBookAction, handleSearchBookAction} =
+export const {resetBookAction, handleSearchDetailBorrowAction} =
   borrowDetailSlice.actions;

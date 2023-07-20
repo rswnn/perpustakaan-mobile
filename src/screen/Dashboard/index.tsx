@@ -38,13 +38,13 @@ const listMenu = [
     iconName: 'exchange',
     route: 'Return',
   },
-  {
-    key: 'report',
-    title: 'Laporan',
-    empty: false,
-    iconName: 'file',
-    route: 'Report',
-  },
+  // {
+  //   key: 'report',
+  //   title: 'Laporan',
+  //   empty: false,
+  //   iconName: 'file',
+  //   route: 'Report',
+  // },
 ];
 
 const formatData = (data = listMenu, numColumns = 2) => {

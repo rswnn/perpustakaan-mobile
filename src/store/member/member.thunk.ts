@@ -42,7 +42,7 @@ export const searchByNis = thunkUtils({
 
 export const deleteMember = thunkUtils({
   type: 'anggota/delete',
-  endpoint: endpoints.buku,
+  endpoint: endpoints.anggota,
   method: 'DELETE',
   onFailed: ({error}) => {
     if (error) {

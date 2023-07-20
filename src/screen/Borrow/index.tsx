@@ -32,9 +32,11 @@ const BorrowScreen = () => {
     onSubmit,
     handleDeleteBorrow,
     books,
+    member,
   } = useBorrow();
 
   const {loadingBorrow} = useTypedSelector<BorrowState>('peminjamen');
+  // const
 
   const renderLeftListItem = useCallback((props: any) => {
     return <List.Icon {...props} icon="book" />;
@@ -70,6 +72,7 @@ const BorrowScreen = () => {
           right={() => renderRightListItem(item, index)}>
           <List.Item title={`Nis : ${student?.nis}`} />
           <List.Item title={`Tgl Pinjam : ${item.attributes.tgl_pinjam}`} />
+          <List.Item title={`Status : ${item.attributes.status}`} />
           <Pressable onPress={() => handleDeleteBorrow(item.id)}>
             <List.Icon
               icon="delete"
@@ -113,31 +116,47 @@ const BorrowScreen = () => {
           <View style={styles.contentContainer}>
             <Text style={styles.bottomSheetTitle}>Peminjaman Buku</Text>
             <Formik
+              enableReinitialize={true}
               initialValues={{
                 nis: '',
                 kode_buku: '',
                 tgl_pinjam: '',
                 tgl_kembali: '',
-                lama_pinjam: '',
+                // lama_pinjam: '',
                 status: '',
               }}
               onSubmit={onSubmit}>
-              {({handleChange, handleBlur, handleSubmit, values}) => (
+              {({
+                setFieldValue,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+              }) => (
                 <View style={styles.formWrapper}>
-                  <TextInput
-                    style={styles.space}
-                    onChangeText={handleChange('nis')}
-                    onBlur={handleBlur('nis')}
-                    value={values.nis.toString()}
-                    mode="outlined"
-                    label="NIS"
-                    keyboardType="number-pad"
-                    returnKeyType="next"
-                  />
+                  <View style={[styles.pickerStyle, styles.space]}>
+                    <Picker
+                      selectedValue={values.nis}
+                      onValueChange={itemValue => {
+                        setFieldValue('nis', itemValue);
+                      }}>
+                      {member.map(item => {
+                        return (
+                          <Picker.Item
+                            label={`${item.attributes.nama_siswa} - ${item.attributes.nis}`}
+                            value={item.id}
+                            key={item.id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
                   <View style={[styles.pickerStyle, styles.space]}>
                     <Picker
                       selectedValue={values.kode_buku}
-                      onValueChange={handleChange('kode_buku')}>
+                      onValueChange={itemValue => {
+                        setFieldValue('kode_buku', itemValue);
+                      }}>
                       {books.map(item => {
                         return (
                           <Picker.Item
@@ -168,35 +187,17 @@ const BorrowScreen = () => {
                     autoCapitalize="none"
                     returnKeyType="next"
                   />
-                  <TextInput
-                    style={styles.space}
-                    onChangeText={handleChange('lama_pinjam')}
-                    onBlur={handleBlur('lama_pinjam')}
-                    value={values.lama_pinjam}
-                    mode="outlined"
-                    label="Status"
-                    returnKeyType="next"
-                  />
+
                   <TextInput
                     style={styles.space}
                     onChangeText={handleChange('status')}
                     onBlur={handleBlur('status')}
                     value={values.status}
                     mode="outlined"
-                    label="Judul Buku"
+                    label="Status"
                     autoCapitalize="none"
-                    returnKeyType="done"
+                    returnKeyType="next"
                   />
-                  {/* <TextInput
-                    style={styles.space}
-                    onChangeText={handleChange('judul_buku')}
-                    onBlur={handleBlur('judul_buku')}
-                    value={values.judul_buku}
-                    mode="outlined"
-                    label="Judul Buku"
-                    autoCapitalize="none"
-                    returnKeyType="done"
-                  /> */}
                   <Button
                     mode="contained"
                     style={[styles.space, styles.btnSave]}

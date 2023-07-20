@@ -7,13 +7,13 @@ const styles = StyleSheet.create({
     // padding: aspectRatio(20),
   },
   topBody: {
-    flex: 1,
+    // flex: 1,
     paddingHorizontal: 10,
     paddingTop: 10,
   },
   bottomBody: {
     flex: 4,
-    margin:20
+    margin: 20,
   },
   buttonAdd: {
     marginTop: aspectRatio(10),
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     width: '100%',
-    marginBottom:aspectRatio(20)
+    marginBottom: aspectRatio(20),
   },
   space: {
     marginTop: aspectRatio(10),
@@ -49,18 +49,18 @@ const styles = StyleSheet.create({
     color: lightTheme.black,
     marginBottom: aspectRatio(10),
   },
-  textHead:{
-    margin:6,
-    fontSize:15,
-    fontWeight:'bold'
+  textHead: {
+    margin: 6,
+    fontSize: 15,
+    fontWeight: 'bold',
   },
-  text:{
-    margin:6
+  text: {
+    margin: 6,
   },
-  head:{
-    height:40,
-    backgroundColor:'#f1f8ff'
-  }
+  head: {
+    height: 40,
+    backgroundColor: '#f1f8ff',
+  },
 });
 
 export default styles;

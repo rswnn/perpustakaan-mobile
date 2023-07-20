@@ -55,9 +55,7 @@ const useBook = () => {
       await fetchData();
 
       bottomSheetRef.current?.close();
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 
   const fetchData = useCallback(async () => {

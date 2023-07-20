@@ -32,9 +32,7 @@ export const apiCall = async ({endpoint, header, method, payload}: Option) => {
   try {
     const userToken = AsyncStorage.getItem('token');
     const url = generateBaseUrl(endpoint);
-    console.log(url, 'URLLLL');
-    console.log(endpoint, 'ENDPOINT');
-    console.log(payload, 'PAYLOADSSS');
+
     const accessToken = userToken ? `Bearer ${userToken}` : '';
     const headers = {
       'Content-Type': 'application/json',

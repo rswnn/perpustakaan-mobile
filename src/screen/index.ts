@@ -3,7 +3,7 @@ import BorrowScreen from './Borrow';
 import DashboardScreen from './Dashboard';
 import LoginScreen from './Login';
 import MemberScreen from './Member';
-import ReportScreen from './Report';
+// import ReportScreen from './Report';
 import ReturnScreen from './Return';
 
 export {
@@ -12,6 +12,6 @@ export {
   BookScreen,
   BorrowScreen,
   ReturnScreen,
-  ReportScreen,
+  // ReportScreen,
   MemberScreen,
 };

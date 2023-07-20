@@ -5,11 +5,27 @@ export const addPeminjam = thunkUtils({
   type: 'pinjamen/add',
   endpoint: endpoints.peminjam,
   method: 'POST',
+  onFailed: ({error}) => {
+    if (error) {
+      console.log(error, 'aaa');
+    }
+  },
 });
 
 export const getPeminjam = thunkUtils({
   type: 'pinjamen/list',
   endpoint: `${endpoints.peminjam}?populate=*`,
+  method: 'GET',
+  onFailed: ({error}) => {
+    if (error) {
+      console.log(error, 'aaa');
+    }
+  },
+});
+
+export const getPeminjamWithStatusRent = thunkUtils({
+  type: 'pinjamen/list',
+  endpoint: `${endpoints.peminjam}?filters[status][$eq]=dipinjam`,
   method: 'GET',
   onFailed: ({error}) => {
     if (error) {

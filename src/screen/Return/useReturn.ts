@@ -6,8 +6,8 @@ import {action} from '@store';
 import {DetailBorrowState} from '@interfaces';
 
 const useReturn = () => {
-  const getDetailBorrow = useAppAsyncDispatch(
-    action.DetailBorrow.getPeminjamDetailAction,
+  const getBorrow = useAppAsyncDispatch(
+    action.DetailBorrow.getPeminjamDetailActionWithStatus,
   );
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -15,21 +15,20 @@ const useReturn = () => {
   const [visible, setVisible] = useState<number | null>();
   const {detailBorrows} =
     useTypedSelector<DetailBorrowState>('peminjaman-details');
-  const setReturnBook = useAppAsyncDispatch(
-    action.BorrowAction.updateStatusPeminjamAction,
-  );
+  const [itemId, setItemId] = useState<number | null>();
 
-  const updateStatus = useAppAsyncDispatch(
-    action.DetailBorrow.updateStatusAction,
+  // const {borrows} = useTypedSelector<BorrowState>('peminjamen');
+  const setReturn = useAppAsyncDispatch(
+    action.BorrowAction.updateStatusPeminjamAction,
   );
 
   const snapPoints = useMemo(() => ['25%', '90%'], []);
 
   const openMenu = useCallback((index: number) => setVisible(index), []);
   const closeMenu = useCallback(() => setVisible(null), []);
-
-  const handlePresentModalPress = useCallback(() => {
+  const handlePresentModalPress = useCallback((id: number) => {
     bottomSheetRef.current?.present();
+    setItemId(id);
   }, []);
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
@@ -38,16 +37,17 @@ const useReturn = () => {
   const handleUpdateStatus = useCallback(
     async (id: any) => {
       try {
-        await updateStatus({
+        await setReturn({
           payload: {
             param: id,
+            status: 'dikembalikan',
           },
         });
       } catch (error) {
         console.log(error);
       }
     },
-    [updateStatus],
+    [setReturn],
   );
 
   const onChangeSearch = useCallback(
@@ -55,14 +55,21 @@ const useReturn = () => {
     [],
   );
 
-  const onSubmit = async (param?: any) => {
+  const onSubmit = async (status?: any) => {
     try {
-      await setReturnBook({
-        payload: {data: {...param}},
+      await setReturn({
+        payload: {
+          data: {
+            ...status,
+          },
+          param: itemId,
+        },
       });
       await fetchData();
 
       bottomSheetRef.current?.close();
+
+      setItemId(null);
     } catch (error) {
       console.log(error);
     }
@@ -70,11 +77,11 @@ const useReturn = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      await getDetailBorrow();
+      await getBorrow();
     } catch (error) {
       console.log(error);
     }
-  }, [getDetailBorrow]);
+  }, [getBorrow]);
 
   useEffect(() => {
     fetchData();

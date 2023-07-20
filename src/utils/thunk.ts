@@ -29,8 +29,6 @@ export const thunkUtils = ({
     try {
       const param = _.get(payload, 'payload.param', '');
 
-      console.log(param, 'param');
-
       const response = await apiCall({
         endpoint: `${endpoint}${param}`,
         method,

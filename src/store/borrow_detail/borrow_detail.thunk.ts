@@ -8,8 +8,8 @@ export const addPeminjam = thunkUtils({
 });
 
 export const getPeminjamDetailActionWithStatus = thunkUtils({
-  type: 'peminjaman-details/list',
-  endpoint: `${endpoints.peminjamDetail}?`,
+  type: 'peminjamen/list',
+  endpoint: `${endpoints.peminjamDetail}?populate=deep`,
   method: 'GET',
   onFailed: ({error}) => {
     if (error) {
@@ -31,11 +31,11 @@ export const getPeminjamDetailAction = thunkUtils({
 
 export const updateStatusAction = thunkUtils({
   type: 'peminjaman-details/update',
-  endpoint: endpoints.peminjamDetail,
+  endpoint: endpoints.peminjam,
   method: 'PUT',
   onFailed: ({error}) => {
     if (error) {
-      console.log(error, 'aaa');
+      console.log(error, 'aaaa');
     }
   },
 });

@@ -14,6 +14,7 @@ import useReturn from './useReturn';
 import {Formik} from 'formik';
 import styles from './styles';
 import {DetailBorrowRes} from '@interfaces';
+// import {Borrow} from '@interfaces';
 import {useTypedSelector} from '@hooks';
 
 const ReturnScreen = () => {
@@ -29,11 +30,12 @@ const ReturnScreen = () => {
     closeMenu,
     bottomSheetRef,
     onSubmit,
-    handleUpdateStatus,
+    // handleUpdateStatus,
   } = useReturn();
   // const tes: any = [];
 
   const {loading} = useTypedSelector<DetailBorrowRes>('peminjaman-details');
+  // const {borrows} = use
   const renderLeftListItem = useCallback((props: any) => {
     return <List.Icon {...props} icon="book" />;
   }, []);
@@ -58,57 +60,39 @@ const ReturnScreen = () => {
 
   const renderItem = useCallback(
     ({item, index}: any) => {
-      const rents = item.attributes.peminjaman_id;
-      const books = item.attributes.buku_id;
-      const splitBooks = {
-        ...books,
-      };
-
-      const splitRents = {
-        ...rents,
-      };
-
-      splitRents.data.map((items: any) =>
-        console.log(items.attributes, 'RENTSS'),
-      );
-      splitBooks.data.map((items: any) =>
-        console.log(items.attributes, 'BUKU'),
-      );
+      const books = item.attributes.buku_id.data[0]?.attributes;
+      const rents = item.attributes.peminjaman_id.data[0]?.attributes;
+      const student =
+        item.attributes.peminjaman_id.data[0]?.attributes.nis.data[0]
+          ?.attributes;
+      // console.log(rents?.status, 'STATUS');
+      // console.log(item.id, 'IDDD');
       return (
         <List.Accordion
-          title={`Buku : ${splitBooks.data.map(
-            (items: any) => items.attributes.judul_buku,
-          )}`}
-          description={`Kode Buku : ${splitBooks.data.map(
-            (items: any) => items.attributes.kode_buku,
-          )}`}
+          title={`Buku : ${books?.judul_buku}`}
+          description={`Kode Buku : ${books?.kode_buku}`}
           left={props => renderLeftListItem(props)}
           right={() => renderRightListItem(item, index)}>
           <List.Item
-            title={`Tgl Pinjam : ${splitRents.data.map(
-              (items: any) => items.attributes.tgl_pinjam,
-            )}`}
+            title={`Nama Siswa : ${student?.nama_siswa} - ${student?.nis}`}
           />
-          <List.Item
-            title={`Tgl Pengembalian : ${splitRents.data.map(
-              (items: any) => items.attributes.tgl_kembali,
-            )}`}
-          />
-          <List.Item
-            title={`Lama Pinjam : ${splitRents.data.map(
-              (items: any) => items.attributes.lama_pinjam,
-            )}`}
-          />
-          <Pressable onPress={() => handleUpdateStatus(item.id)}>
+          <List.Item title={`Tgl Pinjam : ${rents?.tgl_pinjam}`} />
+          <List.Item title={`Tgl Pengembalian : ${rents?.tgl_kembali}`} />
+
+          <List.Item title={`Status : ${rents?.status}`} />
+          <Pressable
+            onPress={() =>
+              handlePresentModalPress(item.attributes.peminjaman_id.data[0]?.id)
+            }>
             <List.Icon
               icon="lead-pencil"
-              style={{alignSelf: 'flex-end', marginRight: 30}}
+              style={{alignSelf: 'flex-end', marginRight: 30, marginBottom: 20}}
             />
           </Pressable>
         </List.Accordion>
       );
     },
-    [renderLeftListItem, renderRightListItem, handleUpdateStatus],
+    [renderLeftListItem, renderRightListItem, handlePresentModalPress],
   );
 
   return (
@@ -120,12 +104,12 @@ const ReturnScreen = () => {
             onChangeText={onChangeSearch}
             value={searchQuery}
           />
-          <Button
+          {/* <Button
             style={styles.buttonAdd}
             mode="contained"
             onPress={handlePresentModalPress}>
             Tambah
-          </Button>
+          </Button> */}
         </View>
         <View style={styles.bottomBody}>
           <FlatList
@@ -140,27 +124,30 @@ const ReturnScreen = () => {
           handleSheetChanges={handleSheetChanges}
           style={styles.bottomSheetStyle}>
           <View style={styles.contentContainer}>
-            <Text style={styles.bottomSheetTitle}>Tambah Buku</Text>
+            <Text style={styles.bottomSheetTitle}>Pengembalian Buku</Text>
             <Formik
               initialValues={{
-                nis: '',
-                tglJatuhTempo: '',
-                tglPengembalian: '',
-                judulBuku: '',
+                status: '',
               }}
               onSubmit={onSubmit}>
-              {({handleChange, handleBlur, handleSubmit, values}) => (
+              {({
+                // setFieldValue,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+              }) => (
                 <View style={styles.formWrapper}>
                   <TextInput
                     style={styles.space}
-                    onChangeText={handleChange('nis')}
-                    onBlur={handleBlur('nis')}
-                    value={values.nis}
+                    onChangeText={handleChange('status')}
+                    onBlur={handleBlur('status')}
+                    value={values.status}
                     mode="outlined"
-                    label="NIS"
+                    label="Status"
                     returnKeyType="done"
                   />
-                  <TextInput
+                  {/* <TextInput
                     style={styles.space}
                     onChangeText={handleChange('tglPengembalian')}
                     onBlur={handleBlur('tglPengembalian')}
@@ -187,7 +174,7 @@ const ReturnScreen = () => {
                     label="Judul Buku"
                     returnKeyType="next"
                     autoCapitalize="none"
-                  />
+                  /> */}
                   <Button
                     mode="contained"
                     style={[styles.space, styles.btnSave]}

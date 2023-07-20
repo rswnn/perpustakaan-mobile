@@ -2,7 +2,7 @@ import {useState, useCallback, useMemo, useRef, useEffect} from 'react';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {useTypedSelector, useAppAsyncDispatch} from '@hooks';
 import {action} from '@store';
-import {BookState, BorrowState} from '@interfaces';
+import {BookState, BorrowState, MemberState} from '@interfaces';
 
 const useBorrow = () => {
   const getBorrow = useAppAsyncDispatch(action.BorrowAction.getPeminjam);
@@ -14,6 +14,8 @@ const useBorrow = () => {
   const {borrows} = useTypedSelector<BorrowState>('peminjamen');
   const {books} = useTypedSelector<BookState>('books');
   const deleteBorrow = useAppAsyncDispatch(action.BorrowAction.deletePeminjam);
+  const {member} = useTypedSelector<MemberState>('anggotas');
+  const getMember = useAppAsyncDispatch(action.MemberAction.getMember);
 
   const snapPoints = useMemo(() => ['25%', '90%'], []);
 
@@ -49,32 +51,52 @@ const useBorrow = () => {
   );
 
   const onSubmit = async (param?: any) => {
+    param = {
+      ...param,
+      buku: [param.kode_buku],
+      nis: {
+        disconnect: [],
+        connect: [
+          {
+            id: param.nis,
+            position: {
+              end: true,
+            },
+          },
+        ],
+      },
+    };
+
     try {
       setBorrow({
-        payload: {data: {...param}},
+        payload: {
+          data: {
+            ...param,
+          },
+        },
       });
       fetchData();
 
       bottomSheetRef.current?.close();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const fetchData = useCallback(async () => {
     try {
       await getBorrow();
+      await getMember();
       await getBook();
     } catch (error) {
       console.log(error);
     }
-  }, [getBorrow, getBook]);
+  }, [getBorrow, getBook, getMember]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
   return {
+    member,
     borrows,
     searchQuery,
     visible,

@@ -13,7 +13,7 @@ import {
   BookScreen,
   MemberScreen,
   BorrowScreen,
-  ReportScreen,
+  // ReportScreen,
   ReturnScreen,
 } from '@screen';
 import {StyleSheet, View} from 'react-native';
@@ -30,7 +30,9 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   return (
     <DrawerContentScrollView {...props} contentContainerStyle={styles.flex}>
       <View style={[styles.header, styles.border]}>
-        <Text style={{fontSize:20, textAlign:'right',marginHorizontal:15}}>SMK YPUI</Text>
+        <Text style={{fontSize: 20, textAlign: 'right', marginHorizontal: 15}}>
+          SMK YPUI
+        </Text>
       </View>
       <DrawerItemList {...props} />
       <View style={[styles.flex, styles.border]} />
@@ -50,8 +52,8 @@ const DrawerNavigation = () => {
         return 'Data Peminjaman';
       case 'Return':
         return 'Data Pengembalian';
-      case 'Report':
-        return 'Data Laporan';
+      // case 'Report':
+      //   return 'Data Laporan';
       default:
         return 'Perpustakaan Digital';
     }
@@ -122,13 +124,13 @@ const DrawerNavigation = () => {
           drawerLabel: 'Pengembalian',
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Report"
         component={ReportScreen}
         options={{
           drawerLabel: 'Laporan',
         }}
-      />
+      /> */}
     </Drawer.Navigator>
   );
 };
