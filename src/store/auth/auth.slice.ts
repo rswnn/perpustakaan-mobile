@@ -1,86 +1,71 @@
-import {AuthResponseType, UserType} from '@interfaces';
-import {createSlice} from '@reduxjs/toolkit';
+import {AuthResponseType, AuthStudentType, AuthTeacherType} from '@interfaces';
+import {createSlice, isAnyOf} from '@reduxjs/toolkit';
+import {studentLoginAction, teacherLoginAction} from './auth.thunk';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import isEmpty from 'lodash/isEmpty';
 
 const initialState: AuthResponseType = {
-  jwt: '',
-  user: {} as UserType,
+  user: {
+    nip: {} as AuthTeacherType | null,
+    nis: {} as AuthStudentType | null,
+  },
+  token: '',
+  loginType: '',
   isLoggedIn: false,
+  loading: false,
 };
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setLoginAction: state => {
-      state.isLoggedIn = true;
-    },
     setLogoutAction: state => {
       state.isLoggedIn = false;
     },
   },
+  extraReducers: builder => {
+    // builder.addCase(
+    //   (studentLoginAction.fulfilled, teacherLoginAction.fulfilled),
+    //   (state, action) => {
+    //     console.log(action.payload, 'STUDENT ACTION');
+    //     state.loading = false;
+    //     state.token = action.payload.data.token;
+    //     state.user = action.payload.user as AuthStudentType | AuthTeacherType;
+    //     AsyncStorage.setItem('token', action.payload.data.token);
+    //     state.isLoggedIn = !isEmpty(action.payload.data.token);
+    //   },
+    // );
+    builder.addCase(
+      studentLoginAction.pending || teacherLoginAction.pending,
+      state => {
+        state.loading = true;
+      },
+    );
+
+    builder.addCase(
+      studentLoginAction.rejected || teacherLoginAction.fulfilled,
+      state => {
+        state.error = 'Terjadi kesalahan';
+        state.loading = false;
+      },
+    );
+    builder.addMatcher(
+      isAnyOf(studentLoginAction.fulfilled, teacherLoginAction.fulfilled),
+      (state, action) => {
+        console.log(action, 'KONTOL');
+        state.loading = false;
+        state.token = action.payload.data.token;
+        state.loginType = action.payload.payload.loginType;
+        (state.user = {
+          nip: action.payload.data?.nip as AuthTeacherType,
+          nis: action.payload.data?.nis as AuthStudentType,
+          // eslint-disable-next-line no-sequences
+        }),
+          AsyncStorage.setItem('token', action.payload.data.token);
+        state.isLoggedIn = !isEmpty(action.payload.data.token);
+      },
+    );
+  },
 });
 
-export const {setLoginAction, setLogoutAction} = authSlice.actions;
-
-// import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-// import {
-//   getVendorsAction, addVendorAction, updateVendorAction, deleteVendorAction, searchVendorsAction
-// } from './roleConfigThunk';
-// import { ResponseStatus } from 'interface';
-// import _ from 'lodash';
-
-// const initialState = {
-//   vendors: [],
-//   tempVendor: [],
-//   loading: false,
-//   error: {}
-// };
-
-// export const vendorSlice = createSlice( {
-//   name: 'vendors',
-//   initialState,
-//   reducers: {
-//     resetVendorAction: state => {
-//       state.vendors = state.tempVendor;
-//     }
-//   },
-//   extraReducers: builder => {
-//     builder.addCase( getVendorsAction.fulfilled, ( state, action ) => {
-//       state.loading = false;
-//       state.vendors = action.payload.data as any;
-//       state.tempVendor = action.payload.data as any;
-//     } );
-//     builder.addCase( searchVendorsAction.fulfilled, ( state, action ) => {
-//       state.loading = false;
-//       const query = action.payload.queryParam?.query as string;
-//       if ( !_.isEmpty( query ) ) {
-//         state.vendors = action.payload.data as any;
-//       } else {
-//         state.vendors = state.tempVendor as any;
-//       }
-//     } );
-//     builder.addCase( addVendorAction.fulfilled, state => {
-//       state.loading = false;
-//     } );
-//     builder.addCase( updateVendorAction.fulfilled, state => {
-//       state.loading = false;
-//     } );
-//     builder.addCase( deleteVendorAction.fulfilled, state => {
-//       state.loading = false;
-//     } );
-//     builder.addMatcher(
-//       isAnyOf( updateVendorAction.rejected, getVendorsAction.rejected,
-//         addVendorAction.rejected, deleteVendorAction.rejected, searchVendorsAction.rejected ), ( state, action ) => {
-//         state.loading = false;
-//         state.error = action.payload as ResponseStatus;
-//       } );
-//     builder.addMatcher(
-//       isAnyOf( updateVendorAction.pending, getVendorsAction.pending,
-//         addVendorAction.pending, deleteVendorAction.pending, searchVendorsAction.pending ), state => {
-//         state.loading = true;
-//         state.error = initialState.error;
-//       } );
-//   }
-// } );
-
-// export const { resetVendorAction } = vendorSlice.actions;
+export const {setLogoutAction} = authSlice.actions;

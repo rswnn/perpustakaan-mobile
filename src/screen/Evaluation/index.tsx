@@ -1,12 +1,12 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 
-const BorrowScreen = () => {
+const EvaluationScreen = () => {
   return (
     <View>
-      <Text>BorrowScreen</Text>
+      <Text>Evaluation Screen</Text>
     </View>
   );
 };
 
-export default BorrowScreen;
+export default EvaluationScreen;

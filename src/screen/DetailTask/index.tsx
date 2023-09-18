@@ -1,12 +1,12 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 
-const MemberScreen = () => {
+const DetailTask = () => {
   return (
     <View>
-      <Text>MemberScreen</Text>
+      <Text>DetailTask</Text>
     </View>
   );
 };
 
-export default MemberScreen;
+export default DetailTask;

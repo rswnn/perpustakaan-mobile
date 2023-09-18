@@ -7,7 +7,7 @@ import {
   DrawerContentComponentProps,
 } from '@react-navigation/drawer';
 
-import {DashboardScreen, BookScreen} from '@screen';
+import {DashboardScreen} from '@screen';
 import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
 import {useAppDispatch} from '@hooks';
@@ -20,7 +20,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   return (
     <DrawerContentScrollView {...props} contentContainerStyle={styles.flex}>
       <View style={[styles.header, styles.border]}>
-        <Text>SMK CISEENG</Text>
+        <Text>PG ALAMANAH</Text>
       </View>
       <DrawerItemList {...props} />
       <View style={[styles.flex, styles.border]} />
@@ -41,7 +41,7 @@ const DrawerNavigation = () => {
           drawerLabel: 'Dashboard',
         }}
       />
-      <Drawer.Screen name="Book" component={BookScreen} />
+      {/* <Drawer.Screen name="Book" component={BookScreen} /> */}
     </Drawer.Navigator>
   );
 };

@@ -6,6 +6,8 @@ import {LoginScreen} from '@screen';
 import DrawerNavigation from './drawer';
 import {useTypedSelector} from '@hooks';
 import {AuthResponseType} from '@interfaces';
+import {SurahList} from '@screen';
+import {StudentList} from '@screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +16,14 @@ const RootNavigation = () => {
 
   const renderProtectedRoute = React.useMemo(() => {
     if (isLoggedIn) {
-      return <Stack.Screen name="Main" component={DrawerNavigation} />;
+      return (
+        <>
+          <Stack.Screen name="Main" component={DrawerNavigation} />
+          <Stack.Screen name="surahLists" component={SurahList} />
+          <Stack.Screen name="studentLists" component={StudentList} />
+        </>
+        // <Stack.Screen name="surahLists" component={DrawerNavigation} />
+      );
     }
     return <Stack.Screen name="Login" component={LoginScreen} />;
   }, [isLoggedIn]);

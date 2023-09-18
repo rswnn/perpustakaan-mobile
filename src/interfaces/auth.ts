@@ -1,15 +1,27 @@
 export interface AuthResponseType {
-  jwt: string;
-  user: UserType;
+  token: string;
+  user: {
+    nip: AuthTeacherType | null;
+    nis: AuthStudentType | null;
+  };
   isLoggedIn?: boolean;
+  loading: boolean;
+  loginType: string;
+  error?: any;
 }
-export interface UserType {
-  id: number;
-  username: string;
-  email: string;
-  provider: string;
-  confirmed: boolean;
-  blocked: boolean;
-  createdAt: string;
-  updatedAt: string;
+
+export interface AuthStudentType {
+  nis: string;
+  fullName: string;
+  gender: string;
+  alamat: string;
+  // loginType: string;
+}
+
+export interface AuthTeacherType {
+  nip: string;
+  fullName: string;
+  gender: string;
+  alamat: string;
+  // loginType: string;
 }

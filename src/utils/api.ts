@@ -30,8 +30,12 @@ const generateBaseUrl = (endpoint: string, customBaseUrl?: string) => {
 
 export const apiCall = async ({endpoint, header, method, payload}: Option) => {
   try {
-    const userToken = AsyncStorage.getItem('token');
+    const userToken = await AsyncStorage.getItem('token');
     const url = generateBaseUrl(endpoint);
+
+    console.log(url, ' KKKKKKK');
+    console.log(endpoint, ' ENDPOINT');
+    console.log(payload, 'PAYLOADSS');
 
     const accessToken = userToken ? `Bearer ${userToken}` : '';
     const headers = {
@@ -40,6 +44,7 @@ export const apiCall = async ({endpoint, header, method, payload}: Option) => {
       authorization: accessToken,
       ...header,
     };
+    // console.log(headers, 'HEADERS BLOGGGGGG');
     const response = await fetch(url, {
       method: method,
       headers,

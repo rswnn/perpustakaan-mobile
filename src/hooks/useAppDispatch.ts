@@ -34,8 +34,9 @@ const useAppAsyncDispatch = <T>(action: AsyncThunk<any, any, any>) => {
   const unwrap = useUnwrapAsyncThunk();
 
   return useCallback(
-    (params?: any | T) =>
-      unwrap(action({...params}) as AsyncThunkAction<any, any, any>),
+    (params?: any | T) => {
+      unwrap(action({...params}) as AsyncThunkAction<any, any, any>);
+    },
     [unwrap, action],
   );
 };
