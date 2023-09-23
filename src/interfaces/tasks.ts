@@ -8,9 +8,13 @@ export interface TaskState {
 }
 
 export interface Task {
-  id: string;
-  attributes: TaskType;
-  loading: boolean;
+  id: number;
+  category_id: number;
+  createdAt: string;
+  image_media: string;
+  media_reader: string;
+  title: string;
+  updatedAt: string;
 }
 
 export interface TaskType {

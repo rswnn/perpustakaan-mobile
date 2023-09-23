@@ -10,6 +10,6 @@ export const getTaskAction = thunkUtils({
 
 export const getTaskByIdAction = thunkUtils({
   type: 'hafalan/login',
-  endpoint: `${endpoints.task}list-hafalan/`,
+  endpoint: `${endpoints.task}`,
   method: 'GET',
 });

@@ -10,6 +10,6 @@ export const getCategoryAction = thunkUtils({
 
 export const getCategoryByIdAction = thunkUtils({
   type: 'category/list',
-  endpoint: `${endpoints.category}/id`,
+  endpoint: `${endpoints.task}`,
   method: 'GET',
 });

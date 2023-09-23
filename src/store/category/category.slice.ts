@@ -27,17 +27,15 @@ export const categorySlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(getCategoryAction.fulfilled, (state, action) => {
-      console.log(action.payload, 'ACTION CATEGORY');
-      state.loadingCategory.get = false;
-      state.categories = action.payload.data;
-    });
-    builder.addMatcher(isAnyOf(getCategoryAction.rejected), (state, action) => {
-      console.log(action, 'LAlALLALAL');
+    builder.addMatcher(
+      isAnyOf(getCategoryAction.rejected, getCategoryByIdAction.rejected),
+      (state, action) => {
+        console.log(action, 'LAlALLALAL');
 
-      state.loadingCategory = {...initialState.loadingCategory};
-      state.error = action.payload as ResponseStatus;
-    });
+        state.loadingCategory = {...initialState.loadingCategory};
+        state.error = action.payload as ResponseStatus;
+      },
+    );
 
     builder.addMatcher(isAnyOf(getCategoryAction.pending), (state, action) => {
       state.loadingCategory = {
@@ -50,6 +48,14 @@ export const categorySlice = createSlice({
       };
       state.error = initialState.error;
     });
+    builder.addMatcher(
+      isAnyOf(getCategoryAction.fulfilled, getCategoryByIdAction.fulfilled),
+      (state, action) => {
+        console.log(action.payload, 'ACTION CATEGORY');
+        state.loadingCategory.get = false;
+        state.categories = action.payload.data;
+      },
+    );
   },
 });
 

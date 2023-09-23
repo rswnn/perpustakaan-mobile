@@ -1,30 +1,22 @@
 /* eslint-disable react/react-in-jsx-scope */
-// import {useTheme} from '@react-navigation/native';
 import {useCallback, useEffect, useState} from 'react';
-// import {useState} from 'react';
-import {
-  // Text,
-  View,
-  StyleSheet,
-  Text,
-  // ScrollView,
-  // RefreshControl,
-  // BackHandler,
-  // Alert,
-  // BackHandler,
-  // Alert,
-} from 'react-native';
-// import {ButtonCustom} from '@components';
-// import ButtonStyled from '../components/ButtonStyled';
-// import {TextCustom} from '@components';
+import {View, StyleSheet, Text} from 'react-native';
+
 import {action} from '@store';
 import {useTypedSelector, useAppAsyncDispatch} from '@hooks';
-import {AuthResponseType, CategoryState, ClassroomState} from '@interfaces';
+import {
+  AuthResponseType,
+  CategoryState,
+  ClassroomState,
+  TaskState,
+} from '@interfaces';
 import {ButtonCustom, TextCustom} from '@components';
 import {FlatList} from 'react-native-gesture-handler';
+import _ from 'lodash';
 
 const {CategoryAction} = action;
 const {Classroom} = action;
+const {TaskAction} = action;
 
 const Dashboard = (props: any) => {
   const getCategory = useAppAsyncDispatch(CategoryAction.getCategoryAction);
@@ -32,15 +24,19 @@ const Dashboard = (props: any) => {
   const getStudentByClassCode = useAppAsyncDispatch(
     Classroom.getClassroomByKodeKelasAction,
   );
-  // const get = useAppAsyncDispatch(Classroom.getClassroomAction);
   const getClassroomByNip = useAppAsyncDispatch(
     Classroom.getClassroomByNipAction,
   );
 
+  const getSuratByCategoryId = useAppAsyncDispatch(
+    TaskAction.getTaskByIdAction,
+  );
   const user = useTypedSelector<AuthResponseType>('auth');
   const {categories} = useTypedSelector<CategoryState>('category');
+  const {tasks} = useTypedSelector<TaskState>('hafalan');
   const {classroom} = useTypedSelector<ClassroomState>('classRoom');
   const [refresh, setRefresh] = useState(false);
+  const [renderSurah, setRenderSurah] = useState(false);
 
   const fetchData = useCallback(() => {
     if (!user?.token) {
@@ -68,12 +64,11 @@ const Dashboard = (props: any) => {
   }, [fetchData]);
 
   const handlePressClass = async (value: any) => {
-    const classCode = value[0]?.kode_kelas;
-    console.log(classCode, 'KSNSK');
     try {
       getStudentByClassCode({
-        token: user?.token,
-        classCode: value?.kode_kelas,
+        payload: {
+          param: value[0]?.kode_kelas,
+        },
       });
       console.log(value, 'VALUE');
     } catch (error) {
@@ -81,10 +76,14 @@ const Dashboard = (props: any) => {
     }
   };
 
-  const handlePressCategoryList = (value: any) => {
-    console.log(value, 'VALUE HANDLER PRESS CATEGORY LIST ERROR');
+  const handlePressCategoryList = async (value: any) => {
     try {
-      props.navigation.navigate('surahLists', {data: value});
+      await getSuratByCategoryId({
+        payload: {
+          param: value[0]?.id,
+        },
+      });
+      setRenderSurah(!renderSurah);
     } catch (error) {
       console.log(error, 'HANDLER PRESS CATEGORY LIST ERROR');
     }
@@ -99,53 +98,76 @@ const Dashboard = (props: any) => {
     }
   };
 
-  return (
-    <View style={[styles.center, styles.flex, styles.container]}>
-      <View style={styles.containerListButton}>
-        <View style={styles.innerContainer}>
-          {user?.loginType === 'guru' ? (
-            classroom !== null ? (
-              <FlatList
-                data={classroom}
-                refreshing={refresh}
-                onRefresh={() => onRefresh()}
-                renderItem={({item}) => (
-                  <ButtonCustom
-                    style={styles.button}
-                    onPress={() => handlePressClass(classroom)}
-                    key={item.kode_kelas}>
-                    <TextCustom>{item.nama_kelas}</TextCustom>
-                  </ButtonCustom>
-                )}
-                keyExtractor={item => item.kode_kelas}
-              />
-            ) : (
-              <View>
-                <Text style={styles.title}>Data Tidak Ditemukan</Text>
-              </View>
-            )
-          ) : categories !== null ? (
+  const renderContent = () => {
+    if (renderSurah) {
+      return (
+        <FlatList
+          data={tasks}
+          refreshing={refresh}
+          onRefresh={() => onRefresh()}
+          renderItem={({item}) => (
+            <ButtonCustom
+              style={styles.button}
+              key={item.id}
+              onPress={() => handlePressCategoryList(tasks)}>
+              <TextCustom>{item.title}</TextCustom>
+            </ButtonCustom>
+          )}
+          keyExtractor={item => item.title}
+        />
+      );
+    }
+
+    return (
+      <View style={styles.innerContainer}>
+        {user?.loginType === 'guru' ? (
+          classroom !== null ? (
             <FlatList
-              data={categories}
+              data={classroom}
               refreshing={refresh}
               onRefresh={() => onRefresh()}
               renderItem={({item}) => (
                 <ButtonCustom
                   style={styles.button}
-                  key={item.id}
-                  onPress={() => handlePressCategoryList(categories)}>
-                  <TextCustom>{item.category_name}</TextCustom>
+                  onPress={() => handlePressClass(classroom)}
+                  key={item.kode_kelas}>
+                  <TextCustom>{item.nama_kelas}</TextCustom>
                 </ButtonCustom>
               )}
-              keyExtractor={item => item.category_name}
+              keyExtractor={item => item.kode_kelas}
             />
           ) : (
             <View>
               <Text style={styles.title}>Data Tidak Ditemukan</Text>
             </View>
-          )}
-        </View>
+          )
+        ) : categories !== null ? (
+          <FlatList
+            data={categories}
+            refreshing={refresh}
+            onRefresh={() => onRefresh()}
+            renderItem={({item}) => (
+              <ButtonCustom
+                style={styles.button}
+                key={item.id}
+                onPress={() => handlePressCategoryList(categories)}>
+                <TextCustom>{item.category_name}</TextCustom>
+              </ButtonCustom>
+            )}
+            keyExtractor={item => item.category_name}
+          />
+        ) : (
+          <View>
+            <Text style={styles.title}>Data Tidak Ditemukan</Text>
+          </View>
+        )}
       </View>
+    );
+  };
+
+  return (
+    <View style={[styles.center, styles.flex, styles.container]}>
+      <View style={styles.containerListButton}>{renderContent()}</View>
     </View>
   );
 };

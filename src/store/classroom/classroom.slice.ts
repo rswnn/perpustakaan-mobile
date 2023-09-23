@@ -70,7 +70,6 @@ export const classroomSlice = createSlice({
     builder.addMatcher(
       isAnyOf(getClassroomByKodeKelasAction.fulfilled),
       (state, action) => {
-        // console.log(action.payload, 'ACTION CLASS');
         state.loadingClass.get = false;
         state.classroom = action.payload.data;
       },
