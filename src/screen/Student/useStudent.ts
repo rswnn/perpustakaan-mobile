@@ -1,37 +1,27 @@
-import {useState, useCallback, useMemo, useEffect} from 'react';
-// import {BottomSheetModal} from '@gorhom/bottom-sheet';
+import {useState, useCallback, useEffect} from 'react';
 import {useTypedSelector, useAppAsyncDispatch} from '@hooks';
 import {action} from '@store';
 import {StudentState} from '@interfaces';
 
-const useMember = () => {
+const useStudent = () => {
   const getStudent = useAppAsyncDispatch(action.StudentAction.getStudentAction);
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const [visible, setVisible] = useState<number | null>();
-  const {student} = useTypedSelector<StudentState>('student');
-  // const {categories} = useTypedSelector<CategoryState>('categories');
-
-  const snapPoints = useMemo(() => ['25%', '90%'], []);
-
-  const openMenu = useCallback((index: number) => setVisible(index), []);
-  const closeMenu = useCallback(() => setVisible(null), []);
-
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
-
-  const onChangeSearch = useCallback(
-    (query: string) => setSearchQuery(query),
-    [],
+  const getStudentByClassCode = useAppAsyncDispatch(
+    action.StudentAction.getStudentByClasscode,
   );
 
-  const onSubmit = async (param?: any) => {
-    console.log(param, 'PARAM');
+  const {student} = useTypedSelector<StudentState>('student');
+  const [renderStudent, setRenderStudent] = useState(false);
+
+  const handlePressClassTogetStudent = async (value: any) => {
     try {
-      // bottomSheetRef.current?.close();
+      await getStudentByClassCode({
+        payload: {
+          param: value[0]?.kode_kelas,
+        },
+      });
+      console.log(value, 'VALUE');
     } catch (error) {
-      console.log(error);
+      console.log(error, 'HANDLE PRESS CLASS ERROR');
     }
   };
 
@@ -49,15 +39,10 @@ const useMember = () => {
 
   return {
     student,
-    searchQuery,
-    visible,
-    snapPoints,
-    handleSheetChanges,
-    onChangeSearch,
-    openMenu,
-    closeMenu,
-    onSubmit,
+    renderStudent,
+    setRenderStudent,
+    handlePressClassTogetStudent,
   };
 };
 
-export default useMember;
+export default useStudent;

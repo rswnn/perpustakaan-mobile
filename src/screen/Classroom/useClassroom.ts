@@ -1,35 +1,32 @@
-import {useState, useCallback, useMemo, useEffect} from 'react';
-// import {BottomSheetModal} from '@gorhom/bottom-sheet';
+import {useCallback, useEffect, useState} from 'react';
 import {useTypedSelector, useAppAsyncDispatch} from '@hooks';
 import {action} from '@store';
 import {ClassroomState} from '@interfaces';
 
-const useMember = () => {
-  const getClassroom = useAppAsyncDispatch(action.Classroom.getClassroomAction);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [visible, setVisible] = useState<number | null>();
-  const {classroom} = useTypedSelector<ClassroomState>('classroom');
-
-  const snapPoints = useMemo(() => ['25%', '90%'], []);
-
-  const openMenu = useCallback((index: number) => setVisible(index), []);
-  const closeMenu = useCallback(() => setVisible(null), []);
+const useClassroom = () => {
+  const getClassroom = useAppAsyncDispatch(
+    action.ClassroomAction.getClassroomAction,
+  );
+  const getClassroomByKodeKelas = useAppAsyncDispatch(
+    action.ClassroomAction.getClassroomByKodeKelasAction,
+  );
+  const {classroom} = useTypedSelector<ClassroomState>('classRoom');
 
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
   }, []);
+  const [renderClassroom, setRenderClassroom] = useState(false);
 
-  const onChangeSearch = useCallback(
-    (query: string) => setSearchQuery(query),
-    [],
-  );
-
-  const onSubmit = async (param?: any) => {
-    console.log(param, 'PARAM');
+  const handlePressClassCode = async (value: any) => {
     try {
-      // bottomSheetRef.current?.close();
+      await getClassroomByKodeKelas({
+        payload: {
+          param: value[0]?.id,
+        },
+      });
+      setRenderClassroom(!renderClassroom);
     } catch (error) {
-      console.log(error);
+      console.log(error, 'HANDLER PRESS CATEGORY LIST ERROR');
     }
   };
 
@@ -47,15 +44,11 @@ const useMember = () => {
 
   return {
     classroom,
-    searchQuery,
-    visible,
-    snapPoints,
+    renderClassroom,
+    setRenderClassroom,
+    handlePressClassCode,
     handleSheetChanges,
-    onChangeSearch,
-    openMenu,
-    closeMenu,
-    onSubmit,
   };
 };
 
-export default useMember;
+export default useClassroom;

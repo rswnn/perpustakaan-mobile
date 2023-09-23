@@ -17,7 +17,6 @@ const LoginScreen = () => {
   const setLoginTeacher = useAppAsyncDispatch(AuthAction.teacherLoginAction);
 
   const onSubmit = async (param?: any) => {
-    console.log(param, 'PARAM PARAM');
     try {
       if (param.loginType === 'guru') {
         await setLoginTeacher({

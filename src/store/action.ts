@@ -3,7 +3,7 @@ import * as CategoryAction from './category';
 import * as EvaluationAction from './evaluation';
 import * as TeacherAction from './teacher';
 import * as StudentAction from './student';
-import * as Classroom from './classroom';
+import * as ClassroomAction from './classroom';
 import * as TaskAction from './task';
 
 export default {
@@ -12,6 +12,6 @@ export default {
   EvaluationAction,
   TeacherAction,
   StudentAction,
-  Classroom,
+  ClassroomAction,
   TaskAction,
 };

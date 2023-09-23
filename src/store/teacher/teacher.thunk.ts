@@ -10,6 +10,12 @@ import {thunkUtils} from '@utils';
 
 export const getTeacherAction = thunkUtils({
   type: 'teacher/list',
-  endpoint: endpoints.teacher,
+  endpoint: `${endpoints.teacher}list`,
+  method: 'GET',
+});
+
+export const getTeacherByNipAction = thunkUtils({
+  type: 'teacher/list',
+  endpoint: `${endpoints.teacher}list/`,
   method: 'GET',
 });

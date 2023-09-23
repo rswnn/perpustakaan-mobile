@@ -1,74 +1,46 @@
 /* eslint-disable react/react-in-jsx-scope */
 // import {useTheme} from '@react-navigation/native';
-import {useEffect, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  RefreshControl,
-} from 'react-native';
-import {action} from '@store';
-import {useAppAsyncDispatch, useTypedSelector} from '@hooks';
-import {StudentState} from '@interfaces';
+import {useState} from 'react';
+import {View, StyleSheet} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
+import useStudent from './useStudent';
+import {ButtonCustom, TextCustom} from '@components';
 
-const {StudentAction} = action;
-
-const StudentList = (props: any) => {
-  // const theme = useTheme();
+const StudentScreen = () => {
+  const {handlePressClassTogetStudent, student, renderStudent} = useStudent();
   const [refresh, setRefresh] = useState(false);
-  const getStudent = useAppAsyncDispatch(StudentAction.getStudentAction);
 
-  const {student} = useTypedSelector<StudentState>('student');
-
-  const handlePress = (value: any) => {
-    props.navigation.navigate('studentDetail', {data: value});
-  };
-
-  useEffect(() => {
+  const onRefresh = async () => {
     try {
-      getStudent();
+      await setRefresh(true);
     } catch (error) {
-      console.log(error, 'DDD');
+      console.log(error, 'ON REFRESH ERROR');
     }
-  }, [getStudent]);
-
-  const onRefresh = () => {
-    setRefresh(true);
-    setTimeout(() => {
-      setRefresh(false);
-    }, 2000);
   };
 
-  return (
-    <View>
-      {student !== null ? (
+  const renderContent = () => {
+    if (renderStudent) {
+      return (
         <FlatList
           data={student}
-          renderItem={({item}) => (
-            <TouchableOpacity
-              key={item.nis}
-              onPress={() => handlePress(item)}
-              style={[styles.container]}>
-              <Text style={styles.nameText} />
-            </TouchableOpacity>
-          )}
-          keyExtractor={item => item.nis}
-          // refreshing={refresh}
-          refreshControl={
-            <RefreshControl
-              refreshing={refresh}
-              onRefresh={() => onRefresh()}
-            />
-          }
+          refreshing={refresh}
           onRefresh={() => onRefresh()}
+          renderItem={({item}) => (
+            <ButtonCustom
+              style={styles.button}
+              key={item.attributes.nis}
+              onPress={() => handlePressClassTogetStudent(student)}>
+              <TextCustom>{item.attributes.fullName}</TextCustom>
+            </ButtonCustom>
+          )}
+          keyExtractor={item => item.attributes.fullName}
         />
-      ) : (
-        <View>
-          <Text>Data Tidak Ditemukan</Text>
-        </View>
-      )}
+      );
+    }
+  };
+  return (
+    <View style={[styles.center, styles.flex, styles.container]}>
+      <View style={styles.containerListButton}>{renderContent()}</View>
     </View>
   );
 };
@@ -76,22 +48,44 @@ const StudentList = (props: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    padding: 10,
-    marginHorizontal: 10,
-    // borderBottomColor: 'black',
-    borderBottomWidth: 1,
+    // backgroundColor: 'red'
   },
-  nameText: {
-    fontWeight: 'bold',
-    color: 'black',
+  containerTitle: {
+    height: 100,
   },
-  centerFlex: {
+  flex: {
     flex: 1,
-    // backgroundColor: 'blue',
+  },
+  center: {
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  title: {
+    color: 'black',
+    fontWeight: '500',
+    fontSize: 16,
+  },
+  containerListButton: {
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  innerContainer: {
+    width: '80%',
+  },
+  containerButton: {
+    width: '100%',
+    marginTop: 10,
+    // marginBottom: 10,
+  },
+  button: {
+    flex: 1,
+    marginVertical: 5,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 30,
+  },
 });
 
-export default StudentList;
+export default StudentScreen;

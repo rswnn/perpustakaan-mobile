@@ -1,35 +1,29 @@
-import {useState, useCallback, useMemo, useEffect} from 'react';
-// import {BottomSheetModal} from '@gorhom/bottom-sheet';
+import {useState, useCallback, useEffect} from 'react';
 import {useTypedSelector, useAppAsyncDispatch} from '@hooks';
 import {action} from '@store';
 import {TeacherState} from '@interfaces';
 
-const useMember = () => {
+const useTeacher = () => {
   const getTeacher = useAppAsyncDispatch(action.TeacherAction.getTeacherAction);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [visible, setVisible] = useState<number | null>();
-  const {teacher} = useTypedSelector<TeacherState>('teacher');
-
-  const snapPoints = useMemo(() => ['25%', '90%'], []);
-
-  const openMenu = useCallback((index: number) => setVisible(index), []);
-  const closeMenu = useCallback(() => setVisible(null), []);
-
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
-
-  const onChangeSearch = useCallback(
-    (query: string) => setSearchQuery(query),
-    [],
+  const getTeacherByNip = useAppAsyncDispatch(
+    action.TeacherAction.getTeacherByNipAction,
   );
 
-  const onSubmit = async (param?: any) => {
-    console.log(param, 'PARAM');
+  const {teacher} = useTypedSelector<TeacherState>('teacher');
+  const [renderTeacher, setRenderTeacher] = useState(false);
+
+  // const fetchData = await
+
+  const handlePressTeacherById = async (value: any) => {
     try {
-      // bottomSheetRef.current?.close();
+      await getTeacherByNip({
+        payload: {
+          param: value[0]?.nip,
+        },
+      });
+      console.log(value, 'VALUE');
     } catch (error) {
-      console.log(error);
+      console.log(error, 'HANDLE PRESS CLASS ERROR');
     }
   };
 
@@ -47,15 +41,10 @@ const useMember = () => {
 
   return {
     teacher,
-    searchQuery,
-    visible,
-    snapPoints,
-    handleSheetChanges,
-    onChangeSearch,
-    openMenu,
-    closeMenu,
-    onSubmit,
+    renderTeacher,
+    setRenderTeacher,
+    handlePressTeacherById,
   };
 };
 
-export default useMember;
+export default useTeacher;

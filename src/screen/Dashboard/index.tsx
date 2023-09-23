@@ -28,15 +28,13 @@ const Dashboard = (props: any) => {
     Classroom.getClassroomByNipAction,
   );
 
-  const getSuratByCategoryId = useAppAsyncDispatch(
-    TaskAction.getTaskByIdAction,
-  );
+  const getTaskByCategoryId = useAppAsyncDispatch(TaskAction.getTaskByIdAction);
   const user = useTypedSelector<AuthResponseType>('auth');
   const {categories} = useTypedSelector<CategoryState>('category');
   const {tasks} = useTypedSelector<TaskState>('hafalan');
   const {classroom} = useTypedSelector<ClassroomState>('classRoom');
   const [refresh, setRefresh] = useState(false);
-  const [renderSurah, setRenderSurah] = useState(false);
+  const [renderTask, setRenderTask] = useState(false);
 
   const fetchData = useCallback(() => {
     if (!user?.token) {
@@ -65,7 +63,7 @@ const Dashboard = (props: any) => {
 
   const handlePressClass = async (value: any) => {
     try {
-      getStudentByClassCode({
+      await getStudentByClassCode({
         payload: {
           param: value[0]?.kode_kelas,
         },
@@ -78,12 +76,12 @@ const Dashboard = (props: any) => {
 
   const handlePressCategoryList = async (value: any) => {
     try {
-      await getSuratByCategoryId({
+      await getTaskByCategoryId({
         payload: {
           param: value[0]?.id,
         },
       });
-      setRenderSurah(!renderSurah);
+      setRenderTask(!renderTask);
     } catch (error) {
       console.log(error, 'HANDLER PRESS CATEGORY LIST ERROR');
     }
@@ -99,7 +97,7 @@ const Dashboard = (props: any) => {
   };
 
   const renderContent = () => {
-    if (renderSurah) {
+    if (renderTask) {
       return (
         <FlatList
           data={tasks}

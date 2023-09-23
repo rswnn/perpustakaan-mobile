@@ -1,43 +1,42 @@
 /* eslint-disable react/react-in-jsx-scope */
-import {useCallback, useEffect} from 'react';
+// import {useCallback, useEffect} from 'react';
 import {useState} from 'react';
-import {View, StyleSheet, RefreshControl} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {ButtonCustom} from '@components';
 import {TextCustom} from '@components';
-import {AuthResponseType, TaskState} from '@interfaces';
+import {AuthResponseType} from '@interfaces';
 import {useAppAsyncDispatch, useTypedSelector} from '@hooks';
 import {action} from '@store';
 import {FlatList} from 'react-native-gesture-handler';
+import useTask from './useTask';
 
 const {TaskAction} = action;
 
-const SurahList = (props: any) => {
+const TaskScreen = () => {
+  const {handlePressCategoryList, renderTask, tasks} = useTask();
   const user = useTypedSelector<AuthResponseType>('auth');
-  const {tasks} = useTypedSelector<TaskState>('hafalan');
-  // const getTask = useAppAsyncDispatch(TaskAction.getTaskAction);
   const getTaskById = useAppAsyncDispatch(TaskAction.getTaskByIdAction);
   const [refresh, setRefresh] = useState(false);
 
-  // fetching datas
-  const fetchData = useCallback(async () => {
-    if (!user?.token) {
-      props.navigation.navigate('login');
+  const renderContent = () => {
+    if (renderTask) {
+      return (
+        <FlatList
+          data={tasks}
+          refreshing={refresh}
+          onRefresh={() => onRefresh()}
+          renderItem={({item}) => (
+            <ButtonCustom
+              style={styles.button}
+              key={item.id}
+              onPress={() => handlePressCategoryList(tasks)}>
+              <TextCustom>{item.title}</TextCustom>
+            </ButtonCustom>
+          )}
+          keyExtractor={item => item.title}
+        />
+      );
     }
-    // getTask();
-    getTaskById({
-      token: user?.token,
-      id: props?.route?.params.data.id,
-    });
-  }, [
-    user?.token,
-    getTaskById,
-    props?.route?.params.data.id,
-    props.navigation,
-  ]);
-
-  const handlePressSurah = (value: any) => {
-    console.log(value, 'VALUE HAFALAN SCREEN');
-    props.navigation.navigate('hafalanScreen', {data: value});
   };
 
   const onRefresh = () => {
@@ -48,50 +47,32 @@ const SurahList = (props: any) => {
       console.log(error, 'ON REFRESH ERROR');
     }
   };
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
   return (
-    <View style={[styles.center, styles.flex]}>
-      <View style={styles.containerListButton}>
-        <View style={styles.innerContainer}>
-          {tasks !== null ? (
-            <FlatList
-              data={tasks}
-              refreshControl={
-                <RefreshControl
-                  refreshing={refresh}
-                  onRefresh={() => onRefresh()}
-                />
-              }
-              onRefresh={() => onRefresh()}
-              renderItem={({item}) => (
-                <ButtonCustom
-                  style={styles.button}
-                  key={item.id}
-                  onPress={() => handlePressSurah(item)}>
-                  <TextCustom>{item.id}</TextCustom>
-                </ButtonCustom>
-              )}
-              keyExtractor={item => item.id}
-              style={[styles.containerListButton, styles.flex]}
-            />
-          ) : null}
-        </View>
-      </View>
+    <View style={[styles.center, styles.flex, styles.container]}>
+      <View style={styles.containerListButton}>{renderContent()}</View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // backgroundColor: 'red'
+  },
+  containerTitle: {
+    height: 100,
+  },
   flex: {
     flex: 1,
   },
   center: {
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
+  },
+  title: {
+    color: 'black',
+    fontWeight: '500',
+    fontSize: 16,
   },
   containerListButton: {
     width: '100%',
@@ -116,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SurahList;
+export default TaskScreen;
