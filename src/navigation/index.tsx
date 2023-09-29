@@ -6,8 +6,12 @@ import {LoginScreen} from '@screen';
 import DrawerNavigation from './drawer';
 import {useTypedSelector} from '@hooks';
 import {AuthResponseType} from '@interfaces';
-import {SurahList} from '@screen';
-import {StudentList} from '@screen';
+import {
+  ClassroomScreen,
+  StudentScreen,
+  TaskScreen,
+  StudentDetailScreen,
+} from '@screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,8 +23,13 @@ const RootNavigation = () => {
       return (
         <>
           <Stack.Screen name="Main" component={DrawerNavigation} />
-          <Stack.Screen name="surahLists" component={SurahList} />
-          <Stack.Screen name="studentLists" component={StudentList} />
+          <Stack.Screen name="surahScreen" component={TaskScreen} />
+          <Stack.Screen name="studentScreen" component={StudentScreen} />
+          <Stack.Screen name="classroomScreen" component={ClassroomScreen} />
+          <Stack.Screen
+            name="studentDetailScreen"
+            component={StudentDetailScreen}
+          />
         </>
         // <Stack.Screen name="surahLists" component={DrawerNavigation} />
       );

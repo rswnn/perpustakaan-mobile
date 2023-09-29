@@ -7,7 +7,7 @@ import {
   DrawerContentComponentProps,
 } from '@react-navigation/drawer';
 
-import {DashboardScreen} from '@screen';
+import {DashboardScreen, StudentScreen, StudentDetailScreen} from '@screen';
 import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
 import {useAppDispatch} from '@hooks';
@@ -41,7 +41,20 @@ const DrawerNavigation = () => {
           drawerLabel: 'Dashboard',
         }}
       />
-      {/* <Drawer.Screen name="Book" component={BookScreen} /> */}
+      <Drawer.Screen
+        name="Student"
+        component={StudentScreen}
+        options={{
+          drawerLabel: 'Student',
+        }}
+      />
+      <Drawer.Screen
+        name="Student Detail"
+        component={StudentDetailScreen}
+        options={{
+          drawerLabel: 'Studen Detail',
+        }}
+      />
     </Drawer.Navigator>
   );
 };

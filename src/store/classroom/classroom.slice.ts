@@ -71,14 +71,14 @@ export const classroomSlice = createSlice({
       isAnyOf(getClassroomByKodeKelasAction.fulfilled),
       (state, action) => {
         state.loadingClass.get = false;
-        state.classroom = action.payload.data;
+        state.classroom = action.payload.data.students;
       },
     );
 
     builder.addMatcher(
       isAnyOf(getClassroomByKodeKelasAction.fulfilled),
       (state, action) => {
-        console.log(action.payload, 'ACTION CLASS');
+        // console.log(action.payload, 'ACTION CLASS');
         state.loadingClass.get = false;
         state.classroom = action.payload.data;
       },

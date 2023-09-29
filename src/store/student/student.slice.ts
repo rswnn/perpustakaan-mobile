@@ -1,11 +1,15 @@
 import {createSlice, isAnyOf} from '@reduxjs/toolkit';
 import {StudentState} from '@interfaces';
-import {getStudentAction, getStudentByClasscode} from './student.thunk';
+import {
+  getStudentAction,
+  getStudentByClasscode,
+  getStudentByNisAction,
+} from './student.thunk';
 // import {isEmpty} from 'lodash';
 import {ResponseStatus} from 'src/interfaces/network';
 
 const initialState: StudentState = {
-  student: [],
+  student: undefined,
   loadingStudent: {
     get: false,
     add: false,
@@ -26,16 +30,20 @@ export const studentSlice = createSlice({
   },
   extraReducers: builder => {
     // console.log(builder, 'BUILDER');
-    builder.addCase(getStudentAction.fulfilled, (state, action) => {
-      state.loadingStudent.get = false;
-      state.student = action.payload.data;
-    });
-    builder.addCase(getStudentByClasscode.fulfilled, (state, action) => {
-      state.loadingStudent.get = false;
-      state.student = action.payload.data;
-    });
+    // builder.addCase(getStudentAction.fulfilled, (state, action) => {
+    //   state.loadingStudent.get = false;
+    //   state.student = action.payload.data;
+    // });
+    // builder.addCase(getStudentByClasscode.fulfilled, (state, action) => {
+    //   state.loadingStudent.get = false;
+    //   state.student = action.payload.data;
+    // });
     builder.addMatcher(
-      isAnyOf(getStudentAction.rejected, getStudentByClasscode.rejected),
+      isAnyOf(
+        getStudentAction.rejected,
+        getStudentByClasscode.rejected,
+        getStudentByNisAction.rejected,
+      ),
       (state, action) => {
         state.loadingStudent = {...initialState.loadingStudent};
         state.error = action.payload as ResponseStatus;
@@ -43,7 +51,11 @@ export const studentSlice = createSlice({
     );
 
     builder.addMatcher(
-      isAnyOf(getStudentAction.pending, getStudentByClasscode.pending),
+      isAnyOf(
+        getStudentAction.pending,
+        getStudentByClasscode.pending,
+        getStudentByNisAction.pending,
+      ),
       (state, action) => {
         state.loadingStudent = {
           get: getStudentAction.pending.type === action.type,
@@ -52,6 +64,18 @@ export const studentSlice = createSlice({
           delete: false,
         };
         state.error = initialState.error;
+      },
+    );
+    builder.addMatcher(
+      isAnyOf(
+        getStudentAction.fulfilled,
+        getStudentByClasscode.fulfilled,
+        getStudentByNisAction.fulfilled,
+      ),
+      (state, action) => {
+        console.log(action.payload.data, 'ACTION DETAIL STUDETN');
+        state.loadingStudent.get = false;
+        state.student = action.payload.data;
       },
     );
   },

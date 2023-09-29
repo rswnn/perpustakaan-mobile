@@ -12,20 +12,16 @@ import {
 } from '@interfaces';
 import {ButtonCustom, TextCustom} from '@components';
 import {FlatList} from 'react-native-gesture-handler';
-import _ from 'lodash';
 
 const {CategoryAction} = action;
-const {Classroom} = action;
+const {ClassroomAction} = action;
 const {TaskAction} = action;
 
 const Dashboard = (props: any) => {
   const getCategory = useAppAsyncDispatch(CategoryAction.getCategoryAction);
-  const getClassroom = useAppAsyncDispatch(Classroom.getClassroomAction);
-  const getStudentByClassCode = useAppAsyncDispatch(
-    Classroom.getClassroomByKodeKelasAction,
-  );
+  const getClassroom = useAppAsyncDispatch(ClassroomAction.getClassroomAction);
   const getClassroomByNip = useAppAsyncDispatch(
-    Classroom.getClassroomByNipAction,
+    ClassroomAction.getClassroomByNipAction,
   );
 
   const getTaskByCategoryId = useAppAsyncDispatch(TaskAction.getTaskByIdAction);
@@ -63,12 +59,9 @@ const Dashboard = (props: any) => {
 
   const handlePressClass = async (value: any) => {
     try {
-      await getStudentByClassCode({
-        payload: {
-          param: value[0]?.kode_kelas,
-        },
+      props.navigation.navigate('studentScreen', {
+        classId: value?.kode_kelas,
       });
-      console.log(value, 'VALUE');
     } catch (error) {
       console.log(error, 'HANDLE PRESS CLASS ERROR');
     }
@@ -127,7 +120,7 @@ const Dashboard = (props: any) => {
               renderItem={({item}) => (
                 <ButtonCustom
                   style={styles.button}
-                  onPress={() => handlePressClass(classroom)}
+                  onPress={() => handlePressClass(item)}
                   key={item.kode_kelas}>
                   <TextCustom>{item.nama_kelas}</TextCustom>
                 </ButtonCustom>

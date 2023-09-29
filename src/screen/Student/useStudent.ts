@@ -1,25 +1,23 @@
-import {useState, useCallback, useEffect} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import {useCallback, useEffect} from 'react';
 import {useTypedSelector, useAppAsyncDispatch} from '@hooks';
 import {action} from '@store';
 import {StudentState} from '@interfaces';
 
-const useStudent = () => {
-  const getStudent = useAppAsyncDispatch(action.StudentAction.getStudentAction);
+const useStudent = ({classId}: any) => {
   const getStudentByClassCode = useAppAsyncDispatch(
     action.StudentAction.getStudentByClasscode,
   );
 
   const {student} = useTypedSelector<StudentState>('student');
-  const [renderStudent, setRenderStudent] = useState(false);
 
-  const handlePressClassTogetStudent = async (value: any) => {
+  const fetchStudentByClassCode = async () => {
     try {
       await getStudentByClassCode({
         payload: {
-          param: value[0]?.kode_kelas,
+          param: classId,
         },
       });
-      console.log(value, 'VALUE');
     } catch (error) {
       console.log(error, 'HANDLE PRESS CLASS ERROR');
     }
@@ -27,11 +25,11 @@ const useStudent = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      await getStudent();
+      await fetchStudentByClassCode();
     } catch (error) {
       console.log(error);
     }
-  }, [getStudent]);
+  }, [classId]);
 
   useEffect(() => {
     fetchData();
@@ -39,9 +37,6 @@ const useStudent = () => {
 
   return {
     student,
-    renderStudent,
-    setRenderStudent,
-    handlePressClassTogetStudent,
   };
 };
 

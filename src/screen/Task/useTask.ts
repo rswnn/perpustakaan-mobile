@@ -16,11 +16,6 @@ const useTask = () => {
   }, []);
   const [renderTask, setRenderTask] = useState(false);
 
-  // const onChangeSearch = useCallback(
-  //   (query: string) => setSearchQuery(query),
-  //   [],
-  // );
-
   const handlePressCategoryList = async (value: any) => {
     try {
       await getTaskByCategoryTaskId({

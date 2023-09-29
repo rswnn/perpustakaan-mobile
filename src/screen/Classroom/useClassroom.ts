@@ -1,12 +1,9 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect} from 'react';
 import {useTypedSelector, useAppAsyncDispatch} from '@hooks';
 import {action} from '@store';
 import {ClassroomState} from '@interfaces';
 
-const useClassroom = () => {
-  const getClassroom = useAppAsyncDispatch(
-    action.ClassroomAction.getClassroomAction,
-  );
+const useClassroom = ({classId}: any) => {
   const getClassroomByKodeKelas = useAppAsyncDispatch(
     action.ClassroomAction.getClassroomByKodeKelasAction,
   );
@@ -15,16 +12,14 @@ const useClassroom = () => {
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
   }, []);
-  const [renderClassroom, setRenderClassroom] = useState(false);
 
-  const handlePressClassCode = async (value: any) => {
+  const fetchClassCode = async () => {
     try {
       await getClassroomByKodeKelas({
         payload: {
-          param: value[0]?.id,
+          param: classId,
         },
       });
-      setRenderClassroom(!renderClassroom);
     } catch (error) {
       console.log(error, 'HANDLER PRESS CATEGORY LIST ERROR');
     }
@@ -32,11 +27,12 @@ const useClassroom = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      await getClassroom();
+      await fetchClassCode();
     } catch (error) {
       console.log(error);
     }
-  }, [getClassroom]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [classId]);
 
   useEffect(() => {
     fetchData();
@@ -44,9 +40,7 @@ const useClassroom = () => {
 
   return {
     classroom,
-    renderClassroom,
-    setRenderClassroom,
-    handlePressClassCode,
+    fetchClassCode,
     handleSheetChanges,
   };
 };

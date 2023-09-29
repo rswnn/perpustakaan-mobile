@@ -1,5 +1,4 @@
 /* eslint-disable react/react-in-jsx-scope */
-// import {useCallback, useEffect} from 'react';
 import {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {ButtonCustom} from '@components';
@@ -17,6 +16,15 @@ const TaskScreen = () => {
   const user = useTypedSelector<AuthResponseType>('auth');
   const getTaskById = useAppAsyncDispatch(TaskAction.getTaskByIdAction);
   const [refresh, setRefresh] = useState(false);
+
+  const onRefresh = () => {
+    try {
+      setRefresh(true);
+      getTaskById(user?.token);
+    } catch (error) {
+      console.log(error, 'ON REFRESH ERROR');
+    }
+  };
 
   const renderContent = () => {
     if (renderTask) {
@@ -39,14 +47,6 @@ const TaskScreen = () => {
     }
   };
 
-  const onRefresh = () => {
-    try {
-      setRefresh(true);
-      getTaskById(user?.token);
-    } catch (error) {
-      console.log(error, 'ON REFRESH ERROR');
-    }
-  };
   return (
     <View style={[styles.center, styles.flex, styles.container]}>
       <View style={styles.containerListButton}>{renderContent()}</View>

@@ -51,7 +51,7 @@ export const categorySlice = createSlice({
     builder.addMatcher(
       isAnyOf(getCategoryAction.fulfilled, getCategoryByIdAction.fulfilled),
       (state, action) => {
-        console.log(action.payload, 'ACTION CATEGORY');
+        // console.log(action.payload, 'ACTION CATEGORY');
         state.loadingCategory.get = false;
         state.categories = action.payload.data;
       },

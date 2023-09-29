@@ -1,13 +1,13 @@
 /* eslint-disable react/react-in-jsx-scope */
-// import {useTheme} from '@react-navigation/native';
 import {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import useStudent from './useStudent';
 import {ButtonCustom, TextCustom} from '@components';
 
-const StudentScreen = () => {
-  const {handlePressClassTogetStudent, student, renderStudent} = useStudent();
+const StudentScreen = ({route, navigation}: any) => {
+  console.log(route, 'ROUTES');
+  const {student} = useStudent({classId: route.params.classId});
   const [refresh, setRefresh] = useState(false);
 
   const onRefresh = async () => {
@@ -18,22 +18,33 @@ const StudentScreen = () => {
     }
   };
 
+  const handlePressStudent = async (value: any) => {
+    console.log(value, 'VALUESSS 1');
+    try {
+      navigation.navigate('studentDetailScreen', {
+        nis: value?.nis,
+      });
+    } catch (error) {
+      console.log(error, 'HANDLE PRESS CLASS ERROR');
+    }
+  };
+
   const renderContent = () => {
-    if (renderStudent) {
+    if (student?.students && student.students.length) {
       return (
         <FlatList
-          data={student}
+          data={student.students}
           refreshing={refresh}
           onRefresh={() => onRefresh()}
           renderItem={({item}) => (
             <ButtonCustom
               style={styles.button}
-              key={item.attributes.nis}
-              onPress={() => handlePressClassTogetStudent(student)}>
-              <TextCustom>{item.attributes.fullName}</TextCustom>
+              key={item.nis}
+              onPress={() => handlePressStudent(item)}>
+              <TextCustom>{item.fullName}</TextCustom>
             </ButtonCustom>
           )}
-          keyExtractor={item => item.attributes.fullName}
+          keyExtractor={item => item.fullName}
         />
       );
     }
@@ -48,7 +59,6 @@ const StudentScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: 'red'
   },
   containerTitle: {
     height: 100,

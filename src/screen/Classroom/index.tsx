@@ -5,8 +5,11 @@ import {FlatList} from 'react-native-gesture-handler';
 import useClassroom from './useClassroom';
 import {ButtonCustom, TextCustom} from '@components';
 
-const ClassroomScreen = () => {
-  const {handlePressClassCode, classroom, renderClassroom} = useClassroom();
+const ClassroomScreen = ({route}: any) => {
+  console.log(route, 'ROUTESS');
+  const {classroom} = useClassroom({
+    classId: route.params.classId,
+  });
   const [refresh, setRefresh] = useState(false);
 
   const onRefresh = async () => {
@@ -18,17 +21,14 @@ const ClassroomScreen = () => {
   };
 
   const renderContent = () => {
-    if (renderClassroom) {
+    if (classroom?.length) {
       return (
         <FlatList
           data={classroom}
           refreshing={refresh}
           onRefresh={() => onRefresh()}
           renderItem={({item}) => (
-            <ButtonCustom
-              style={styles.button}
-              key={item.kode_kelas}
-              onPress={() => handlePressClassCode(classroom)}>
+            <ButtonCustom style={styles.button} key={item.kode_kelas}>
               <TextCustom>{item.nama_kelas}</TextCustom>
             </ButtonCustom>
           )}

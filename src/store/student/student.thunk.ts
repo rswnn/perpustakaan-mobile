@@ -9,7 +9,13 @@ export const getStudentAction = thunkUtils({
 });
 
 export const getStudentByClasscode = thunkUtils({
-  type: 'student/login',
+  type: 'student/list',
   endpoint: `${endpoints.student}list/`,
+  method: 'GET',
+});
+
+export const getStudentByNisAction = thunkUtils({
+  type: 'student/find',
+  endpoint: `${endpoints.student}find/`,
   method: 'GET',
 });

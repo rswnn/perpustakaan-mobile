@@ -33,10 +33,6 @@ export const apiCall = async ({endpoint, header, method, payload}: Option) => {
     const userToken = await AsyncStorage.getItem('token');
     const url = generateBaseUrl(endpoint);
 
-    console.log(url, ' KKKKKKK');
-    console.log(endpoint, ' ENDPOINT');
-    console.log(payload, 'PAYLOADSS');
-
     const accessToken = userToken ? `Bearer ${userToken}` : '';
     const headers = {
       'Content-Type': 'application/json',
@@ -44,7 +40,6 @@ export const apiCall = async ({endpoint, header, method, payload}: Option) => {
       authorization: accessToken,
       ...header,
     };
-    // console.log(headers, 'HEADERS BLOGGGGGG');
     const response = await fetch(url, {
       method: method,
       headers,
