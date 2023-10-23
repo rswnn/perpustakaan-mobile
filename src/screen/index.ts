@@ -5,6 +5,8 @@ import StudentScreen from './Student';
 import ClassroomScreen from './Classroom';
 import TeacherScreen from './Teacher';
 import StudentDetailScreen from './StudentDetail';
+import DetailTask from './DetailTask';
+import AudioScreen from './AudioScreen';
 
 export {
   LoginScreen,
@@ -14,4 +16,6 @@ export {
   ClassroomScreen,
   TeacherScreen,
   StudentDetailScreen,
+  DetailTask,
+  AudioScreen,
 };

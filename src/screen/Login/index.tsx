@@ -99,7 +99,7 @@ const LoginScreen = () => {
           )}
         </Formik>
       </Container>
-      {loading && (
+      {false && (
         <View style={styles.loadingContainer}>
           <ActivityIndicator color="blue" size="large" />
         </View>

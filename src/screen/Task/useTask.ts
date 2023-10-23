@@ -1,10 +1,10 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect} from 'react';
 // import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {useTypedSelector, useAppAsyncDispatch} from '@hooks';
 import {action} from '@store';
 import {TaskState} from '@interfaces';
 
-const useTask = () => {
+const useTask = ({navigation}: any) => {
   const getTask = useAppAsyncDispatch(action.TaskAction.getTaskAction);
   const getTaskByCategoryTaskId = useAppAsyncDispatch(
     action.TaskAction.getTaskByIdAction,
@@ -14,7 +14,6 @@ const useTask = () => {
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
   }, []);
-  const [renderTask, setRenderTask] = useState(false);
 
   const handlePressCategoryList = async (value: any) => {
     try {
@@ -23,7 +22,7 @@ const useTask = () => {
           param: value[0]?.id,
         },
       });
-      setRenderTask(!renderTask);
+      navigation.navigate('DetailTask');
     } catch (error) {
       console.log(error, 'HANDLER PRESS CATEGORY LIST ERROR');
     }
@@ -43,8 +42,6 @@ const useTask = () => {
 
   return {
     tasks,
-    renderTask,
-    setRenderTask,
     handlePressCategoryList,
     handleSheetChanges,
   };

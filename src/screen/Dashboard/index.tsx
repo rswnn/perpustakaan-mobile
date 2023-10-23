@@ -4,12 +4,7 @@ import {View, StyleSheet, Text} from 'react-native';
 
 import {action} from '@store';
 import {useTypedSelector, useAppAsyncDispatch} from '@hooks';
-import {
-  AuthResponseType,
-  CategoryState,
-  ClassroomState,
-  TaskState,
-} from '@interfaces';
+import {AuthResponseType, CategoryState, ClassroomState} from '@interfaces';
 import {ButtonCustom, TextCustom} from '@components';
 import {FlatList} from 'react-native-gesture-handler';
 
@@ -17,7 +12,7 @@ const {CategoryAction} = action;
 const {ClassroomAction} = action;
 const {TaskAction} = action;
 
-const Dashboard = (props: any) => {
+const Dashboard = ({navigation, ...props}: any) => {
   const getCategory = useAppAsyncDispatch(CategoryAction.getCategoryAction);
   const getClassroom = useAppAsyncDispatch(ClassroomAction.getClassroomAction);
   const getClassroomByNip = useAppAsyncDispatch(
@@ -27,10 +22,8 @@ const Dashboard = (props: any) => {
   const getTaskByCategoryId = useAppAsyncDispatch(TaskAction.getTaskByIdAction);
   const user = useTypedSelector<AuthResponseType>('auth');
   const {categories} = useTypedSelector<CategoryState>('category');
-  const {tasks} = useTypedSelector<TaskState>('hafalan');
   const {classroom} = useTypedSelector<ClassroomState>('classRoom');
   const [refresh, setRefresh] = useState(false);
-  const [renderTask, setRenderTask] = useState(false);
 
   const fetchData = useCallback(() => {
     if (!user?.token) {
@@ -66,6 +59,9 @@ const Dashboard = (props: any) => {
       console.log(error, 'HANDLE PRESS CLASS ERROR');
     }
   };
+  const navigateToSurah = useCallback(() => {
+    navigation.navigate('surahScreen');
+  }, [navigation]);
 
   const handlePressCategoryList = async (value: any) => {
     try {
@@ -74,7 +70,7 @@ const Dashboard = (props: any) => {
           param: value[0]?.id,
         },
       });
-      setRenderTask(!renderTask);
+      navigateToSurah();
     } catch (error) {
       console.log(error, 'HANDLER PRESS CATEGORY LIST ERROR');
     }
@@ -90,25 +86,6 @@ const Dashboard = (props: any) => {
   };
 
   const renderContent = () => {
-    if (renderTask) {
-      return (
-        <FlatList
-          data={tasks}
-          refreshing={refresh}
-          onRefresh={() => onRefresh()}
-          renderItem={({item}) => (
-            <ButtonCustom
-              style={styles.button}
-              key={item.id}
-              onPress={() => handlePressCategoryList(tasks)}>
-              <TextCustom>{item.title}</TextCustom>
-            </ButtonCustom>
-          )}
-          keyExtractor={item => item.title}
-        />
-      );
-    }
-
     return (
       <View style={styles.innerContainer}>
         {user?.loginType === 'guru' ? (

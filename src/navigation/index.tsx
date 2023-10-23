@@ -11,6 +11,8 @@ import {
   StudentScreen,
   TaskScreen,
   StudentDetailScreen,
+  DetailTask,
+  AudioScreen,
 } from '@screen';
 
 const Stack = createNativeStackNavigator();
@@ -22,13 +24,39 @@ const RootNavigation = () => {
     if (isLoggedIn) {
       return (
         <>
-          <Stack.Screen name="Main" component={DrawerNavigation} />
-          <Stack.Screen name="surahScreen" component={TaskScreen} />
+          <Stack.Screen
+            name="Main"
+            component={DrawerNavigation}
+            options={{
+              header: () => null,
+            }}
+          />
+          <Stack.Screen
+            name="surahScreen"
+            component={TaskScreen}
+            options={{
+              title: 'List Hafalan',
+            }}
+          />
           <Stack.Screen name="studentScreen" component={StudentScreen} />
           <Stack.Screen name="classroomScreen" component={ClassroomScreen} />
           <Stack.Screen
             name="studentDetailScreen"
             component={StudentDetailScreen}
+          />
+          <Stack.Screen
+            name="DetailTask"
+            component={DetailTask}
+            options={{
+              title: 'Detail Hafalan',
+            }}
+          />
+          <Stack.Screen
+            name="AudioScreen"
+            component={AudioScreen}
+            options={{
+              title: 'Hafalan',
+            }}
           />
         </>
         // <Stack.Screen name="surahLists" component={DrawerNavigation} />
@@ -41,7 +69,7 @@ const RootNavigation = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false,
+          headerShown: true,
         }}>
         {renderProtectedRoute}
       </Stack.Navigator>

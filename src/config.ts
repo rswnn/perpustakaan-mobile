@@ -1,3 +1,4 @@
-const baseUrl = 'http://192.168.1.5:8000';
+const baseUrl = 'http://192.168.116.72:8000';
+const imageUrl = `${baseUrl}/surat_img/`;
 
-export {baseUrl};
+export {baseUrl, imageUrl};

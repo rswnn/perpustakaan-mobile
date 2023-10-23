@@ -11,8 +11,8 @@ import useTask from './useTask';
 
 const {TaskAction} = action;
 
-const TaskScreen = () => {
-  const {handlePressCategoryList, renderTask, tasks} = useTask();
+const TaskScreen = ({navigation}: any) => {
+  const {handlePressCategoryList, tasks} = useTask({navigation});
   const user = useTypedSelector<AuthResponseType>('auth');
   const getTaskById = useAppAsyncDispatch(TaskAction.getTaskByIdAction);
   const [refresh, setRefresh] = useState(false);
@@ -27,7 +27,7 @@ const TaskScreen = () => {
   };
 
   const renderContent = () => {
-    if (renderTask) {
+    if (tasks && tasks.length) {
       return (
         <FlatList
           data={tasks}

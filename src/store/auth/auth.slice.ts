@@ -52,8 +52,6 @@ export const authSlice = createSlice({
     builder.addMatcher(
       isAnyOf(studentLoginAction.fulfilled, teacherLoginAction.fulfilled),
       (state, action) => {
-        console.log(action, 'KONTOL');
-        state.loading = false;
         state.token = action.payload.data.token;
         state.loginType = action.payload.payload.loginType;
         (state.user = {
@@ -63,6 +61,7 @@ export const authSlice = createSlice({
         }),
           AsyncStorage.setItem('token', action.payload.data.token);
         state.isLoggedIn = !isEmpty(action.payload.data.token);
+        state.loading = false;
       },
     );
   },
