@@ -22,9 +22,9 @@ const Container = ({customStyle, children}: ContainerType) => {
   };
   return (
     <SafeAreaView style={[backgroundStyle, styles.background, customStyle]}>
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        {children}
-      </KeyboardAvoidingView>
+      {/* <KeyboardAvoidingView style={styles.container} behavior="padding"> */}
+      {children}
+      {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   );
 };

@@ -1,13 +1,167 @@
-import {View, StyleSheet, Pressable} from 'react-native';
-import React, {useCallback, useMemo} from 'react';
+import {View, StyleSheet, Pressable, Platform} from 'react-native';
+import React, {useMemo, useState} from 'react';
+import AudioRecorderPlayer, {
+  AudioEncoderAndroidType,
+  AudioSourceAndroidType,
+} from 'react-native-audio-recorder-player';
+import uuid from 'react-native-uuid';
+import RNFetchBlob from 'rn-fetch-blob';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {useTypedSelector} from '@hooks';
-import {TaskState} from '@interfaces';
+import {AuthResponseType, TaskState} from '@interfaces';
 import {Container} from '@components';
 import {Text, Button} from 'react-native-paper';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {baseUrl} from '../../config';
+
+const audioRecorderPlayer = new AudioRecorderPlayer();
+const initialColor = '#000';
 
 const AudioScreen = ({navigation}: any) => {
   const {tasks} = useTypedSelector<TaskState>('hafalan');
+  const {user} = useTypedSelector<AuthResponseType>('auth');
+
+  let audioRef = React.useRef<any>(null);
+
+  const [audio, setAudio] = useState({recordSecs: 0, recordTime: ''});
+  const [recordColor, setRecordColor] = useState(initialColor);
+  const [available, setAvailable] = useState(false);
+  const [isPausePlay, setIsPausePlay] = useState(false);
+  const [recordPath, setRecordPath] = useState<any>('');
+
+  const onStartRecord = async () => {
+    setRecordPath('');
+    try {
+      if (!audio.recordSecs && !audio.recordTime) {
+        const dirs = RNFetchBlob.fs.dirs;
+        const path = Platform.select({
+          ios: 'hello.m4a',
+          android: `${dirs.CacheDir}/${uuid.v4()}.mp3`,
+        });
+        await audioRecorderPlayer.startRecorder(path, {
+          AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
+          AudioSourceAndroid: AudioSourceAndroidType.MIC,
+        });
+        audioRef.current = path;
+        setRecordColor('#ff0000');
+        audioRecorderPlayer.addRecordBackListener(e => {
+          setAudio({
+            recordSecs: e.currentPosition,
+            recordTime: audioRecorderPlayer.mmssss(
+              Math.floor(e.currentPosition),
+            ),
+          });
+          return;
+        });
+        setAvailable(false);
+        setIsPausePlay(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onResetAudio = () => {
+    setAudio({
+      recordSecs: 0,
+      recordTime: '',
+    });
+  };
+
+  const onStopRecord = async () => {
+    await audioRecorderPlayer.stopRecorder();
+    setRecordColor(initialColor);
+    audioRecorderPlayer.removeRecordBackListener();
+    onResetAudio();
+    setAvailable(true);
+    if (audioRef.current) {
+      setRecordPath(audioRef.current);
+    }
+  };
+
+  const onStartPlay = async () => {
+    await audioRecorderPlayer.startPlayer(recordPath);
+    audioRecorderPlayer.addPlayBackListener(event => {
+      if (event.currentPosition === event.duration) {
+        setIsPausePlay(false);
+        onResetAudio();
+      }
+    });
+    setIsPausePlay(true);
+  };
+
+  const onPausePlay = async () => {
+    await audioRecorderPlayer.pausePlayer();
+    setIsPausePlay(false);
+  };
+
+  const onPressSend = async () => {
+    try {
+      if (tasks && tasks.length && recordPath) {
+        const userToken = await AsyncStorage.getItem('token');
+        const formData = new FormData();
+        const currentPath = recordPath.split('/');
+        const filename = currentPath[currentPath.length - 1];
+        const taskID = tasks[0].id;
+
+        formData.append('hafalan_id', taskID);
+        formData.append('nis', user.nis);
+        formData.append('record', {
+          name: filename,
+          uri: 'file://' + RNFetchBlob.fs.dirs.CacheDir + '/' + filename,
+          type: 'audio/mp3',
+        });
+
+        const response = await fetch(
+          baseUrl + '/api/detail-hafalan/submission',
+          {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${userToken}`,
+              'Content-Type': 'multipart/form-data',
+            },
+            body: formData,
+          },
+        );
+
+        const result = await response.text();
+
+        console.log(result);
+        navigation.goBack();
+      }
+    } catch (error) {
+      console.log(error, '[onPressSend]');
+    }
+  };
+
+  const renderStopIcon = useMemo(() => {
+    if (available) {
+      return (
+        <Pressable
+          style={styles.iconWrapper}
+          onPress={isPausePlay ? onPausePlay : onStartPlay}>
+          <MaterialIcon
+            name={isPausePlay ? 'pause' : 'play-arrow'}
+            size={50}
+            color={initialColor}
+          />
+        </Pressable>
+      );
+    }
+    if (audio.recordSecs) {
+      return (
+        <Pressable style={styles.iconWrapper} onPress={onStopRecord}>
+          <MaterialIcon name="stop" size={50} color={initialColor} />
+        </Pressable>
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [audio, available, isPausePlay, recordPath]);
+
+  const disableButton = useMemo(() => {
+    return !recordPath;
+  }, [recordPath]);
 
   const renderContent = useMemo(() => {
     if (tasks && tasks.length) {
@@ -26,12 +180,21 @@ const AudioScreen = ({navigation}: any) => {
               variant="bodyMedium">
               Tekan untuk memulai
             </Text>
-            <Pressable style={styles.iconWrapper}>
-              <MaterialIcon name="keyboard-voice" size={50} color="#000" />
+            <Pressable style={styles.iconWrapper} onPress={onStartRecord}>
+              <MaterialIcon
+                name="keyboard-voice"
+                size={50}
+                color={recordColor}
+              />
             </Pressable>
+            {renderStopIcon}
           </View>
           <View style={styles.btnWrapper}>
-            <Button mode="contained" style={styles.btn}>
+            <Button
+              mode="contained"
+              style={styles.btn}
+              disabled={disableButton}
+              onPress={onPressSend}>
               KIRIM
             </Button>
           </View>
@@ -40,7 +203,8 @@ const AudioScreen = ({navigation}: any) => {
     }
 
     return null;
-  }, [tasks]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tasks, renderStopIcon, recordColor, disableButton]);
 
   return <Container customStyle={styles.container}>{renderContent}</Container>;
 };
