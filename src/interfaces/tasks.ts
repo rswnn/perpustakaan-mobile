@@ -5,6 +5,7 @@ export interface TaskState {
   loadingTask: LoadingType;
   error: ResponseStatus;
   searchByNis?: string | null;
+  taskResult?: TaskResult;
 }
 
 export interface Task {
@@ -15,6 +16,15 @@ export interface Task {
   media_reader: string;
   title: string;
   updatedAt: string;
+}
+export interface TaskResult {
+  id: number;
+  grade?: null;
+  record: string;
+  createdAt: string;
+  updatedAt: string;
+  nis: string;
+  hafalan_id: number;
 }
 
 export interface TaskType {

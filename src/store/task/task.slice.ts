@@ -1,6 +1,10 @@
 import {createSlice, isAnyOf} from '@reduxjs/toolkit';
 import {TaskState} from '@interfaces';
-import {getTaskAction, getTaskByIdAction} from './task.thunk';
+import {
+  getTaskAction,
+  getTaskByIdAction,
+  getTaskByNisAndTaskId,
+} from './task.thunk';
 // import {isEmpty} from 'lodash';
 import {ResponseStatus} from 'src/interfaces/network';
 
@@ -14,6 +18,7 @@ const initialState: TaskState = {
   },
   error: {},
   searchByNis: '',
+  taskResult: undefined,
 };
 
 export const taskSlice = createSlice({
@@ -25,7 +30,6 @@ export const taskSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    // console.log(builder, 'BUILDER');
     builder.addCase(getTaskAction.fulfilled, (state, action) => {
       state.loadingTask.get = false;
       state.tasks = action.payload.data;
@@ -34,8 +38,16 @@ export const taskSlice = createSlice({
       state.loadingTask.get = false;
       state.tasks = action.payload.data;
     });
+    builder.addCase(getTaskByNisAndTaskId.fulfilled, (state, action) => {
+      state.loadingTask.get = false;
+      state.taskResult = action.payload.data;
+    });
     builder.addMatcher(
-      isAnyOf(getTaskAction.rejected, getTaskByIdAction.rejected),
+      isAnyOf(
+        getTaskAction.rejected,
+        getTaskByIdAction.rejected,
+        getTaskByNisAndTaskId.rejected,
+      ),
       (state, action) => {
         state.loadingTask = {...initialState.loadingTask};
         state.error = action.payload as ResponseStatus;
@@ -43,7 +55,11 @@ export const taskSlice = createSlice({
     );
 
     builder.addMatcher(
-      isAnyOf(getTaskAction.pending, getTaskByIdAction.pending),
+      isAnyOf(
+        getTaskAction.pending,
+        getTaskByIdAction.pending,
+        getTaskByNisAndTaskId.pending,
+      ),
       (state, action) => {
         state.loadingTask = {
           get: getTaskAction.pending.type === action.type,
