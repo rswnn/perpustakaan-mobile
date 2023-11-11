@@ -5,6 +5,7 @@ export interface StudentState {
   loadingStudent: LoadingType;
   error: ResponseStatus;
   searchByNis?: string | null;
+  studentDetail?: StudentsEntity;
 }
 export interface Student {
   fullName: string;

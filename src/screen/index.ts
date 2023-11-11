@@ -7,6 +7,7 @@ import TeacherScreen from './Teacher';
 import StudentDetailScreen from './StudentDetail';
 import DetailTask from './DetailTask';
 import AudioScreen from './AudioScreen';
+import ResultTaskScreen from './ResultTask';
 
 export {
   LoginScreen,
@@ -18,4 +19,5 @@ export {
   StudentDetailScreen,
   DetailTask,
   AudioScreen,
+  ResultTaskScreen,
 };

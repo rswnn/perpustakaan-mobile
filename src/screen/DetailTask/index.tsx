@@ -1,4 +1,11 @@
-import {View, StyleSheet, Image, ScrollView, Pressable} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  ScrollView,
+  Pressable,
+  Dimensions,
+} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import RNFetchBlob from 'rn-fetch-blob';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
@@ -151,7 +158,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
   },
-  image: {width: '100%', minHeight: 400},
+  image: {width: Dimensions.get('window').width, minHeight: 400},
   btnWrapper: {
     flex: 1,
     justifyContent: 'flex-end',

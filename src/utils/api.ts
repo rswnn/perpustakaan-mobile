@@ -30,6 +30,7 @@ const generateBaseUrl = (endpoint: string, customBaseUrl?: string) => {
 
 export const apiCall = async ({endpoint, header, method, payload}: Option) => {
   try {
+    console.log(payload, 'PAYLOAD FROM API CALL ');
     const userToken = await AsyncStorage.getItem('token');
     const url = generateBaseUrl(endpoint);
 

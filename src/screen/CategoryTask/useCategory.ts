@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useTypedSelector, useAppAsyncDispatch} from '@hooks';
 import {action} from '@store';
-import {CategoryState} from '@interfaces';
+import {CategoryState, TaskState} from '@interfaces';
 
 const useCategory = () => {
   const getCategory = useAppAsyncDispatch(
@@ -11,6 +11,7 @@ const useCategory = () => {
     action.CategoryAction.getCategoryByIdAction,
   );
   const {categories} = useTypedSelector<CategoryState>('category');
+  const {listTasks} = useTypedSelector<TaskState>('hafalan');
 
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
@@ -48,6 +49,7 @@ const useCategory = () => {
     setRenderCategory,
     handlePressCategory,
     handleSheetChanges,
+    listTasks,
   };
 };
 

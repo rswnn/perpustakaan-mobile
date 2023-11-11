@@ -12,8 +12,6 @@ const useTeacher = () => {
   const {teacher} = useTypedSelector<TeacherState>('teacher');
   const [renderTeacher, setRenderTeacher] = useState(false);
 
-  // const fetchData = await
-
   const handlePressTeacherById = async (value: any) => {
     try {
       await getTeacherByNip({

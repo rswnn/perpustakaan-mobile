@@ -26,16 +26,18 @@ export const thunkUtils = ({
   endpoint,
 }: ThunkUtilsType) => {
   return createAsyncThunk(type, async (payload: any, thunkAPI) => {
-    console.log(payload);
+    // console.log(payload);
     try {
       const param = _.get(payload, 'payload.param', '');
-      console.log(endpoint, 'ENDPOINT');
+
+      console.log(`${endpoint}${param}`, 'ENDPOINT', payload);
 
       const response = await apiCall({
         endpoint: `${endpoint}${param}`,
         method,
         payload: payload?.payload,
       });
+
       if (onSuccess) {
         onSuccess({
           response,
@@ -43,6 +45,7 @@ export const thunkUtils = ({
         });
       }
       const payloadResponse = _.isEmpty(payload) ? {} : payload;
+
       return {
         ...response,
         ...payloadResponse,

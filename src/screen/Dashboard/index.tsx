@@ -52,7 +52,7 @@ const Dashboard = ({navigation, ...props}: any) => {
 
   const handlePressClass = async (value: any) => {
     try {
-      props.navigation.navigate('studentScreen', {
+      navigation.navigate('studentScreen', {
         classId: value?.kode_kelas,
       });
     } catch (error) {

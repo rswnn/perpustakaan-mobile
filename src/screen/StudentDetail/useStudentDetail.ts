@@ -10,7 +10,7 @@ const useStudentDetail = ({nis}: any) => {
     action.StudentAction.getStudentByNisAction,
   );
 
-  const {student} = useTypedSelector<StudentState>('student');
+  const {student, studentDetail} = useTypedSelector<StudentState>('student');
   const [visible, setVisible] = useState<number | null>();
 
   const openMenu = useCallback((index: number) => setVisible(index), []);
@@ -45,6 +45,7 @@ const useStudentDetail = ({nis}: any) => {
     visible,
     openMenu,
     closeMenu,
+    studentDetail,
   };
 };
 

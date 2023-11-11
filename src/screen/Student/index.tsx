@@ -6,7 +6,6 @@ import useStudent from './useStudent';
 import {ButtonCustom, TextCustom} from '@components';
 
 const StudentScreen = ({route, navigation}: any) => {
-  console.log(route, 'ROUTES');
   const {student} = useStudent({classId: route.params.classId});
   const [refresh, setRefresh] = useState(false);
 
@@ -19,10 +18,10 @@ const StudentScreen = ({route, navigation}: any) => {
   };
 
   const handlePressStudent = async (value: any) => {
-    console.log(value, 'VALUESSS 1');
     try {
       navigation.navigate('studentDetailScreen', {
         nis: value?.nis,
+        classId: route.params.classId,
       });
     } catch (error) {
       console.log(error, 'HANDLE PRESS CLASS ERROR');

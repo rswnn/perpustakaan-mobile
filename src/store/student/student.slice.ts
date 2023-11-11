@@ -1,5 +1,5 @@
 import {createSlice, isAnyOf} from '@reduxjs/toolkit';
-import {StudentState} from '@interfaces';
+import {StudentState, StudentsEntity} from '@interfaces';
 import {
   getStudentAction,
   getStudentByClasscode,
@@ -18,6 +18,7 @@ const initialState: StudentState = {
   },
   error: {},
   searchByNis: '',
+  studentDetail: {} as StudentsEntity,
 };
 
 export const studentSlice = createSlice({
@@ -67,15 +68,19 @@ export const studentSlice = createSlice({
       },
     );
     builder.addMatcher(
-      isAnyOf(
-        getStudentAction.fulfilled,
-        getStudentByClasscode.fulfilled,
-        getStudentByNisAction.fulfilled,
-      ),
+      isAnyOf(getStudentAction.fulfilled, getStudentByClasscode.fulfilled),
       (state, action) => {
         console.log(action.payload.data, 'ACTION DETAIL STUDETN');
         state.loadingStudent.get = false;
         state.student = action.payload.data;
+      },
+    );
+    builder.addMatcher(
+      isAnyOf(getStudentByNisAction.fulfilled),
+      (state, action) => {
+        console.log(action.payload.data, 'ACTION DETAIL STUDETN');
+        state.loadingStudent.get = false;
+        state.studentDetail = action.payload.data;
       },
     );
   },

@@ -30,8 +30,6 @@ export const categorySlice = createSlice({
     builder.addMatcher(
       isAnyOf(getCategoryAction.rejected, getCategoryByIdAction.rejected),
       (state, action) => {
-        console.log(action, 'LAlALLALAL');
-
         state.loadingCategory = {...initialState.loadingCategory};
         state.error = action.payload as ResponseStatus;
       },
@@ -51,7 +49,6 @@ export const categorySlice = createSlice({
     builder.addMatcher(
       isAnyOf(getCategoryAction.fulfilled, getCategoryByIdAction.fulfilled),
       (state, action) => {
-        // console.log(action.payload, 'ACTION CATEGORY');
         state.loadingCategory.get = false;
         state.categories = action.payload.data;
       },

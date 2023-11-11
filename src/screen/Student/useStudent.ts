@@ -13,11 +13,13 @@ const useStudent = ({classId}: any) => {
 
   const fetchStudentByClassCode = async () => {
     try {
-      await getStudentByClassCode({
-        payload: {
-          param: classId,
-        },
-      });
+      if (classId) {
+        await getStudentByClassCode({
+          payload: {
+            param: classId,
+          },
+        });
+      }
     } catch (error) {
       console.log(error, 'HANDLE PRESS CLASS ERROR');
     }

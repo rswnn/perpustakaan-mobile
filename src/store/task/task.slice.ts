@@ -2,8 +2,10 @@ import {createSlice, isAnyOf} from '@reduxjs/toolkit';
 import {TaskState} from '@interfaces';
 import {
   getTaskAction,
+  getTaskByCategoryIdAction,
   getTaskByIdAction,
   getTaskByNisAndTaskId,
+  gradingTaskACtion,
 } from './task.thunk';
 // import {isEmpty} from 'lodash';
 import {ResponseStatus} from 'src/interfaces/network';
@@ -19,6 +21,7 @@ const initialState: TaskState = {
   error: {},
   searchByNis: '',
   taskResult: undefined,
+  listTasks: [],
 };
 
 export const taskSlice = createSlice({
@@ -35,18 +38,32 @@ export const taskSlice = createSlice({
       state.tasks = action.payload.data;
     });
     builder.addCase(getTaskByIdAction.fulfilled, (state, action) => {
+      console.log('called from getTaskByIdAction');
       state.loadingTask.get = false;
       state.tasks = action.payload.data;
     });
     builder.addCase(getTaskByNisAndTaskId.fulfilled, (state, action) => {
       state.loadingTask.get = false;
+      // conflict
       state.taskResult = action.payload.data;
+    });
+    builder.addCase(getTaskByCategoryIdAction.fulfilled, (state, action) => {
+      console.log('called from getCategoryByIdAction', action.payload.data);
+      state.loadingTask.get = false;
+      state.listTasks = action.payload.data;
+    });
+
+    builder.addCase(gradingTaskACtion.fulfilled, (state, action) => {
+      console.log('called from getCategoryByIdAction', action.payload.data);
+      state.loadingTask.get = false;
     });
     builder.addMatcher(
       isAnyOf(
         getTaskAction.rejected,
         getTaskByIdAction.rejected,
         getTaskByNisAndTaskId.rejected,
+        getTaskByCategoryIdAction.rejected,
+        gradingTaskACtion.rejected,
       ),
       (state, action) => {
         state.loadingTask = {...initialState.loadingTask};
@@ -59,6 +76,8 @@ export const taskSlice = createSlice({
         getTaskAction.pending,
         getTaskByIdAction.pending,
         getTaskByNisAndTaskId.pending,
+        getTaskByCategoryIdAction.pending,
+        gradingTaskACtion.pending,
       ),
       (state, action) => {
         state.loadingTask = {

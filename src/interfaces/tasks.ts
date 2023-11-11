@@ -6,6 +6,7 @@ export interface TaskState {
   error: ResponseStatus;
   searchByNis?: string | null;
   taskResult?: TaskResult;
+  listTasks: ListTasks[];
 }
 
 export interface Task {
@@ -25,6 +26,17 @@ export interface TaskResult {
   updatedAt: string;
   nis: string;
   hafalan_id: number;
+}
+
+export interface ListTasks {
+  id: number;
+  title: string;
+  image_media?: null;
+  media_reader?: string;
+  category_id?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  grade?: string;
 }
 
 export interface TaskType {

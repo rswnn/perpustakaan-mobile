@@ -2,21 +2,19 @@
 import {View, Text, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 
-const StudentData = ({props}: any) => {
+const StudentData = (props: any) => {
   const {nama, kelas} = props;
-  console.log(nama, 'props nih');
-  console.log(kelas, 'props nih');
   // console.log(name, 'NMAE PROPS');
   // console.log(kelas, 'KELAS PROPS');
   return (
     <View style={[styles.containerStudentData, styles.borderBottom]}>
       <View style={styles.studentData}>
         <Text style={styles.textData}>Nama</Text>
-        <Text style={styles.textData}>NAMAAAA</Text>
+        <Text style={styles.textData}>{nama}</Text>
       </View>
       <View style={styles.studentData}>
         <Text style={styles.textData}>Kelas</Text>
-        <Text style={styles.textData}>KELASSSS</Text>
+        <Text style={styles.textData}>{kelas}</Text>
       </View>
     </View>
   );

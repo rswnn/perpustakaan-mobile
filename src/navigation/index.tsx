@@ -13,6 +13,7 @@ import {
   StudentDetailScreen,
   DetailTask,
   AudioScreen,
+  ResultTaskScreen,
 } from '@screen';
 
 const Stack = createNativeStackNavigator();
@@ -38,11 +39,20 @@ const RootNavigation = () => {
               title: 'List Hafalan',
             }}
           />
-          <Stack.Screen name="studentScreen" component={StudentScreen} />
+          <Stack.Screen
+            name="studentScreen"
+            component={StudentScreen}
+            options={{
+              title: 'List Siswa',
+            }}
+          />
           <Stack.Screen name="classroomScreen" component={ClassroomScreen} />
           <Stack.Screen
             name="studentDetailScreen"
             component={StudentDetailScreen}
+            options={{
+              title: 'Detail Siswa',
+            }}
           />
           <Stack.Screen
             name="DetailTask"
@@ -54,6 +64,13 @@ const RootNavigation = () => {
           <Stack.Screen
             name="AudioScreen"
             component={AudioScreen}
+            options={{
+              title: 'Hafalan',
+            }}
+          />
+          <Stack.Screen
+            name="ResultTaskScreen"
+            component={ResultTaskScreen}
             options={{
               title: 'Hafalan',
             }}
