@@ -9,7 +9,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useTypedSelector} from '@hooks';
-import {AuthResponseType, TaskState} from '@interfaces';
+import {AuthResponseType} from '@interfaces';
 import {Container} from '@components';
 import {Text, Button} from 'react-native-paper';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
@@ -20,7 +20,6 @@ const initialColor = '#000';
 
 const AudioScreen = ({navigation, route}: any) => {
   const {selectedTask} = route.params;
-  const {taskResult} = useTypedSelector<TaskState>('hafalan');
   const {user} = useTypedSelector<AuthResponseType>('auth');
 
   let audioRef = React.useRef<any>(null);
@@ -31,7 +30,6 @@ const AudioScreen = ({navigation, route}: any) => {
   const [isPausePlay, setIsPausePlay] = useState(false);
   const [recordPath, setRecordPath] = useState<any>('');
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onStartRecord = async () => {
     setRecordPath('');
     try {
@@ -98,15 +96,14 @@ const AudioScreen = ({navigation, route}: any) => {
     setIsPausePlay(false);
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onPressSend = async () => {
     try {
-      if (taskResult && recordPath) {
+      if (selectedTask && recordPath) {
         const userToken = await AsyncStorage.getItem('token');
         const formData = new FormData();
         const currentPath = recordPath.split('/');
         const filename = currentPath[currentPath.length - 1];
-        const taskID = taskResult.hafalan_id;
+        const taskID = selectedTask.id;
 
         formData.append('hafalan_id', taskID);
         formData.append('nis', user.nis);
@@ -167,7 +164,7 @@ const AudioScreen = ({navigation, route}: any) => {
   }, [recordPath]);
 
   const renderContent = useMemo(() => {
-    if (taskResult) {
+    if (selectedTask) {
       return (
         <View style={styles.flex}>
           <Text
@@ -206,15 +203,8 @@ const AudioScreen = ({navigation, route}: any) => {
     }
 
     return null;
-  }, [
-    renderStopIcon,
-    recordColor,
-    disableButton,
-    selectedTask,
-    taskResult,
-    onPressSend,
-    onStartRecord,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTask, renderStopIcon, recordColor, disableButton]);
 
   return <Container customStyle={styles.container}>{renderContent}</Container>;
 };
