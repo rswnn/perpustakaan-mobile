@@ -110,7 +110,7 @@ const DetailTask = ({navigation}: any) => {
     }
 
     return (
-      <View style={styles.btnWrapper}>
+      <View style={styles.btnStartTask}>
         <Button mode="contained" style={styles.btn} onPress={onPressStartTask}>
           MULAI HAFALAN
         </Button>
@@ -120,6 +120,7 @@ const DetailTask = ({navigation}: any) => {
 
   const renderContent = useMemo(() => {
     if (tasks && tasks.length) {
+      console.log(`${imageUrl}${tasks[0].image_media}`);
       return (
         <View style={styles.flex}>
           <Text
@@ -163,6 +164,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     width: '100%',
+  },
+  btnStartTask: {
+    flex: 1,
+    justifyContent: 'flex-end',
   },
   btn: {borderRadius: 0, padding: 10},
   row: {display: 'flex', flexDirection: 'row'},

@@ -67,7 +67,7 @@ const Dashboard = ({navigation, ...props}: any) => {
     try {
       await getTaskByCategoryId({
         payload: {
-          param: value[0]?.id,
+          param: value?.id,
         },
       });
       navigateToSurah();
@@ -118,7 +118,7 @@ const Dashboard = ({navigation, ...props}: any) => {
               <ButtonCustom
                 style={styles.button}
                 key={item.id}
-                onPress={() => handlePressCategoryList(categories)}>
+                onPress={() => handlePressCategoryList(item)}>
                 <TextCustom>{item.category_name}</TextCustom>
               </ButtonCustom>
             )}

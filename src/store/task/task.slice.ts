@@ -38,7 +38,6 @@ export const taskSlice = createSlice({
       state.tasks = action.payload.data;
     });
     builder.addCase(getTaskByIdAction.fulfilled, (state, action) => {
-      console.log('called from getTaskByIdAction');
       state.loadingTask.get = false;
       state.tasks = action.payload.data;
     });
