@@ -1,6 +1,13 @@
 /* eslint-disable react/react-in-jsx-scope */
 import {useCallback, useEffect, useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  PermissionsAndroid,
+  Alert,
+  BackHandler,
+} from 'react-native';
 
 import {action} from '@store';
 import {useTypedSelector, useAppAsyncDispatch} from '@hooks';
@@ -11,6 +18,30 @@ import {FlatList} from 'react-native-gesture-handler';
 const {CategoryAction} = action;
 const {ClassroomAction} = action;
 const {TaskAction} = action;
+
+const requestAudioPermission = async () => {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+      {
+        title: 'Record Permission',
+        message:
+          'The App needs access to your aduio ' +
+          'so you can take awesome audio.',
+        buttonNeutral: 'Ask Me Later',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK',
+      },
+    );
+    if (granted === PermissionsAndroid.RESULTS.DENIED) {
+      Alert.alert('Audio permission denied', undefined, undefined, {
+        onDismiss: () => BackHandler.exitApp(),
+      });
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+};
 
 const Dashboard = ({navigation, ...props}: any) => {
   const getCategory = useAppAsyncDispatch(CategoryAction.getCategoryAction);
@@ -48,6 +79,7 @@ const Dashboard = ({navigation, ...props}: any) => {
 
   useEffect(() => {
     fetchData();
+    requestAudioPermission();
   }, [fetchData]);
 
   const handlePressClass = async (value: any) => {

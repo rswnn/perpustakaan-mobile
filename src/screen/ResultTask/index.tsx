@@ -99,15 +99,21 @@ const ResultTaskScreen = ({route}: any) => {
         <Text style={[styles.subtitle, styles.textCenter]}>
           {filterTask?.title}
         </Text>
-        <Pressable
-          style={styles.iconWrapper}
-          onPress={isPausePlay ? onPausePlay : onStartPlay}>
-          <MaterialIcon
-            name={isPausePlay ? 'pause' : 'play-arrow'}
-            size={70}
-            color={'#000'}
-          />
-        </Pressable>
+        {taskResult ? (
+          <Pressable
+            style={styles.iconWrapper}
+            onPress={isPausePlay ? onPausePlay : onStartPlay}>
+            <MaterialIcon
+              name={isPausePlay ? 'pause' : 'play-arrow'}
+              size={70}
+              color={'#000'}
+            />
+          </Pressable>
+        ) : (
+          <Text style={[styles.empty, styles.textCenter]}>
+            Belum beri jawaban
+          </Text>
+        )}
       </View>
       <View style={(styles.containerButton, styles.surahList, styles.marbot)}>
         {taskResult?.grade ? (
@@ -122,6 +128,7 @@ const ResultTaskScreen = ({route}: any) => {
               value={text}
               onChangeText={e => setText(e)}
               keyboardType="numeric"
+              disabled={taskResult === null}
             />
           </React.Fragment>
         )}
@@ -131,7 +138,8 @@ const ResultTaskScreen = ({route}: any) => {
           <Button
             mode="contained"
             style={styles.btn}
-            onPress={onPressSendGrade}>
+            onPress={onPressSendGrade}
+            disabled={taskResult === null}>
             BERI PENILAIAN
           </Button>
         ) : null}
@@ -166,6 +174,11 @@ const styles = StyleSheet.create({
   },
   textCenter: {
     textAlign: 'center',
+  },
+  empty: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    height: 200,
   },
   surahList: {
     marginTop: 10,

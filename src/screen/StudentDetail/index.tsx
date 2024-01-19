@@ -52,7 +52,7 @@ const StudentDetailScreen = ({route, navigation}: any) => {
   };
 
   const renderList = () => {
-    if (selectedCategory === null || selectedCategory > 10) {
+    if (selectedCategory === null) {
       return (
         <FlatList
           data={categories}

@@ -49,8 +49,9 @@ const DetailTask = ({navigation, route}: any) => {
   const onPressStartTask = useCallback(() => {
     navigation.navigate('AudioScreen', {
       selectedTask,
+      onGoback: onFetchTaskByNisAndId,
     });
-  }, [navigation, selectedTask]);
+  }, [navigation, selectedTask, onFetchTaskByNisAndId]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onStartPlay = async () => {
@@ -94,7 +95,7 @@ const DetailTask = ({navigation, route}: any) => {
                 style={styles.textHeader}
                 allowFontScaling
                 variant="headlineSmall">
-                {taskResult.grade ?? '100'}
+                {taskResult.grade ?? ''}
               </Text>
             </View>
             <View>

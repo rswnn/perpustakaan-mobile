@@ -1,5 +1,5 @@
 import {View, StyleSheet, Pressable, Platform} from 'react-native';
-import React, {useMemo, useState} from 'react';
+import React, {useState} from 'react';
 import AudioRecorderPlayer, {
   AudioEncoderAndroidType,
   AudioSourceAndroidType,
@@ -19,7 +19,7 @@ const audioRecorderPlayer = new AudioRecorderPlayer();
 const initialColor = '#000';
 
 const AudioScreen = ({navigation, route}: any) => {
-  const {selectedTask} = route.params;
+  const {selectedTask, onGoback} = route.params;
   const {user} = useTypedSelector<AuthResponseType>('auth');
 
   let audioRef = React.useRef<any>(null);
@@ -70,14 +70,16 @@ const AudioScreen = ({navigation, route}: any) => {
   };
 
   const onStopRecord = async () => {
-    await audioRecorderPlayer.stopRecorder();
-    setRecordColor(initialColor);
-    audioRecorderPlayer.removeRecordBackListener();
-    onResetAudio();
-    setAvailable(true);
-    if (audioRef.current) {
-      setRecordPath(audioRef.current);
-    }
+    try {
+      await audioRecorderPlayer.stopRecorder();
+      setRecordColor(initialColor);
+      audioRecorderPlayer.removeRecordBackListener();
+      onResetAudio();
+      setAvailable(true);
+      if (audioRef.current) {
+        setRecordPath(audioRef.current);
+      }
+    } catch (error) {}
   };
 
   const onStartPlay = async () => {
@@ -98,18 +100,20 @@ const AudioScreen = ({navigation, route}: any) => {
 
   const onPressSend = async () => {
     try {
-      if (selectedTask && recordPath) {
+      const formData = new FormData();
+      const cacheDir = RNFetchBlob.fs.dirs.CacheDir;
+      if (selectedTask && audioRef.current && cacheDir) {
         const userToken = await AsyncStorage.getItem('token');
-        const formData = new FormData();
-        const currentPath = recordPath.split('/');
+        const currentPath = audioRef.current.split('/');
         const filename = currentPath[currentPath.length - 1];
         const taskID = selectedTask.id;
+        const uri = 'file://' + cacheDir + '/' + filename;
 
         formData.append('hafalan_id', taskID);
         formData.append('nis', user.nis);
         formData.append('record', {
           name: filename,
-          uri: 'file://' + RNFetchBlob.fs.dirs.CacheDir + '/' + filename,
+          uri,
           type: 'audio/mp3',
         });
 
@@ -125,17 +129,17 @@ const AudioScreen = ({navigation, route}: any) => {
           },
         );
 
-        const result = await response.text();
+        console.log(response, 'mueheheheheh');
 
-        console.log(result);
         navigation.goBack();
+        onGoback();
       }
     } catch (error) {
       console.log(error, '[onPressSend]');
     }
   };
 
-  const renderStopIcon = useMemo(() => {
+  const renderStopIcon = () => {
     if (available) {
       return (
         <Pressable
@@ -149,64 +153,66 @@ const AudioScreen = ({navigation, route}: any) => {
         </Pressable>
       );
     }
-    if (audio.recordSecs) {
+    if (audio.recordSecs > 2000) {
       return (
         <Pressable style={styles.iconWrapper} onPress={onStopRecord}>
           <MaterialIcon name="stop" size={50} color={initialColor} />
         </Pressable>
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [audio, available, isPausePlay, recordPath]);
+  };
 
-  const disableButton = useMemo(() => {
+  const disableButton = () => {
     return !recordPath;
-  }, [recordPath]);
+  };
 
-  const renderContent = useMemo(() => {
+  const renderContent = () => {
     if (selectedTask) {
       return (
-        <View style={styles.flex}>
-          <Text
-            style={styles.textHeader}
-            allowFontScaling
-            variant="headlineSmall">
-            {selectedTask?.title}
-          </Text>
-          <View style={styles.recordWrapper}>
+        <React.Fragment>
+          <View style={styles.flex}>
             <Text
               style={styles.textHeader}
               allowFontScaling
-              variant="bodyMedium">
-              Tekan untuk memulai
+              variant="headlineSmall">
+              {selectedTask?.title}
             </Text>
-            <Pressable style={styles.iconWrapper} onPress={onStartRecord}>
-              <MaterialIcon
-                name="keyboard-voice"
-                size={50}
-                color={recordColor}
-              />
-            </Pressable>
-            {renderStopIcon}
+            <View style={styles.recordWrapper}>
+              <Text
+                style={styles.textHeader}
+                allowFontScaling
+                variant="bodyMedium">
+                Tekan untuk memulai
+              </Text>
+              <Pressable style={styles.iconWrapper} onPress={onStartRecord}>
+                <MaterialIcon
+                  name="keyboard-voice"
+                  size={50}
+                  color={recordColor}
+                />
+              </Pressable>
+              {renderStopIcon()}
+            </View>
           </View>
           <View style={styles.btnWrapper}>
             <Button
               mode="contained"
               style={styles.btn}
-              disabled={disableButton}
+              disabled={disableButton()}
               onPress={onPressSend}>
               KIRIM
             </Button>
           </View>
-        </View>
+        </React.Fragment>
       );
     }
 
     return null;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedTask, renderStopIcon, recordColor, disableButton]);
+  };
 
-  return <Container customStyle={styles.container}>{renderContent}</Container>;
+  return (
+    <Container customStyle={styles.container}>{renderContent()}</Container>
+  );
 };
 
 const styles = StyleSheet.create({
