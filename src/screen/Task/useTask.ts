@@ -1,13 +1,12 @@
 import {useCallback} from 'react';
 // import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import {useTypedSelector, useAppAsyncDispatch} from '@hooks';
-import {action} from '@store';
+import {useTypedSelector} from '@hooks';
 import {TaskState} from '@interfaces';
 
 const useTask = ({navigation}: any) => {
-  const getTaskByCategoryTaskId = useAppAsyncDispatch(
-    action.TaskAction.getTaskByIdAction,
-  );
+  // const getTaskByCategoryTaskId = useAppAsyncDispatch(
+  //   action.TaskAction.getTaskByIdAction,
+  // );
   const {tasks} = useTypedSelector<TaskState>('hafalan');
 
   const handleSheetChanges = useCallback((index: number) => {
@@ -16,12 +15,9 @@ const useTask = ({navigation}: any) => {
 
   const handlePressCategoryList = async (value: any) => {
     try {
-      await getTaskByCategoryTaskId({
-        payload: {
-          param: value[0]?.id,
-        },
+      navigation.navigate('DetailTask', {
+        selectedTask: value,
       });
-      navigation.navigate('DetailTask');
     } catch (error) {
       console.log(error, 'HANDLER PRESS CATEGORY LIST ERROR');
     }

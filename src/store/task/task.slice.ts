@@ -39,6 +39,7 @@ export const taskSlice = createSlice({
     });
     builder.addCase(getTaskByIdAction.fulfilled, (state, action) => {
       state.loadingTask.get = false;
+      console.log(action.payload, 'MARI');
       state.tasks = action.payload.data;
     });
     builder.addCase(getTaskByNisAndTaskId.fulfilled, (state, action) => {

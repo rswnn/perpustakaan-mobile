@@ -20,25 +20,27 @@ import {baseUrl} from '../../config';
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
-const DetailTask = ({navigation}: any) => {
-  const {tasks, taskResult} = useTypedSelector<TaskState>('hafalan');
+const DetailTask = ({navigation, route}: any) => {
+  const {taskResult} = useTypedSelector<TaskState>('hafalan');
   const {user} = useTypedSelector<AuthResponseType>('auth');
 
   const [isPausePlay, setIsPausePlay] = useState(false);
+
+  const {selectedTask} = route.params;
 
   const fetchTaskByNisAndId = useAppAsyncDispatch(
     action.TaskAction.getTaskByNisAndTaskId,
   );
 
   const onFetchTaskByNisAndId = useCallback(async () => {
-    if (tasks && tasks.length) {
+    if (selectedTask) {
       await fetchTaskByNisAndId({
         payload: {
-          param: `${tasks[0].id}/${user.nis}`,
+          param: `${selectedTask.id}/${user.nis}`,
         },
       });
     }
-  }, [tasks, user, fetchTaskByNisAndId]);
+  }, [selectedTask, user, fetchTaskByNisAndId]);
 
   useEffect(() => {
     onFetchTaskByNisAndId();
@@ -119,29 +121,24 @@ const DetailTask = ({navigation}: any) => {
   }, [taskResult, onPressStartTask, isPausePlay, onStartPlay]);
 
   const renderContent = useMemo(() => {
-    if (tasks && tasks.length) {
-      console.log(`${imageUrl}${tasks[0].image_media}`);
-      return (
-        <View style={styles.flex}>
-          <Text
-            style={styles.textHeader}
-            allowFontScaling
-            variant="headlineSmall">
-            {tasks[0].title}
-          </Text>
-          <ScrollView>
-            <Image
-              source={{uri: `${imageUrl}${tasks[0].image_media}`}}
-              style={styles.image}
-            />
-          </ScrollView>
-          {renderTaskResult}
-        </View>
-      );
-    }
-
-    return null;
-  }, [tasks, renderTaskResult]);
+    return (
+      <View style={styles.flex}>
+        <Text
+          style={styles.textHeader}
+          allowFontScaling
+          variant="headlineSmall">
+          {selectedTask?.title}
+        </Text>
+        <ScrollView>
+          <Image
+            source={{uri: `${imageUrl}${selectedTask?.image_media}`}}
+            style={styles.image}
+          />
+        </ScrollView>
+        {renderTaskResult}
+      </View>
+    );
+  }, [selectedTask, renderTaskResult]);
 
   return <Container customStyle={styles.container}>{renderContent}</Container>;
 };

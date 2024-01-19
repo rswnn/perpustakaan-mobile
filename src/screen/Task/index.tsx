@@ -37,7 +37,7 @@ const TaskScreen = ({navigation}: any) => {
             <ButtonCustom
               style={styles.button}
               key={item.id}
-              onPress={() => handlePressCategoryList(tasks)}>
+              onPress={() => handlePressCategoryList(item)}>
               <TextCustom>{item.title}</TextCustom>
             </ButtonCustom>
           )}
