@@ -47,8 +47,10 @@ const DetailTask = ({navigation, route}: any) => {
   }, [onFetchTaskByNisAndId]);
 
   const onPressStartTask = useCallback(() => {
-    navigation.navigate('AudioScreen');
-  }, [navigation]);
+    navigation.navigate('AudioScreen', {
+      selectedTask,
+    });
+  }, [navigation, selectedTask]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onStartPlay = async () => {

@@ -18,8 +18,9 @@ import {baseUrl} from '../../config';
 const audioRecorderPlayer = new AudioRecorderPlayer();
 const initialColor = '#000';
 
-const AudioScreen = ({navigation}: any) => {
-  const {tasks} = useTypedSelector<TaskState>('hafalan');
+const AudioScreen = ({navigation, route}: any) => {
+  const {selectedTask} = route.params;
+  const {taskResult} = useTypedSelector<TaskState>('hafalan');
   const {user} = useTypedSelector<AuthResponseType>('auth');
 
   let audioRef = React.useRef<any>(null);
@@ -30,6 +31,7 @@ const AudioScreen = ({navigation}: any) => {
   const [isPausePlay, setIsPausePlay] = useState(false);
   const [recordPath, setRecordPath] = useState<any>('');
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onStartRecord = async () => {
     setRecordPath('');
     try {
@@ -96,14 +98,15 @@ const AudioScreen = ({navigation}: any) => {
     setIsPausePlay(false);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onPressSend = async () => {
     try {
-      if (tasks && tasks.length && recordPath) {
+      if (taskResult && recordPath) {
         const userToken = await AsyncStorage.getItem('token');
         const formData = new FormData();
         const currentPath = recordPath.split('/');
         const filename = currentPath[currentPath.length - 1];
-        const taskID = tasks[0].id;
+        const taskID = taskResult.hafalan_id;
 
         formData.append('hafalan_id', taskID);
         formData.append('nis', user.nis);
@@ -164,14 +167,14 @@ const AudioScreen = ({navigation}: any) => {
   }, [recordPath]);
 
   const renderContent = useMemo(() => {
-    if (tasks && tasks.length) {
+    if (taskResult) {
       return (
         <View style={styles.flex}>
           <Text
             style={styles.textHeader}
             allowFontScaling
             variant="headlineSmall">
-            {tasks[0].title}
+            {selectedTask?.title}
           </Text>
           <View style={styles.recordWrapper}>
             <Text
@@ -203,8 +206,15 @@ const AudioScreen = ({navigation}: any) => {
     }
 
     return null;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tasks, renderStopIcon, recordColor, disableButton]);
+  }, [
+    renderStopIcon,
+    recordColor,
+    disableButton,
+    selectedTask,
+    taskResult,
+    onPressSend,
+    onStartRecord,
+  ]);
 
   return <Container customStyle={styles.container}>{renderContent}</Container>;
 };
